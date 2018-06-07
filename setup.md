@@ -115,15 +115,15 @@ cluster, like a grading service or the like. The main thing to look out for
 is that when the z2jh guide asks you to edit `config.yaml` you should instead
 edit `earthhub/values.yaml`.
 
-> You will need to obtain `secrets.yaml` somehow, as this is not distributed
-> in this repository. Ask Tim Head or Leah Wasser.
+> You will need to obtain the key to decrypt `secrets/earthhub.yaml` somehow.
+> Ask Tim Head or Leah Wasser.
 
 Switch to the `earthhub` directory and run `helm dep up`, switch back to the
 top level directory.
 
 To install JupyterHub run:
 ```
-helm install earthhub --name earthhub --namespace earthhub --version=v0.1.0 -f secrets.yaml
+helm install earthhub --name earthhub --namespace earthhub --version=v0.1.0 -f secrets/earthhub.yaml
 ```
 
 The version has to match the version in `earthhub/Chart.yaml`.
@@ -134,7 +134,7 @@ The version has to match the version in `earthhub/Chart.yaml`.
 Edit the earthhub chart in `earthhub/`, run `(cd earthhub && helm dep up)`, and
 then deploy your changes with:
 ```
-helm upgrade --install --namespace earthhub earthhub earthhub --version=v0.1.0 -f secrets.yaml
+helm upgrade --install --namespace earthhub earthhub earthhub --version=v0.1.0 -f secrets/earthhub.yaml
 ```
 Yes, you need to type earthhub three times in a row 😀. It is the name of the
 namespace, the name of the chart and the name of the deployment.
