@@ -1,0 +1,18 @@
+jupyterhub:
+  proxy:
+    service:
+      loadBalancerIP: 35.226.96.84
+    https:
+      hosts:
+        - earthlab.wtte.ch
+      letsencrypt:
+        contactEmail: earthlab@wildtreetech.com
+
+  auth:
+    type: github
+    github:
+      callbackUrl: "https://earthlab.wtte.ch/hub/oauth_callback"
+      org_whitelist:
+        - "earthlab"
+    scopes:
+      - "read:user"
