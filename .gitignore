@@ -1,2 +1,3 @@
 earthhub/charts/
 secrets.yaml
+travis/crypt-key
