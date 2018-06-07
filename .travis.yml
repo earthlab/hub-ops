@@ -1,2 +1,26 @@
-before_install:
-    openssl aes-256-cbc -K $encrypted_7893ea004563_key -iv $encrypted_7893ea004563_iv -in travis/crypt-key.enc -out travis/crypt-key -d
+before_deploy:
+- |
+  # Stage 1: Install gcloud SDK
+  curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-173.0.0-linux-x86_64.tar.gz | tar --directory ${HOME} --extract --gzip --file -
+- |
+  # Stage 1: Install Kubectl
+  mkdir -p ${HOME}/bin
+  curl -L https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/linux/amd64/kubectl > ${HOME}/bin/kubectl
+  chmod +x ${HOME}/bin/kubectl
+- |
+  # Stage 1: Install helm
+  curl -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz | tar --directory ${HOME} --extract --gzip --file -
+  mv ${HOME}/linux-amd64/helm ${HOME}/bin/helm
+- |
+  # Stage 1: Install git-crypt
+  curl -L https://github.com/minrk/git-crypt-bin/releases/download/0.5.0/git-crypt > git-crypt
+  echo "46c288cc849c23a28239de3386c6050e5c7d7acd50b1d0248d86e6efff09c61b  git-crypt" | shasum -a 256 -c -
+  chmod +x git-crypt
+  mv git-crypt ${HOME}/bin/git-crypt
+- |
+  # Stage 2, Step 1: Unlock our secret files!
+  # Travis allows encrypting only one file per repo (boo) so we use it to
+  # encrypt our git-crypt key
+  cd ${TRAVIS_BUILD_DIR}
+  openssl aes-256-cbc -K $encrypted_7893ea004563_key -iv $encrypted_7893ea004563_iv -in travis/crypt-key.enc -out travis/crypt-key -d
+  git-crypt unlock travis/crypt-key
