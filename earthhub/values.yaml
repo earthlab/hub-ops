@@ -1,0 +1,18 @@
+jupyterhub:
+  proxy:
+    service:
+      loadBalancerIP: 35.226.96.84
+    https:
+      hosts:
+        - hub.earthdatascience.org
+      letsencrypt:
+        contactEmail: Leah.Wasser@colorado.edu
+
+  auth:
+    type: github
+    github:
+      callbackUrl: "https://hub.earthdatascience.org/hub/oauth_callback"
+      org_whitelist:
+        - "earthlab"
+    scopes:
+      - "read:user"
