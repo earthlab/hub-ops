@@ -20,7 +20,7 @@ jupyterhub:
   auth:
     type: github
     github:
-      callbackUrl: "https://hub.earthdatascience.org/foobar/hub/oauth_callback"
+      callbackUrl: "https://hub.earthdatascience.org/earthhub/hub/oauth_callback"
       org_whitelist:
         - "earthlab"
     scopes:
