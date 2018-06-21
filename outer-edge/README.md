@@ -27,6 +27,10 @@ Installed nginx-ingress v0.20.1 via
 helm install stable/nginx-ingress --name ingress --namespace router --set rbac.create=true --set controller.service.loadBalancerIP=35.226.96.84
 ```
 
+The IP address is the current static IP for this deployment. Check `setup.md`
+in the top level directory for how to obtain a new IP or list all IP addresses
+currently in use.
+
 and installed kube-lego v0.4.2 via
 ```
 helm install --name lego --namespace router stable/kube-lego --set rbac.create=true --set config.LEGO_EMAIL=Leah.Wasser@colorado.edu --set config.LEGO_URL=https://acme-v01.api.letsencrypt.org/directory

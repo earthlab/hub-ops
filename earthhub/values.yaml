@@ -1,6 +1,6 @@
 jupyterhub:
   hub:
-    baseUrl: /foobar
+    baseUrl: /earthhub
   proxy:
     service:
       type: ClusterIP

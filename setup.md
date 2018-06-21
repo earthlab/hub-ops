@@ -128,11 +128,15 @@ helm install earthhub --name earthhub --namespace earthhub --version=v0.1.0 -f s
 
 The version has to match the version in `earthhub/Chart.yaml`.
 
+After this follow the instructions in `outer-edge/READMEmd` to setup the
+HTTP server that will route traffic to your hub. Without this your hub will not
+be reachable from the internet.
+
 
 ## Making changes to an existing hub
 
-Edit the earthhub chart in `earthhub/`, run `(cd earthhub && helm dep up)`, and
-then deploy your changes with:
+For exmaple to edit the earthhub chart in `earthhub/`, run
+`(cd earthhub && helm dep up)`, and then deploy your changes with:
 ```
 helm upgrade --install --namespace earthhub earthhub earthhub --version=v0.1.0 -f secrets/earthhub.yaml
 ```
