@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart to route traffic to different hubs
+name: outer-edge
+version: 0.1.0
