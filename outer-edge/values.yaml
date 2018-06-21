@@ -1,0 +1,6 @@
+controller:
+  service:
+    loadBalancerIP: 35.226.96.84
+config:
+  LEGO_EMAIL: Leah.Wasser@colorado.edu
+  LEGO_URL: https://acme-v01.api.letsencrypt.org/directory
