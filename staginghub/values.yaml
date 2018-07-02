@@ -1,6 +1,6 @@
 jupyterhub:
   hub:
-    baseUrl: /staginghub
+    baseUrl: /staginghub/
   proxy:
     service:
       type: ClusterIP
