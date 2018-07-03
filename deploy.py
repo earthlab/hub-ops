@@ -8,10 +8,16 @@ import os
 
 def helm(*args, **kwargs):
     logging.info("Executing helm", ' '.join(args))
-    return subprocess.check_output(['helm'] + list(args), **kwargs)
+    return subprocess.check_call(['helm'] + list(args), **kwargs)
 
 
 def kubectl(*args, **kwargs):
+    logging.info("Executing kubectl", ' '.join(args))
+    return subprocess.check_call(['kubectl'] + list(args), **kwargs)
+
+
+def capture_kubectl(*args, **kwargs):
+    # capture the output of calling kubectl
     logging.info("Executing kubectl", ' '.join(args))
     return subprocess.check_output(['kubectl'] + list(args), **kwargs)
 
@@ -35,11 +41,11 @@ def setup_auth():
 
 def setup_helm():
     """Ensure helm is up to date and ready to go"""
-    subprocess.check_output([
+    subprocess.check_call([
         'helm', 'init', '--upgrade',
     ])
     # wait for tiller to come up
-    subprocess.check_output([
+    subprocess.check_call([
         'kubectl', 'rollout', 'status',
         '--namespace', 'kube-system',
         '--watch', 'deployment', 'tiller-deploy',
@@ -63,10 +69,10 @@ def deploy(hubname):
     logging.info(
         "Waiting for all deployments to be up and running"
         )
-    deployments = kubectl('--namespace', hubname,
-                          'get', 'deployments',
-                          '-o', 'name'
-                          ).decode().strip().split('\n')
+    deployments = capture_kubectl('--namespace', hubname,
+                                  'get', 'deployments',
+                                  '-o', 'name'
+                                  ).decode().strip().split('\n')
 
     for d in deployments:
         kubectl('rollout', 'status',
@@ -78,6 +84,12 @@ def deploy(hubname):
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
+        '--no-setup',
+        help='Do not run setup procedures',
+        dest='run_setup',
+        action='store_false',
+    )
+    argparser.add_argument(
         'hubname',
         help="Select which hub to deploy",
         choices=['staginghub', 'earthhub']
@@ -85,8 +97,10 @@ def main():
 
     args = argparser.parse_args()
 
-    setup_auth()
-    setup_helm()
+    if args.run_setup:
+        setup_auth()
+        setup_helm()
+
     deploy(args.hubname)
 
 
