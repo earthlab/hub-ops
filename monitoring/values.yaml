@@ -1,0 +1,32 @@
+prometheus:
+  nodeExporter:
+    updateStrategy:
+      type: RollingUpdate
+  alertmanager:
+    enabled: false
+  pushgateway:
+    enabled: false
+  rbac:
+    create: true
+  server:
+    ingress:
+      enabled: true
+      hosts:
+        - prometheus.earthlab.wtte.ch
+      tls:
+        - secretName: kubelego-tls-prometheus
+          hosts:
+            - prometheus.earthlab.wtte.ch
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        kubernetes.io/tls-acme: "true"
+    resources:
+      requests:
+        cpu: "1"
+        memory: 2Gi
+      limits:
+        cpu: "2"
+        memory: 2Gi
+    persistentVolume:
+      size: 20Gi
+    retention: 30d
