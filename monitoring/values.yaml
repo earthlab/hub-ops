@@ -30,3 +30,48 @@ prometheus:
     persistentVolume:
       size: 20Gi
     retention: 30d
+
+grafana:
+  ingress:
+    hosts:
+      - grafana.earthlab.wtte.ch
+    tls:
+      - hosts:
+          - grafana.earthlab.wtte.ch
+        secretName: kubelego-tls-grafana
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+  persistence:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+
+  grafana.ini:
+    auth.anonymous:
+      enabled: true
+      org_name: Main Org.
+      org_role: Viewer
+    auth.basic:
+      enabled: true
+
+  resources:
+    requests:
+      cpu: "0.2"
+      memory: 512Mi
+    limits:
+      cpu: "0.2"
+      memory: 512Mi
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: prometheus
+          orgId: 1
+          type: prometheus
+          url: https://prometheus.earthlab.wtte.ch
+          access: direct
+          isDefault: true
+          editable: false
