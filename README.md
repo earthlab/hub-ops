@@ -11,7 +11,7 @@ hubs you want to deploy.
 
 ## Day to day operations
 
-XXX To be written.
+Day to day operations are describe in [day-to-day](day-to-day.md).
 
 
 ## Available hubs
