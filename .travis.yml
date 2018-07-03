@@ -42,15 +42,16 @@ before_deploy:
   openssl aes-256-cbc -K $encrypted_7893ea004563_key -iv $encrypted_7893ea004563_iv -in travis/crypt-key.enc -out travis/crypt-key -d
   git-crypt unlock travis/crypt-key
 - |
-  # Stage 2, Step 1.5: Check unlock worked
-  cat secrets/testme
-- |
   # Stage 2, Step 2: Set up helm!
   helm init --client-only
   helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
   helm repo update
-  (cd earthhub && helm dep up)
-  (cd staginghub && helm dep up)
+- |
+  # Stage 3, Step 1: Deploy the staginghub
+  python ./deploy.py staginghub
+- |
+  # Stage 3, Step 2: Deploy the staginghub
+  python ./deploy.py earthhub
 
 env:
   global:
