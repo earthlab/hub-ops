@@ -1,3 +1,20 @@
+language: python
+
+python:
+- 3.6
+
+cache: pip
+
+install:
+- |
+  # Stage 1: Install pytest + test dependencies
+  pip install pyyaml pytest pytest-timeout pytest-xdist requests
+script:
+- true
+
+# We are using before_deploy instead of script or deploy
+# since before_deploy gives us nice, folded log views,
+# which neither script nor deploy seems to!
 before_deploy:
 - |
   # Stage 1: Install gcloud SDK
@@ -24,3 +41,29 @@ before_deploy:
   cd ${TRAVIS_BUILD_DIR}
   openssl aes-256-cbc -K $encrypted_7893ea004563_key -iv $encrypted_7893ea004563_iv -in travis/crypt-key.enc -out travis/crypt-key -d
   git-crypt unlock travis/crypt-key
+- |
+  # Stage 2, Step 1.5: Check unlock worked
+  cat secrets/testme
+- |
+  # Stage 2, Step 2: Set up helm!
+  helm init --client-only
+  helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
+  helm repo update
+  (cd earthhub && helm dep up)
+  (cd staginghub && helm dep up)
+
+env:
+  global:
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+    - PATH=${HOME}/google-cloud-sdk/bin:${HOME}/bin:${PATH}
+
+deploy:
+  provider: script
+  script: /bin/true
+  on:
+    branch:
+      - master
+
+branches:
+  only:
+    - master
