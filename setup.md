@@ -135,8 +135,19 @@ be reachable from the internet.
 
 ## Making changes to an existing hub
 
-For exmaple to edit the earthhub chart in `earthhub/`, run
-`(cd earthhub && helm dep up)`, and then deploy your changes with:
+To make changes to an existing hub:
+* create a new branch in your git repository
+* edit the hub's configuration in `<nameofthehub>/values.yaml`
+* commit the change and make a PR
+* once the PR is merged travis will deploy your changes
+* check the status of your deployment and see what travis is doing by visiting: https://travis-ci.org/earthlab/hub-ops/branches Check the status of the latest
+  build for the `master` branch
+* once travis has deployed your changes, check by hand if everything is working
+  as expected. If not, create a new PR that reverts your first PR. Then try again.
+
+If you really want to (but you should never have to) you can deploy manually
+from your local computer. The assumption is that if you are doing this you
+have everything setup properly, so this command is just for reference:
 ```
 helm upgrade --install --namespace earthhub earthhub earthhub --version=v0.1.0 -f secrets/earthhub.yaml
 ```
