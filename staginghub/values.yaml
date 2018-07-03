@@ -22,4 +22,4 @@ jupyterhub:
     google:
       callbackUrl: "https://hub.earthdatascience.org/staginghub/hub/oauth_callback"
       hostedDomain: "colorado.edu"
-      loginService: "Colorado University1"
+      loginService: "Colorado University"
