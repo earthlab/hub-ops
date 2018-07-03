@@ -85,7 +85,7 @@ def main():
 
     args = argparser.parse_args()
 
-    setup_auth(args.hubname)
+    setup_auth()
     setup_helm()
     deploy(args.hubname)
 
