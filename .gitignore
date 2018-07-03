@@ -3,3 +3,4 @@ earthhub/charts/
 secrets.yaml
 travis/crypt-key
 staginghub/charts/
+monitoring/charts/
