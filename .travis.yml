@@ -50,7 +50,7 @@ before_deploy:
   # Stage 3, Step 1: Deploy the staginghub
   python ./deploy.py staginghub
 - |
-  # Stage 3, Step 2: Deploy the staginghub
+  # Stage 3, Step 2: Deploy the earthhub
   python ./deploy.py earthhub
 
 env:

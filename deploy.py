@@ -8,12 +8,12 @@ import os
 
 def helm(*args, **kwargs):
     logging.info("Executing helm", ' '.join(args))
-    return subprocess.check_call(['helm'] + list(args), **kwargs)
+    return subprocess.check_output(['helm'] + list(args), **kwargs)
 
 
 def kubectl(*args, **kwargs):
     logging.info("Executing kubectl", ' '.join(args))
-    return subprocess.check_call(['kubectl'] + list(args), **kwargs)
+    return subprocess.check_output(['kubectl'] + list(args), **kwargs)
 
 
 def setup_auth():
@@ -39,7 +39,7 @@ def setup_helm():
         'helm', 'init', '--upgrade',
     ])
     # wait for tiller to come up
-    subprocess.check_call([
+    subprocess.check_output([
         'kubectl', 'rollout', 'status',
         '--namespace', 'kube-system',
         '--watch', 'deployment', 'tiller-deploy',
@@ -61,19 +61,14 @@ def deploy(hubname):
     helm(*install_args)
 
     logging.info(
-        "Waiting for all deployments and daemonsets to be up and running"
+        "Waiting for all deployments to be up and running"
         )
     deployments = kubectl('--namespace', hubname,
                           'get', 'deployments',
                           '-o', 'name'
                           ).decode().strip().split('\n')
 
-    daemonsets = kubectl('--namespace', hubname,
-                         'get', 'daemonsets',
-                         '-o', 'name'
-                         ).decode().strip().split('\n')
-
-    for d in deployments + daemonsets:
+    for d in deployments:
         kubectl('rollout', 'status',
                 '--namespace', hubname,
                 '--watch', d
