@@ -26,6 +26,10 @@ Installed nginx-ingress v0.20.1 via
 ```
 helm install stable/nginx-ingress --name ingress --namespace router --set rbac.create=true --set controller.service.loadBalancerIP=35.226.96.84
 ```
+To upgrade the deployment after config changes:
+```
+helm upgrade --namespace router ingress stable/nginx-ingress -f outer-edge/values.yaml
+```
 
 The IP address is the current static IP for this deployment. Check `setup.md`
 in the top level directory for how to obtain a new IP or list all IP addresses
