@@ -52,31 +52,31 @@ def setup_helm():
     ])
 
 
-def deploy(hubname):
-    helm('dep', 'up', cwd=hubname)
+def deploy(chartname):
+    helm('dep', 'up', cwd=chartname)
 
     install_args = ['upgrade', '--install',
-                    '--namespace', hubname,
-                    hubname,
-                    hubname,
+                    '--namespace', chartname,
+                    chartname,
+                    chartname,
                     '--force',
                     '--wait',
                     '--timeout', '600',
-                    '-f', os.path.join('secrets', f'{hubname}.yaml')
+                    '-f', os.path.join('secrets', f'{chartname}.yaml')
                     ]
     helm(*install_args)
 
     logging.info(
         "Waiting for all deployments to be up and running"
         )
-    deployments = capture_kubectl('--namespace', hubname,
+    deployments = capture_kubectl('--namespace', chartname,
                                   'get', 'deployments',
                                   '-o', 'name'
                                   ).decode().strip().split('\n')
 
     for d in deployments:
         kubectl('rollout', 'status',
-                '--namespace', hubname,
+                '--namespace', chartname,
                 '--watch', d
                 )
 
@@ -90,9 +90,9 @@ def main():
         action='store_false',
     )
     argparser.add_argument(
-        'hubname',
-        help="Select which hub to deploy",
-        choices=['staginghub', 'earthhub']
+        'chartname',
+        help="Select which chart to deploy",
+        choices=['staginghub', 'earthhub', 'monitoring']
     )
 
     args = argparser.parse_args()
@@ -101,7 +101,7 @@ def main():
         setup_auth()
         setup_helm()
 
-    deploy(args.hubname)
+    deploy(args.chartname)
 
 
 if __name__ == '__main__':

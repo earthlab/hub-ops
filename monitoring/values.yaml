@@ -22,11 +22,11 @@ prometheus:
         kubernetes.io/tls-acme: "true"
     resources:
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 500m
+        memory: 500Mi
       limits:
-        cpu: "2"
-        memory: 2Gi
+        cpu: 500m
+        memory: 1Gi
     persistentVolume:
       size: 20Gi
     retention: 30d
@@ -60,10 +60,10 @@ grafana:
   resources:
     requests:
       cpu: "0.2"
-      memory: 512Mi
+      memory: 256Mi
     limits:
       cpu: "0.2"
-      memory: 512Mi
+      memory: 256Mi
   datasources:
     datasources.yaml:
       apiVersion: 1
