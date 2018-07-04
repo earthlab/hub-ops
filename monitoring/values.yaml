@@ -12,11 +12,11 @@ prometheus:
     ingress:
       enabled: true
       hosts:
-        - prometheus.earthlab.wtte.ch
+        - prometheus.hub.earthdatascience.org
       tls:
         - secretName: kubelego-tls-prometheus
           hosts:
-            - prometheus.earthlab.wtte.ch
+            - prometheus.hub.earthdatascience.org
       annotations:
         kubernetes.io/ingress.class: nginx
         kubernetes.io/tls-acme: "true"
@@ -34,10 +34,10 @@ prometheus:
 grafana:
   ingress:
     hosts:
-      - grafana.earthlab.wtte.ch
+      - grafana.hub.earthdatascience.org
     tls:
       - hosts:
-          - grafana.earthlab.wtte.ch
+          - grafana.hub.earthdatascience.org
         secretName: kubelego-tls-grafana
     enabled: true
     annotations:
@@ -71,7 +71,7 @@ grafana:
         - name: prometheus
           orgId: 1
           type: prometheus
-          url: https://prometheus.earthlab.wtte.ch
+          url: https://prometheus.hub.earthdatascience.org
           access: direct
           isDefault: true
           editable: false
