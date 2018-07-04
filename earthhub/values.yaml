@@ -20,6 +20,6 @@ jupyterhub:
   auth:
     type: google
     google:
-      callbackUrl: "https://hub.earthdatascience.org/staginghub/hub/oauth_callback"
+      callbackUrl: "https://hub.earthdatascience.org/earthhub/hub/oauth_callback"
       hostedDomain: "colorado.edu"
       loginService: "Colorado University"
