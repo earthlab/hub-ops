@@ -4,7 +4,7 @@ jupyterhub:
     annotations:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
-      prometheus.io/path: /earthhub/hub/metrics/
+      prometheus.io/path: /earthhub/hub/metrics
   proxy:
     service:
       type: ClusterIP
