@@ -7,18 +7,23 @@ import os
 
 
 def helm(*args, **kwargs):
-    logging.info("Executing helm", ' '.join(args))
+    logging.info("Executing helm %s", ' '.join(args))
     return subprocess.check_call(['helm'] + list(args), **kwargs)
 
 
 def kubectl(*args, **kwargs):
-    logging.info("Executing kubectl", ' '.join(args))
+    logging.info("Executing kubectl %s", ' '.join(args))
     return subprocess.check_call(['kubectl'] + list(args), **kwargs)
+
+
+def docker(*args, **kwargs):
+    logging.info("Executing docker %s", ' '.join(args))
+    return subprocess.check_call(['docker'] + list(args), **kwargs)
 
 
 def capture_kubectl(*args, **kwargs):
     # capture the output of calling kubectl
-    logging.info("Executing kubectl", ' '.join(args))
+    logging.info("Executing and capturing kubectl %s", ' '.join(args))
     return subprocess.check_output(['kubectl'] + list(args), **kwargs)
 
 
@@ -52,7 +57,100 @@ def setup_helm():
     ])
 
 
+def setup_docker():
+    subprocess.check_output(['docker', 'login',
+                             '-u', 'earthlabhubops',
+                             '-p', open("secrets/dockerhub").read().strip()])
+
+
+def last_git_modified(path, n=1):
+    """Get last revision at which `path` got modified"""
+    return subprocess.check_output([
+        'git',
+        'log',
+        '-n', str(n),
+        '--pretty=format:%h',
+        path
+        ]).decode('utf-8').split('\n')[-1]
+
+
+def get_previous_image_spec(image_name, image_dir):
+    """Pull latest available version of image to maximize cache use."""
+    try_count = 0
+    # try increasingly older git revisions
+    while try_count < 5:
+        last_image_tag = last_git_modified(image_dir, try_count + 1)
+
+        last_image_spec = image_name + ':' + last_image_tag
+        try:
+            docker('pull', last_image_spec)
+            return last_image_spec
+
+        except subprocess.CalledProcessError:
+            try_count += 1
+            pass
+
+    return None
+
+
+def image_requires_build(image_dir, commit_range=None):
+    if commit_range is None:
+        return False
+    image_touched = subprocess.check_output([
+        'git', 'diff', '--name-only', commit_range, image_dir,
+    ]).decode('utf-8').strip() != ''
+
+    return image_touched
+
+
+def build_user_image(hubname, commit_range, push=False):
+    # Build and push to Docker Hub images that need updating from `images/`
+    image_dir = "user-images/" + hubname
+    # No work for us if there is no custom user image
+    if not os.path.exists(image_dir):
+        return
+
+    tag = last_git_modified(image_dir)
+    image_name = "earthlabhubops/ea-k8s-user-" + hubname
+    image_spec = image_name + ':' + tag
+
+    needs_rebuilding = image_requires_build(image_dir, commit_range)
+
+    if needs_rebuilding:
+        previous_image_spec = get_previous_image_spec(image_name, image_dir)
+
+        if previous_image_spec is not None:
+            docker('build',
+                   '--cache-from', previous_image_spec,
+                   '-t', image_spec,
+                   image_dir)
+        else:
+            docker('build',
+                   '-t', image_spec,
+                   image_dir)
+
+        if push:
+            docker('push', image_spec)
+
+        print('build completed for image', image_spec)
+
+    else:
+        print('Do not need to rebuild image, using', image_spec)
+
+    return image_spec
+
+
 def deploy(chartname):
+    image_dir = "user-images/" + chartname
+    # No work for us if there is no custom user image
+    if os.path.exists(image_dir):
+        # get last image spec
+        tag = last_git_modified(image_dir)
+        image_name = "earthlabhubops/ea-k8s-user-" + hubname
+        image_spec = image_name + ':' + tag
+
+        print("Using", image_spec, "as user image for", chartname)
+
     helm('dep', 'up', cwd=chartname)
 
     install_args = ['upgrade', '--install',
@@ -90,6 +188,21 @@ def main():
         action='store_false',
     )
     argparser.add_argument(
+        '--build',
+        help='Build user images',
+        action='store_true',
+    )
+    argparser.add_argument(
+        '--push',
+        help='Push docker images to Docker Hub',
+        action='store_true',
+    )
+    argparser.add_argument(
+        '--deploy',
+        help='Deploy chart',
+        action='store_true',
+    )
+    argparser.add_argument(
         'chartname',
         help="Select which chart to deploy",
         choices=['staginghub', 'earthhub', 'monitoring']
@@ -100,8 +213,14 @@ def main():
     if args.run_setup:
         setup_auth()
         setup_helm()
+        setup_docker()
 
-    deploy(args.chartname)
+    if args.build:
+        commit_range = os.getenv('TRAVIS_COMMIT_RANGE')
+        build_user_image(args.chartname, commit_range, push=args.push)
+
+    if args.deploy:
+        deploy(args.chartname)
 
 
 if __name__ == '__main__':

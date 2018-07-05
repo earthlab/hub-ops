@@ -3,6 +3,9 @@ language: python
 python:
 - 3.6
 
+services:
+- docker
+
 cache: pip
 
 install:
@@ -10,7 +13,9 @@ install:
   # Stage 1: Install pytest + test dependencies
   pip install -U pyyaml pytest requests
 script:
-- true
+- |
+  python ./deploy.py --no-setup --build staginghub
+  python ./deploy.py --no-setup --build earthhub
 
 # We are using before_deploy instead of script or deploy
 # since before_deploy gives us nice, folded log views,
@@ -48,13 +53,13 @@ before_deploy:
   helm repo update
 - |
   # Stage 3, Step 1: Deploy the staginghub
-  python ./deploy.py staginghub
+  python ./deploy.py --build --push --deploy staginghub
 - |
   # Stage 3, Step 2: Deploy the earthhub
-  python ./deploy.py earthhub
+  python ./deploy.py --build --push --deploy earthhub
 - |
   # Stage 3, Step 3: Deploy monitoring of the hubs
-  python ./deploy.py monitoring
+  python ./deploy.py --deploy monitoring
 
 env:
   global:
