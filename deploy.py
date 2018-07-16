@@ -141,6 +141,7 @@ def build_user_image(hubname, commit_range, push=False):
 
 
 def deploy(chartname):
+    extra_args = []
     image_dir = "user-images/" + chartname
     # No work for us if there is no custom user image
     if os.path.exists(image_dir):
@@ -150,6 +151,8 @@ def deploy(chartname):
         image_spec = image_name + ':' + tag
 
         print("Using", image_spec, "as user image for", chartname)
+        extra_args.extend(['--set',
+                           'jupyterhub.singleuser.image.tag={}'.format(tag)])
 
     helm('dep', 'up', cwd=chartname)
 
@@ -162,6 +165,7 @@ def deploy(chartname):
                     '--timeout', '600',
                     '-f', os.path.join('secrets', f'{chartname}.yaml')
                     ]
+    install_args += extra_args
     helm(*install_args)
 
     logging.info(

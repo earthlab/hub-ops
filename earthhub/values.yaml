@@ -5,6 +5,10 @@ jupyterhub:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /earthhub/hub/metrics
+  singleuser:
+    image:
+      # tag will be set by travis on deployment
+      name: earthlabhubops/ea-k8s-user-earthhub
   proxy:
     service:
       type: ClusterIP
