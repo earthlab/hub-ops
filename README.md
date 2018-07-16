@@ -22,5 +22,3 @@ Hubs which are available for deployment:
 The first round of installing this deployment requires you to follow `setup.md`
 and to install the contents of the `outer-edge/` directory and all additional
 hubs you want to deploy.
-
-bump
