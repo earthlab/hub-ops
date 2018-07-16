@@ -147,7 +147,7 @@ def deploy(chartname):
     if os.path.exists(image_dir):
         # get last image spec
         tag = last_git_modified(image_dir)
-        image_name = "earthlabhubops/ea-k8s-user-" + hubname
+        image_name = "earthlabhubops/ea-k8s-user-" + chartname
         image_spec = image_name + ':' + tag
 
         print("Using", image_spec, "as user image for", chartname)
