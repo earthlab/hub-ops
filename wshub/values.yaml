@@ -14,8 +14,8 @@ jupyterhub:
       guarantee: 1.
       limit: 2.
     memory:
-      guarantee: 1G
-      limit: 2G
+      guarantee: 1Gi
+      limit: 2Gi
   proxy:
     service:
       type: ClusterIP
