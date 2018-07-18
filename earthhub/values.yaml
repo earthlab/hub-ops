@@ -9,6 +9,13 @@ jupyterhub:
     image:
       # tag will be set by travis on deployment
       name: earthlabhubops/ea-k8s-user-earthhub
+      tag: set-on-deployment
+    cpu:
+      guarantee: 1.
+      limit: 2
+    memory:
+      guarantee: 2G
+      limit: 2G
   proxy:
     service:
       type: ClusterIP
