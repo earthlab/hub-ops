@@ -16,6 +16,7 @@ script:
 - |
   python ./deploy.py --no-setup --build staginghub
   python ./deploy.py --no-setup --build earthhub
+  python ./deploy.py --no-setup --build wshub
 
 # We are using before_deploy instead of script or deploy
 # since before_deploy gives us nice, folded log views,
@@ -60,6 +61,9 @@ before_deploy:
 - |
   # Stage 3, Step 3: Deploy monitoring of the hubs
   python ./deploy.py --deploy monitoring
+- |
+  # Stage 3, Step 4: Deploy the workshop hub
+  python ./deploy.py --build --push --deploy wshub
 
 env:
   global:

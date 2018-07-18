@@ -37,5 +37,8 @@ of a valid URL. So you can't go completely crazy here.
 
 You also need to configure the authentication setup.
 
+You will need to add your hub in `.travis.yml` so that it is tested and
+automatically deployed.
+
 Finally confgiuration values that need to remain secret can be stored in
 `secrets/<hubname>.yaml`.

@@ -1,0 +1,32 @@
+jupyterhub:
+  hub:
+    baseUrl: /wshub/
+    annotations:
+      prometheus.io/scrape: "true"
+      # this needs to start with the value of `hub.baseUrl`
+      prometheus.io/path: /wshub/hub/metrics
+  singleuser:
+    cpu:
+      guarantee: 1.
+      limit: 2.
+    memory:
+      guarantee: 1G
+      limit: 2G
+  proxy:
+    service:
+      type: ClusterIP
+  ingress:
+    enabled: true
+    hosts:
+      - hub.earthdatascience.org
+    annotations:
+      ingress.kubernetes.io/proxy-body-size: 64m
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+    tls:
+      - secretName: kubelego-tls-jupyterhub
+        hosts:
+          - hub.earthdatascience.org
+
+  auth:
+    type: dummy
