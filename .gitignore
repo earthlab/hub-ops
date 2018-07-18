@@ -1,5 +1,6 @@
 outer-edge/charts/
 earthhub/charts/
+wshub/charts/
 secrets.yaml
 travis/crypt-key
 staginghub/charts/

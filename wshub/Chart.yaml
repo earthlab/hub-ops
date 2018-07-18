@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for the workshop on 20 July 2018
+name: wshub
+version: 0.1.0
