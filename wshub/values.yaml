@@ -6,6 +6,10 @@ jupyterhub:
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /wshub/hub/metrics
   singleuser:
+    image:
+      # tag will be set by travis on deployment
+      name: earthlabhubops/ea-k8s-user-wshub
+      tag: set-on-deployment
     cpu:
       guarantee: 1.
       limit: 2.
