@@ -5,6 +5,13 @@ jupyterhub:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /staginghub/hub/metrics
+  singleuser:
+    cpu:
+      guarantee: 0.1
+      limit: 1.
+    memory:
+      guarantee: 500Mi
+      limit: 500Mi
   proxy:
     service:
       type: ClusterIP
