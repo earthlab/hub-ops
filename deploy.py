@@ -5,6 +5,8 @@ import subprocess
 import yaml
 import os
 
+logging.basicConfig(level=logging.INFO)
+
 
 def helm(*args, **kwargs):
     logging.info("Executing helm %s", ' '.join(args))
