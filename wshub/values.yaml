@@ -30,5 +30,3 @@ jupyterhub:
 
   auth:
     type: dummy
-    dummy:
-      passwod: oh-so-sekret
