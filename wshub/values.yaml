@@ -5,6 +5,17 @@ jupyterhub:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /wshub/hub/metrics
+    extraConfig:
+      auth: |
+        c.JupyterHub.authenticator_class = 'hashauthenticator.HashAuthenticator'
+        c.Authenticator.whitelist = {'leah', 'leah-admin', 'tim-admin', 'tim'}
+      admin: |
+        c.Authenticator.admin_users = {'leah-admin', 'tim-admin'}
+        c.JupyterHub.admin_access = True
+    image:
+      # tag will be set by travis on deployment
+      name: earthlabhubops/ea-k8s-hub-wshub
+      tag: set-on-deployment
   singleuser:
     image:
       # tag will be set by travis on deployment
@@ -43,6 +54,3 @@ jupyterhub:
       - secretName: kubelego-tls-jupyterhub
         hosts:
           - hub.earthdatascience.org
-
-  auth:
-    type: dummy
