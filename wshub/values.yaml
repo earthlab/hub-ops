@@ -8,7 +8,6 @@ jupyterhub:
     extraConfig:
       auth: |
         c.JupyterHub.authenticator_class = 'hashauthenticator.HashAuthenticator'
-        c.Authenticator.whitelist = {'leah', 'leah-admin', 'tim-admin', 'tim'}
       admin: |
         c.Authenticator.admin_users = {'leah-admin', 'tim-admin'}
         c.JupyterHub.admin_access = True
