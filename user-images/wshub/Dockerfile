@@ -11,3 +11,5 @@ USER root
 # earthpy on the command line.
 RUN python -c "import matplotlib; matplotlib.use('Agg'); import earthpy; data = earthpy.io.EarthlabData('/data'); data.get_data('spatial-vector-lidar')"
 USER $NB_UID
+
+# a comment to trigger rebuilding
