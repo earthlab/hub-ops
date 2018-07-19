@@ -1,7 +1,13 @@
-# Docker images used for these hubs
+# Docker images used to customise the user's environment
 
-This folder contains the `Dockerfile`s needed to build images used by
-all the hubs.
+This folder contains the `Dockerfile`s needed to build the image in which a
+user runs. Use this if you want to make specific Python libraries available
+to your users or install additional kernels.
+
+Each hub has its own image.
+
+If you want to customize the environment that the hub itself runs in `hub-images/`
+instead.
 
 `earthenv-user` is an image that contains the Earthlab Analytics Python
 environment. The source of which is mainted here: https://github.com/earthlab/earth-analytics-python-env
