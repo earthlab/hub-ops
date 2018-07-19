@@ -24,8 +24,8 @@ jupyterhub:
             - "-c"
             - >
               if [ ! -d /home/jovyan/earth-analytics/data/spatial-vector-lidar ]; then
-              mkdir -p /home/jovyan/earth-analytics/data/
-              cp -a /data/spatial-vector-lidar /home/jovyan/earth-analytics/data/
+              mkdir -p /home/jovyan/earth-analytics/data/;
+              cp -a /data/spatial-vector-lidar /home/jovyan/earth-analytics/data/;
               fi;
               gitpuller https://github.com/earthlab-education/2018-07-20-spatial-python-workshop master materials;
   proxy:
