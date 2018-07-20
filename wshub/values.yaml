@@ -20,6 +20,7 @@ jupyterhub:
       # tag will be set by travis on deployment
       name: earthlabhubops/ea-k8s-user-wshub
       tag: set-on-deployment
+    startTimeout: 600
     cpu:
       guarantee: 1.
       limit: 2.
