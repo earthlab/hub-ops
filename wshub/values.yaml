@@ -34,7 +34,7 @@ jupyterhub:
             - "sh"
             - "-c"
             - >
-              rsync --ignore-existing -razv --progress /data/ /home/jovyan/earth-analytics/data
+              rsync --ignore-existing -razv --progress /data/ /home/jovyan/earth-analytics/data;
               gitpuller https://github.com/earthlab-education/2018-07-20-spatial-python-workshop master materials;
   proxy:
     service:
