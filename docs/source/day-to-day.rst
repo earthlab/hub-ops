@@ -8,7 +8,7 @@ Monitoring
 ----------
 
 To get an overview of the health of the hubs and infrastructure visit the
-`Grafana page <https://grafana.hub.earthdatascience.org/`_.
+`Grafana page <https://grafana.hub.earthdatascience.org/>`_.
 
 The `Hub monitor` page lets you see how many pods are running, launch success
 rate, which users are using a lot of CPU, etc. For each hub separately.
