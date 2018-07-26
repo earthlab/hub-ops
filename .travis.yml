@@ -13,10 +13,17 @@ install:
   # Stage 1: Install pytest + test dependencies
   pip install -U pyyaml pytest requests sphinx sphinx-autobuild
 script:
-- python ./deploy.py --no-setup --build staginghub
-- python ./deploy.py --no-setup --build earthhub
-- python ./deploy.py --no-setup --build wshub
 - |
+  # Build staginghub
+  python ./deploy.py --no-setup --build staginghub
+- |
+  # Build earthhub
+  python ./deploy.py --no-setup --build earthhub
+- |
+  # Build workshophub
+  python ./deploy.py --no-setup --build wshub
+- |
+  # Build documentation
   pushd docs
   make html
   popd
