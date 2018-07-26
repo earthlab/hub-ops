@@ -11,12 +11,15 @@ cache: pip
 install:
 - |
   # Stage 1: Install pytest + test dependencies
-  pip install -U pyyaml pytest requests
+  pip install -U pyyaml pytest requests sphinx sphinx-autobuild
 script:
+- python ./deploy.py --no-setup --build staginghub
+- python ./deploy.py --no-setup --build earthhub
+- python ./deploy.py --no-setup --build wshub
 - |
-  python ./deploy.py --no-setup --build staginghub
-  python ./deploy.py --no-setup --build earthhub
-  python ./deploy.py --no-setup --build wshub
+  pushd docs
+  make html
+  popd
 
 # We are using before_deploy instead of script or deploy
 # since before_deploy gives us nice, folded log views,
