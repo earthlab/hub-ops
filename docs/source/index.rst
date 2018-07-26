@@ -6,3 +6,5 @@ Welcome to the hub-ops's documentation!
    :caption: Contents:
 
    day-to-day
+   authentication
+   initial-setup
