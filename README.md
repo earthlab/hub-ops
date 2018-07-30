@@ -9,10 +9,19 @@ Documentation status: [![Docs Status](https://readthedocs.org/projects/earthlab-
 Read the documentation at: https://earthlab-hub-ops.readthedocs.io/en/latest/index.html
 
 
+## Monitoring
+
+Visit https://grafana.hub.earthdatascience.org/ for monitoring of the hubs.
+
+
 ## Available hubs
 
-Hubs which are available for deployment:
-* The main earthhub. This should always be running. It is configured via the
-  chart in `earthhub/`.
-* The test hub. This is a hub for experimenting with. It is configured via the
-  chart in `staginghub/`.
+Hubs which are running:
+* The [main earthhub](https://hub.earthdatascience.org/earthhub/). This should
+  always be running. It is configured via the chart in `earthhub/`.
+* The [test hub](https://hub.earthdatascience.org/staginghub/). This is a hub
+  for experimenting with. It is configured via the chart in `staginghub/`.
+
+Hubs available for deployment (currently not running):
+* The [workshop hub](https://hub.earthdatascience.org/wshub/). It is configured
+  via the chart in `wshub/`. Used for a 45 person workshop with temporary logins.
