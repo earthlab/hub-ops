@@ -2,6 +2,7 @@
 Infrastructure and operations for the Earthlab JupyterHubs.
 
 Deployment status: [![Build Status](https://travis-ci.org/earthlab/hub-ops.svg?branch=master)](https://travis-ci.org/earthlab/hub-ops)
+Documentation status: [![Docs Status](https://readthedocs.org/projects/earthlab-hub-ops/badge/?version=latest)](https://readthedocs.org/projects/earthlab-hub-ops/builds/)
 
 ## Documentation
 
