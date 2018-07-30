@@ -69,10 +69,40 @@ of a valid URL. So you can't go completely crazy here.
 You also need to configure the authentication setup.
 
 You will need to add your hub in :code:`.travis.yml` so that it is tested and
-automatically deployed.
+automatically deployed. You need to add a new step to the :code:`script` section::
 
-Finally confgiuration values that need to remain secret can be stored in
+    - |
+      # Build <HUBNAME
+      python ./deploy.py --no-setup --build <HUBNAME>
+
+Add the above snippet after all other hubs, but before the documentation step.
+
+You also need to add your hub to the :code:`before_deploy` section of the same
+file::
+
+    .. code-block:: yaml
+
+        - |
+          # Stage 3, Step XXX: Deploy the <HUBNAME>
+          python ./deploy.py --build --push --deploy <HUBNAME>
+
+And finally you need to list your :code:`<HUBNAME>` as a valid chartname that
+:code:`deploy.py` recognises by editing permitted values of the :code:`chartname`
+argument::
+
+    .. code-block:: python
+
+        argparser.add_argument(
+            'chartname',
+            help="Select which chart to deploy",
+            choices=['staginghub', 'earthhub', 'wshub', 'monitoring', '<HUBNAME>']
+        )
+
+Configuration values that need to remain secret can be stored in
 :code:`secrets/<hubname>.yaml`.
+
+Commit your changes to a new branch, make a PR, wait for the basic tests to run,
+check that travis looked at your new hub configuration, then merge the PR.
 
 Once your hub is up and running you will be able to reach it
 at :code:`https://hub.earthdatascience.org/<hubname>`.
