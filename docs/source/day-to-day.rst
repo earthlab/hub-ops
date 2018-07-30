@@ -86,16 +86,18 @@ While a hub scales down to use minimal resources when no one is logged in, it
 does use some resources (like disk space) that will only be reclaimed once the
 hub has been turned off.
 
-Currently this is a manual process and requires you to have `kubectl` installed
-on your computer. The reasoning is that removing a hub involves deleting user
-data, which might be catastrophic! So think about what you are doing and wait
+Currently this is a manual process and requires you to have :code:`kubectl`
+and :code:`helm` installed on your computer (see :ref:`google-cloud` and
+:ref:`helm`). The reasoning is
+that removing a hub involves deleting user data, which might be catastrophic!
+So think about what you are doing and wait
 for a quiet moment. A few extra days of paying for storage is going to be a lot
 cheaper than trying to recreate data or code you deleted by accident.
 
-The first step in removing a hub is to turn it off. To do this edit `.travis.yml`
-to remove the commands like `python ./deploy.py --build --push --deploy <hubname>`
+The first step in removing a hub is to turn it off. To do this edit :code:`.travis.yml`
+to remove the commands like :code:`python ./deploy.py --build --push --deploy <hubname>`
 that are in charge of deploying your hub. There should be two commands for your
-hub that look similar. One in the `script` section and one in the `before_deploy`
+hub that look similar. One in the :code:`script` section and one in the :code:`before_deploy`
 section. Remove both of them, create a PR, and merge that PR. Wait for travis
 to deploy your changes before moving on.
 
@@ -104,8 +106,8 @@ we have done so far is tell travis to not deploy new changes for this hub.
 
 The second step is to uninstall the helm release. This will actually shutdown
 your hub. You will have to run this command on your local machine. Check you
-have `kubectl` and `helm` installed and configured. One way to check this is to
-run `kubectl get pods --namespace=<hubname>`. This should show that there are
+have :code:`kubectl` and :code:`helm` installed and configured. One way to check this is to
+run :code:`kubectl get pods --namespace=<hubname>`. This should show that there are
 two pods running::
 
     NAME                     READY     STATUS    RESTARTS   AGE
@@ -116,7 +118,7 @@ If there are more pods running or these two are not running you might be looking
 at the wrong cluster or hub name. If you only see two pods with names starting
 with :code:`hub-` and :code:`proxy-` you are probably good to go.
 
-To check that your `helm` command is properly configured run :code:`helm list`.
+To check that your :code:`helm` command is properly configured run :code:`helm list`.
 This will list all helm releases that are currently installed. It should look
 similar to this::
 
@@ -134,7 +136,7 @@ all hubs and should never be removed. In the case shown above there are three
 hubs running: :code:`staginghub`, :code:`wshub` and :code:earthhub`.
 
 To delete the :code:`wshub` run :code:`helm delete wshub --purge`. If you now
-visit https://hub.earthdatascience.org/<hubname>/ you should get a 404 error.
+visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.
 
 The final step is to delete all storage and IP addresses associated to your hub.
 If you execute the next step there is no way to recover the data in student's
