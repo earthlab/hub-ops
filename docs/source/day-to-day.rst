@@ -146,19 +146,47 @@ So think about what you are doing and wait
 for a quiet moment. A few extra days of paying for storage is going to be a lot
 cheaper than trying to recreate data or code you deleted by accident.
 
-The first step in removing a hub is to turn it off. To do this edit :code:`.travis.yml`
-to remove the commands like :code:`python ./deploy.py --build --push --deploy <hubname>`
-that are in charge of deploying your hub. There should be two commands for your
-hub that look similar. One in the :code:`script` section and one in the :code:`before_deploy`
-section. Remove both of them, create a PR, and merge that PR. Wait for travis
+
+Step one: Turn off your hub autobuild / update
+~~~~~~~~~~~~
+
+The first step in removing a hub is to turn it off. To do this
+
+1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
+2. Remove the follwoing commands like
+3.
+In the :code:`scripts` section remove:
+
+.. code-block:: yaml
+    - |
+      # Build bootcamp-hub
+      python ./deploy.py --no-setup --build bootcamp-hub
+
+In the :before_deploy:`scripts` section remove:
+.. code-block:: yaml
+      - |
+        # Stage 3, Step 2: Deploy the earthhub
+        python ./deploy.py --build --push --deploy bootcamp-hub
+
+These two sections deploy your hub. There should be two commands for your
+hub that look similar. Once you have removed these sections, create a pull request
+in github. Merge that PR. Wait for travis
 to deploy your changes before moving on.
 
 If you check your hub should still be running at this point. This is because all
 we have done so far is tell travis to not deploy new changes for this hub.
 
-The second step is to uninstall the helm release. This will actually shutdown
-your hub. You will have to run this command on your local machine. Check you
-have :code:`kubectl` and :code:`helm` installed and configured. One way to check this is to
+
+Step two: Uninstall the heml release
+~~~~~~~~~~~~
+
+The second step is to uninstall the helm release to shutdown
+your hub. You will need :code:`kubectl` and :code:`helm` installed and configured
+on your local machine to perform this step.
+
+To check for the installation
+
+One way to check this is to
 run :code:`kubectl get pods --namespace=<hubname>`. This should show that there are
 two pods running::
 
