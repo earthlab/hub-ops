@@ -6,6 +6,11 @@ jupyterhub:
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /staginghub/hub/metrics
   singleuser:
+    image:
+      # tag will be set by travis on deployment
+      name: earthlabhubops/ea-k8s-user-staginghub
+      tag: set-on-deployment
+    startTimeout: 600
     cpu:
       guarantee: 0.1
       limit: 1.
