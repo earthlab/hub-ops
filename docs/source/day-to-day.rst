@@ -69,7 +69,9 @@ of a valid URL. So you can't go completely crazy here.
 You also need to configure the authentication setup.
 
 You will need to add your hub in :code:`.travis.yml` so that it is tested and
-automatically deployed. You need to add a new step to the :code:`script` section::
+automatically deployed. You need to add a new step to the :code:`script` section:
+
+.. code-block:: yaml
 
     - |
       # Build <HUBNAME
@@ -78,25 +80,25 @@ automatically deployed. You need to add a new step to the :code:`script` section
 Add the above snippet after all other hubs, but before the documentation step.
 
 You also need to add your hub to the :code:`before_deploy` section of the same
-file::
+file:
 
-    .. code-block:: yaml
+.. code-block:: yaml
 
-        - |
-          # Stage 3, Step XXX: Deploy the <HUBNAME>
-          python ./deploy.py --build --push --deploy <HUBNAME>
+    - |
+      # Stage 3, Step XXX: Deploy the <HUBNAME>
+      python ./deploy.py --build --push --deploy <HUBNAME>
 
 And finally you need to list your :code:`<HUBNAME>` as a valid chartname that
 :code:`deploy.py` recognises by editing permitted values of the :code:`chartname`
-argument::
+argument:
 
-    .. code-block:: python
+.. code-block:: python
 
-        argparser.add_argument(
-            'chartname',
-            help="Select which chart to deploy",
-            choices=['staginghub', 'earthhub', 'wshub', 'monitoring', '<HUBNAME>']
-        )
+    argparser.add_argument(
+        'chartname',
+        help="Select which chart to deploy",
+        choices=['staginghub', 'earthhub', 'wshub', 'monitoring', '<HUBNAME>']
+    )
 
 Configuration values that need to remain secret can be stored in
 :code:`secrets/<hubname>.yaml`.

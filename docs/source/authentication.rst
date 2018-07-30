@@ -39,7 +39,9 @@ The most important field is "Authorization callback URL" which has to be set to
 Once you create the app you will be provided with a Client ID and a Client secret.
 You will need to add both in :code:`secrets/<NAMEOFYOURHUB>.yaml`.
 
-An example of what to add to your secrets file::
+An example of what to add to your secrets file:
+
+.. code-block:: yaml
 
     jupyterhub:
       auth:
@@ -48,7 +50,9 @@ An example of what to add to your secrets file::
           clientId: "5636ad98ccccbbbbaaaa"
           clientSecret: "3683566baaaabbbbccccxxxxff1ba7198a3022be"
 
-The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`::
+The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`:
+
+.. code-block:: yaml
 
     jupyterhub:
       auth:
@@ -84,7 +88,9 @@ field is "Authorized redirect URIs". Set this to :code:`https://hub.earthdatasci
 Once you create the app you will be provided with a Client ID and a Client secret. You
 need to add both in :code:`secrets/<NAMEOFYOURHUB>.yaml`.
 
-An example of what to add to your secrets file::
+An example of what to add to your secrets file:
+
+.. code-block:: yaml
 
     jupyterhub:
       auth:
@@ -92,7 +98,9 @@ An example of what to add to your secrets file::
           clientId: "12345678988-abcdabcdat331tvltueu44elt98rb54f.apps.googleusercontent.com"
           clientSecret: "abcabcabcababcabcabc-abc"
 
-The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`::
+The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`:
+
+.. code-block:: yaml
 
     jupyterhub:
       auth:
@@ -116,7 +124,9 @@ To be able to use the hash authenticator you will need to have a custom image
 for your hub as the Hash authenticator package is not installed by default.
 See the :code:`hub-images/` subdirectory for how to create a custom image.
 
-The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`::
+The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`:
+
+.. code-block:: yaml
 
     jupyterhub:
       hub:
@@ -127,7 +137,9 @@ The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/va
             c.Authenticator.admin_users = {'leah-admin', 'tim-admin'}
             c.JupyterHub.admin_access = True
 
-An example of what to add to your :code:`secrets/<NAMEOFYOURHUB>.yaml`::
+An example of what to add to your :code:`secrets/<NAMEOFYOURHUB>.yaml`:
+
+.. code-block:: yaml
 
     jupyterhub:
       hub:
