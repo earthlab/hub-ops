@@ -20,9 +20,6 @@ script:
   # Build earthhub
   python ./deploy.py --no-setup --build earthhub
 - |
-  # Build workshophub
-  python ./deploy.py --no-setup --build wshub
-- |
   # Build documentation
   pushd docs
   make html
@@ -71,9 +68,7 @@ before_deploy:
 - |
   # Stage 3, Step 3: Deploy monitoring of the hubs
   python ./deploy.py --deploy monitoring
-- |
-  # Stage 3, Step 4: Deploy the workshop hub
-  python ./deploy.py --build --push --deploy wshub
+
 
 env:
   global:
