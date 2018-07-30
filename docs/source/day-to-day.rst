@@ -1,7 +1,8 @@
 Day to day operations
 =====================
 
-This document outlines how to perform typical tasks for the Earthlab hubs.
+This document outlines how to perform typical tasks for the Earth Lab, University
+of Colorado Jupyter Hubs.
 
 
 Monitoring
@@ -58,26 +59,42 @@ where you configure your hub. Check the
 `zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
 for ideas on what you might want to configure.
 
-To create a new hub create a new directory with the same name as the hub you
-want to have. It should end in :code:`hub`.
+Step one: Create a new hub directory
+~~~~~~~~~~~~
+
+To begin your hub creation, first create a new directory with the name that you'd
+like your hub to have. The hub name should end with the word :code:`hub`.
 
 You need to edit
 :code:`jupyterhub.hub.baseUrl` in your :code:`values.yaml` and set it to the same name
-as the directory (we will use :code:`<hubname>`). Remember the name has to be a part
-of a valid URL. So you can't go completely crazy here.
+as the directory (we will use :code:`<hubname>`). The hub name will become a
+part of the hub URL, so pick a name wisely!
 
+Example:
+
+.. code-block:: yaml
+    jupyterhub:
+      hub:
+        baseUrl: /yourhubname-hub/
+
+Step three: Setup authentication
+~~~~~~~~~~~~
 You also need to configure the authentication setup.
+* HOW HOW HOW?? :)
 
-You will need to add your hub in :code:`.travis.yml` so that it is tested and
-automatically deployed. You need to add a new step to the :code:`script` section:
+Step three: Update the travis build so it recognizes the new hub
+~~~~~~~~~~~~
+
+Next, you need to update  Travis (CI) instructions to test and
+automatically deploy the new hub. In the root directory of the hub-ops repo, look
+for the file: :code:`.travis.yml` Add a new step to the :code:`script` section
+AFTER all of the other listed hubs, but before the documentation step:
 
 .. code-block:: yaml
 
     - |
       # Build <HUBNAME
       python ./deploy.py --no-setup --build <HUBNAME>
-
-Add the above snippet after all other hubs, but before the documentation step.
 
 You also need to add your hub to the :code:`before_deploy` section of the same
 file:
@@ -88,7 +105,10 @@ file:
       # Stage 3, Step XXX: Deploy the <HUBNAME>
       python ./deploy.py --build --push --deploy <HUBNAME>
 
-And finally you need to list your :code:`<HUBNAME>` as a valid chartname that
+Step four: Update the deploy.py file with the hub name
+~~~~~~~~~~~~
+
+Finally you need to list your :code:`<HUBNAME>` as a valid chartname that
 :code:`deploy.py` recognises by editing permitted values of the :code:`chartname`
 argument:
 
