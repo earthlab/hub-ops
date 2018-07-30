@@ -7,4 +7,5 @@ Welcome to the hub-ops's documentation!
 
    day-to-day
    authentication
+   tooling
    initial-setup
