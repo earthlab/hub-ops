@@ -1,22 +1,21 @@
-nginx-ingress:
-    controller:
-      resources:
-        requests:
-          cpu: 0.5
-          memory: 1Gi
-        limits:
-          cpu: 0.5
-          memory: 1Gi
-      service:
-        loadBalancerIP: 35.226.96.84
-      metrics:
-        enabled: true
-      stats:
-        enabled: true
-        service:
-          annotations:
-            prometheus.io/scrape: "true"
-            prometheus.io/port: "10254"
-    config:
-      LEGO_EMAIL: Leah.Wasser@colorado.edu
-      LEGO_URL: https://acme-v01.api.letsencrypt.org/directory
+controller:
+  resources:
+    requests:
+      cpu: 0.5
+      memory: 1Gi
+    limits:
+      cpu: 0.5
+      memory: 1Gi
+  service:
+    loadBalancerIP: 35.226.96.84
+  metrics:
+    enabled: true
+  stats:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+config:
+  LEGO_EMAIL: Leah.Wasser@colorado.edu
+  LEGO_URL: https://acme-v01.api.letsencrypt.org/directory
