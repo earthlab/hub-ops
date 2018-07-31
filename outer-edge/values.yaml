@@ -1,4 +1,11 @@
 controller:
+  resources:
+    requests:
+      cpu: 0.5
+      memory: 1Gi
+    limits:
+      cpu: 0.5
+      memory: 1Gi
   service:
     loadBalancerIP: 35.226.96.84
   metrics:
