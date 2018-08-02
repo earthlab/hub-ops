@@ -34,9 +34,7 @@ jupyterhub:
             - "sh"
             - "-c"
             - >
-              mkdir -p /home/jovyan/earth-analytics/data;
-              rsync --ignore-existing -razv --progress /data/ /home/jovyan/earth-analytics/data;
-              gitpuller https://github.com/earthlab-education/2018-07-20-spatial-python-workshop master notebooks;
+              gitpuller https://github.com/earthlab-education/ea-bootcamp-day-1 master notebooks;
   proxy:
     service:
       type: ClusterIP
