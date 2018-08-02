@@ -69,10 +69,10 @@ before_deploy:
   # Stage 3, Step 2: Deploy the earthhub
   python ./deploy.py --build --push --deploy earthhub
 - |
-  # Stage 3, Step 2: Deploy the earthhub
+  # Stage 3, Step 3: Deploy the earthhub
   python ./deploy.py --build --push --deploy bootcamp-hub
 - |
-  # Stage 3, Step 3: Deploy monitoring of the hubs
+  # Stage 3, Step 4: Deploy monitoring of the hubs
   python ./deploy.py --deploy monitoring
 
 

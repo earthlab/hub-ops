@@ -13,7 +13,7 @@ jupyterhub:
         c.JupyterHub.admin_access = True
     image:
       # tag will be set by travis on deployment
-      name: earthlabhubops/ea-k8s-hub-wshub
+      name: earthlabhubops/ea-k8s-hub-bootcamp-hub
       tag: set-on-deployment
   singleuser:
     image:

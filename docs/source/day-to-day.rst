@@ -77,7 +77,7 @@ Example:
       hub:
         baseUrl: /yourhubname-hub/
 
-Step three: Setup authentication
+Step two: Setup authentication
 ~~~~~~~~~~~~
 You also need to configure the authentication setup.
 * HOW HOW HOW?? :)
@@ -153,8 +153,8 @@ Step one: Turn off your hub autobuild / update
 The first step in removing a hub is to turn it off. To do this
 
 1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
-2. Remove the follwoing commands like
-3.
+2. Remove the commands listed below
+
 In the :code:`scripts` section remove:
 
 .. code-block:: yaml
@@ -177,7 +177,7 @@ If you check your hub should still be running at this point. This is because all
 we have done so far is tell travis to not deploy new changes for this hub.
 
 
-Step two: Uninstall the heml release
+Step two: Uninstall the helm release
 ~~~~~~~~~~~~
 
 The second step is to uninstall the helm release to shutdown
