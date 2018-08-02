@@ -5,6 +5,13 @@ jupyterhub:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /wshub/hub/metrics
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
     extraConfig:
       auth: |
         c.JupyterHub.authenticator_class = 'hashauthenticator.HashAuthenticator'
@@ -40,6 +47,13 @@ jupyterhub:
   proxy:
     service:
       type: ClusterIP
+    resources:
+      requests:
+        cpu: 200m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
   ingress:
     enabled: true
     hosts:
