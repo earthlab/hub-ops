@@ -26,9 +26,9 @@ User whitelist and admin accounts
 ---------------------------------
 
 You can control what users can login by creating a whitelist of usernames. This
-is independent of which ahtneticator you use. All authenticators eventually
+is independent of which authenticator you use. All authenticators eventually
 assign a user a username. This is then checked against the whitelist. You can
-also create a list of admin users, these peopel get specialy priviliges like
+also create a list of admin users, these people get special privileges like
 being able to restart individual user's servers.
 
 To add the users :code:`swiss-roll` and :code:`bbq-pizza` to the whitelist use
@@ -68,7 +68,12 @@ account to login.
 For full details check the `GitHub Authentication section <https://zero-to-jupyterhub.readthedocs.io/en/latest/authentication.html#github>`_
 of the zero2jupyterhub guide.
 
-Create a OAuth application on GitHub by going to `<https://github.com/settings/developers>`,
+Create a OAuth application on GitHub by going to |location_link|,
+
+.. |location_link| raw:: html
+
+   <a href="https://github.com/settings/developers" target="_blank">Github developer settings</a>
+
 in "OAuth apps" create a new app. You will have to provide a name and description.
 The most important field is "Authorization callback URL" which has to be set to
 :code:`https://hub.earthdatascience.org/<NAMEOFYOURHUB>/hub/oauth_callback`.

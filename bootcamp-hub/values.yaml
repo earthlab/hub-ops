@@ -18,7 +18,7 @@ jupyterhub:
   singleuser:
     image:
       # tag will be set by travis on deployment
-      name: earthlabhubops/ea-k8s-user-wshub
+      name: earthlabhubops/ea-k8s-user-bootcamp-hub
       tag: set-on-deployment
     startTimeout: 600
     cpu:
@@ -52,3 +52,11 @@ jupyterhub:
       - secretName: kubelego-tls-jupyterhub
         hosts:
           - hub.earthdatascience.org
+  auth:
+    type: github
+    github:
+      callbackUrl: "https://hub.earthdatascience.org/bootcamp-hub/hub/oauth_callback"
+      org_whitelist:
+        - "earthlab-education"
+    scopes:
+      - "read:user"
