@@ -22,6 +22,42 @@ will not need to create a new account.
 `Hash authentication` is good for workshops with participants who might not
 have a UC Boulder account.
 
+User whitelist and admin accounts
+---------------------------------
+
+You can control what users can login by creating a whitelist of usernames. This
+is independent of which ahtneticator you use. All authenticators eventually
+assign a user a username. This is then checked against the whitelist. You can
+also create a list of admin users, these peopel get specialy priviliges like
+being able to restart individual user's servers.
+
+To add the users :code:`swiss-roll` and :code:`bbq-pizza` to the whitelist use
+the following snippet in your hub's :code:`values.yaml`:
+
+.. code-block:: yaml
+
+    jupyterhub:
+      auth:
+        whitelist:
+          users:
+            - swiss-roll
+            - bbq-pizza
+
+With this setup no one except these two users will be able to login.
+
+To make a user the above two users admins and let them access individual user's
+servers use the following snippet:
+
+.. code-block:: yaml
+
+    jupyterhub:
+      auth:
+        admin:
+          access: true
+          users:
+            - swiss-roll
+            - bbq-pizza
+
 
 GitHub OAuth
 ------------
