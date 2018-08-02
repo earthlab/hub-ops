@@ -1,7 +1,8 @@
 Day to day operations
 =====================
 
-This document outlines how to perform typical tasks for the Earthlab hubs.
+This document outlines how to perform typical tasks for the Earth Lab, University
+of Colorado Jupyter Hubs.
 
 
 Monitoring
@@ -58,26 +59,43 @@ where you configure your hub. Check the
 `zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
 for ideas on what you might want to configure.
 
-To create a new hub create a new directory with the same name as the hub you
-want to have. It should end in :code:`hub`.
+Step one: Create a new hub directory
+~~~~~~~~~~~~
+
+To begin your hub creation, first create a new directory with the name that you'd
+like your hub to have. The hub name should end with the word :code:`hub`.
 
 You need to edit
 :code:`jupyterhub.hub.baseUrl` in your :code:`values.yaml` and set it to the same name
-as the directory (we will use :code:`<hubname>`). Remember the name has to be a part
-of a valid URL. So you can't go completely crazy here.
+as the directory (we will use :code:`<hubname>`). The hub name will become a
+part of the hub URL, so pick a name wisely!
 
-You also need to configure the authentication setup.
+Example:
 
-You will need to add your hub in :code:`.travis.yml` so that it is tested and
-automatically deployed. You need to add a new step to the :code:`script` section:
+.. code-block:: yaml
+    jupyterhub:
+      hub:
+        baseUrl: /yourhubname-hub/
+
+Step two: Setup authentication
+~~~~~~~~~~~~
+Next decide how you'd like to authenticate your hub. You can use Github,
+Google or a "hash" based authenticator. Read more about that here
+`Read more about that here <https://earthlab-hub-ops.readthedocs.io/en/latest/>`_
+
+Step three: Update the travis build so it recognizes the new hub
+~~~~~~~~~~~~
+
+Next, you need to update  Travis (CI) instructions to test and
+automatically deploy the new hub. In the root directory of the hub-ops repo, look
+for the file: :code:`.travis.yml` Add a new step to the :code:`script` section
+AFTER all of the other listed hubs, but before the documentation step:
 
 .. code-block:: yaml
 
     - |
       # Build <HUBNAME
       python ./deploy.py --no-setup --build <HUBNAME>
-
-Add the above snippet after all other hubs, but before the documentation step.
 
 You also need to add your hub to the :code:`before_deploy` section of the same
 file:
@@ -88,7 +106,10 @@ file:
       # Stage 3, Step XXX: Deploy the <HUBNAME>
       python ./deploy.py --build --push --deploy <HUBNAME>
 
-And finally you need to list your :code:`<HUBNAME>` as a valid chartname that
+Step four: Update the deploy.py file with the hub name
+~~~~~~~~~~~~
+
+Finally you need to list your :code:`<HUBNAME>` as a valid chartname that
 :code:`deploy.py` recognises by editing permitted values of the :code:`chartname`
 argument:
 
@@ -126,19 +147,47 @@ So think about what you are doing and wait
 for a quiet moment. A few extra days of paying for storage is going to be a lot
 cheaper than trying to recreate data or code you deleted by accident.
 
-The first step in removing a hub is to turn it off. To do this edit :code:`.travis.yml`
-to remove the commands like :code:`python ./deploy.py --build --push --deploy <hubname>`
-that are in charge of deploying your hub. There should be two commands for your
-hub that look similar. One in the :code:`script` section and one in the :code:`before_deploy`
-section. Remove both of them, create a PR, and merge that PR. Wait for travis
+
+Step one: Turn off your hub autobuild / update
+~~~~~~~~~~~~
+
+The first step in removing a hub is to turn it off. To do this
+
+1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
+2. Remove the commands listed below
+
+In the :code:`scripts` section remove:
+
+.. code-block:: yaml
+    - |
+      # Build bootcamp-hub
+      python ./deploy.py --no-setup --build bootcamp-hub
+
+In the :before_deploy:`scripts` section remove:
+.. code-block:: yaml
+      - |
+        # Stage 3, Step 2: Deploy the earthhub
+        python ./deploy.py --build --push --deploy bootcamp-hub
+
+These two sections deploy your hub. There should be two commands for your
+hub that look similar. Once you have removed these sections, create a pull request
+in github. Merge that PR. Wait for travis
 to deploy your changes before moving on.
 
 If you check your hub should still be running at this point. This is because all
 we have done so far is tell travis to not deploy new changes for this hub.
 
-The second step is to uninstall the helm release. This will actually shutdown
-your hub. You will have to run this command on your local machine. Check you
-have :code:`kubectl` and :code:`helm` installed and configured. One way to check this is to
+
+Step two: Uninstall the helm release
+~~~~~~~~~~~~
+
+The second step is to uninstall the helm release to shutdown
+your hub. You will need :code:`kubectl` and :code:`helm` installed and configured
+on your local machine to perform this step.
+
+To check for the installation
+
+One way to check this is to
 run :code:`kubectl get pods --namespace=<hubname>`. This should show that there are
 two pods running::
 
