@@ -81,7 +81,7 @@ Step two: Setup authentication
 ~~~~~~~~~~~~
 Next decide how you'd like to authenticate your hub. You can use Github,
 Google or a "hash" based authenticator. Read more about that here
-`Read more about that here <https://earthlab-hub-ops.readthedocs.io/en/latest/>`_
+`Read more about that here <https://earthlab-hub-ops.readthedocs.io/en/latest/authentication.html>`_
 
 Step three: Update the travis build so it recognizes the new hub
 ~~~~~~~~~~~~
