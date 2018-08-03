@@ -21,12 +21,10 @@ script:
   python ./deploy.py --no-setup --build earthhub
 - |
   # Build bootcamp-hub
-  python ./deploy.py --no-setup --build bootcamp-hub
+  #python ./deploy.py --no-setup --build bootcamp-hub
 - |
   # Build documentation
-  pushd docs
-  make html
-  popd
+  pushd docs && make html && popd
 
 # We are using before_deploy instead of script or deploy
 # since before_deploy gives us nice, folded log views,
@@ -69,8 +67,8 @@ before_deploy:
   # Stage 3, Step 2: Deploy the earthhub
   python ./deploy.py --build --push --deploy earthhub
 - |
-  # Stage 3, Step 3: Deploy the earthhub
-  python ./deploy.py --build --push --deploy bootcamp-hub
+  # Stage 3, Step 3: Deploy the bootcamp-hub
+  #python ./deploy.py --build --push --deploy bootcamp-hub
 - |
   # Stage 3, Step 4: Deploy monitoring of the hubs
   python ./deploy.py --deploy monitoring
