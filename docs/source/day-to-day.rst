@@ -60,7 +60,7 @@ where you configure your hub. Check the
 for ideas on what you might want to configure.
 
 Step one: Create a new hub directory
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To begin your hub creation, first create a new directory with the name that you'd
 like your hub to have. The hub name should end with the word :code:`hub`.
@@ -73,18 +73,19 @@ part of the hub URL, so pick a name wisely!
 Example:
 
 .. code-block:: yaml
+
     jupyterhub:
       hub:
         baseUrl: /yourhubname-hub/
 
 Step two: Setup authentication
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Next decide how you'd like to authenticate your hub. You can use Github,
 Google or a "hash" based authenticator. Read more about that here
 `Read more about that here <https://earthlab-hub-ops.readthedocs.io/en/latest/>`_
 
 Step three: Update the travis build so it recognizes the new hub
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Next, you need to update  Travis (CI) instructions to test and
 automatically deploy the new hub. In the root directory of the hub-ops repo, look
@@ -107,7 +108,7 @@ file:
       python ./deploy.py --build --push --deploy <HUBNAME>
 
 Step four: Update the deploy.py file with the hub name
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Finally you need to list your :code:`<HUBNAME>` as a valid chartname that
 :code:`deploy.py` recognises by editing permitted values of the :code:`chartname`
@@ -149,7 +150,7 @@ cheaper than trying to recreate data or code you deleted by accident.
 
 
 Step one: Turn off your hub autobuild / update
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first step in removing a hub is to turn it off. To do this
 
@@ -159,12 +160,15 @@ The first step in removing a hub is to turn it off. To do this
 In the :code:`scripts` section remove:
 
 .. code-block:: yaml
+
     - |
       # Build bootcamp-hub
       python ./deploy.py --no-setup --build bootcamp-hub
 
-In the :before_deploy:`scripts` section remove:
+In the :code:`before_deploy` section remove:
+
 .. code-block:: yaml
+
       - |
         # Stage 3, Step 2: Deploy the earthhub
         python ./deploy.py --build --push --deploy bootcamp-hub
@@ -179,7 +183,7 @@ we have done so far is tell travis to not deploy new changes for this hub.
 
 
 Step two: Uninstall the helm release
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The second step is to uninstall the helm release to shutdown
 your hub. You will need :code:`kubectl` and :code:`helm` installed and configured
