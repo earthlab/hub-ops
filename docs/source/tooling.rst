@@ -25,6 +25,10 @@ the terminal, enter:
 
         gcloud components install kubectl
 
+IMPORTANT: you must close and reopen the terminal after installing gcloud
+command line tool for it to recognize the gcloud command that you need to install
+kubernetes locally.
+
 
 .. _helm:
 
@@ -44,8 +48,9 @@ exist if you prefer to install without using the script.
 Verify helm
 ~~~~~~~~~~~
 
-You can verify that you have the correct version and that helm installed
-properly by running:
+Once you have installed help, close and reopen your terminal window for it to
+be properly recognized. Then, you can verify that you have the correct version
+and that helm installed properly by running:
 
     .. code:: bash
 
