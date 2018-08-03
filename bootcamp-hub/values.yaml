@@ -5,16 +5,6 @@ jupyterhub:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /bootcamp-hub/hub/metrics
-    extraConfig:
-      auth: |
-        c.JupyterHub.authenticator_class = 'hashauthenticator.HashAuthenticator'
-      admin: |
-        c.Authenticator.admin_users = {'leah-admin', 'tim-admin'}
-        c.JupyterHub.admin_access = True
-    image:
-      # tag will be set by travis on deployment
-      name: earthlabhubops/ea-k8s-hub-bootcamp-hub
-      tag: set-on-deployment
   singleuser:
     image:
       # tag will be set by travis on deployment
