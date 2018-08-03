@@ -5,6 +5,12 @@ jupyterhub:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /bootcamp-hub/hub/metrics
+    extraConfig:
+      auth: |
+        c.JupyterHub.authenticator_class = 'hashauthenticator.HashAuthenticator'
+      admin: |
+        c.Authenticator.admin_users = {'lwasser', 'jlpalomino ', 'betatim'}
+        c.JupyterHub.admin_access = True
   singleuser:
     image:
       # tag will be set by travis on deployment
@@ -41,6 +47,10 @@ jupyterhub:
         hosts:
           - hub.earthdatascience.org
   auth:
+    whitelist:
+      users:
+        - earth.lab
+        - jenp0277
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/bootcamp-hub/hub/oauth_callback"
