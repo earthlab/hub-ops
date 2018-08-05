@@ -49,7 +49,7 @@ jupyterhub:
   auth:
     whitelist:
       users:
-        - earth.lab
+        - earth-lab
         - jenp0277
     type: github
     github:
