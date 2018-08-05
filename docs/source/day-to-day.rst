@@ -52,6 +52,36 @@ written using YAML that describe the state we want the hub to be in. After you
 create a new chart describing a hub configuration and merge it, travis will
 take care of making the real world correspond to your wishes.
 
+All the hub deployments are based on the `Zero to JupyterHub guide
+<http://zero-to-jupyterhub.readthedocs.io/>`_
+(`GitHub repository <https://github.com/jupyterhub/zero-to-jupyterhub-k8s>`_).
+The guide provides excellent advice on configuring your hub as well as a helm
+chart that we use. Each of the hubs here can use a different version of the
+Z2JH helm chart. This raises two questions: which version should I use and how
+do I find out what versions are available?
+
+All versions of the JupyterHub helm charts are available from `<https://jupyterhub.github.io/helm-chart/>`_.
+We are currently using a `development release <https://jupyterhub.github.io/helm-chart/#development-releases-jupyterhub>`_
+of the chart for msot hubs. The reason for this is that a lot of new features
+have been added but no new release has been made (should happen in August 2018).
+If you do not know better picking the latest development relase is a good choice.
+
+To change the version of the hub that you are using edit :code:`<hubname>/requirements.yaml`.
+The below snippet shows how to use :code:`v0.7-578b3a2`:
+
+.. code-block:: yaml
+
+    dependencies:
+    - name: jupyterhub
+      version: "v0.7-578b3a2"
+      repository: "https://jupyterhub.github.io/helm-chart"
+
+You can also inspect what version :code:`staginghub/requirements.yaml` is
+using. Unless there are security related fixes or bugs that hinder your use of
+a specific version of a chart the recommendation is to not update your chart
+version during a workshop. Over the course of a semester it might be worth
+upgrading to the latest version, but should mostly be avoided.
+
 Take a look at :code:`staginghub/` as an example chart to base yours on. A chart can
 describe anything from a simple to a very complex setup. We typically use them
 for low complexity things. The most important file is :code:`values.yaml` which is

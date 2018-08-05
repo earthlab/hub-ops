@@ -1,3 +1,5 @@
+.. _authentication:
+
 Authentication for your hub
 ===========================
 
@@ -20,7 +22,9 @@ GitHub account already.
 will not need to create a new account.
 
 `Hash authentication` is good for workshops with participants who might not
-have a UC Boulder account.
+have a UC Boulder account. The Hash authenticator is not part of the default
+JupyterHub setup we use, so you will have to create a :ref:`self-made-hub-image`.
+
 
 User whitelist and admin accounts
 ---------------------------------
@@ -163,7 +167,7 @@ with participants who do not have a UC Boulder account.
 
 To be able to use the hash authenticator you will need to have a custom image
 for your hub as the Hash authenticator package is not installed by default.
-See the :code:`hub-images/` subdirectory for how to create a custom image.
+You will have to create a :ref:`self-made-hub-image`.
 
 The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`:
 
