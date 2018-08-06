@@ -24,6 +24,89 @@ is happening keep an eye on the monitoring to see what happens when lots of
 people login at the same time.
 
 
+Operations
+----------
+
+This section contains commands and snippets that let you inspect the state of
+the cluster and perform tasks that are useful when things are broken.
+
+To perform these commands you need to have ``kubectl`` installed and setup
+on your local laptop (see :ref:`google-cloud` for details).
+
+
+Inspecting what is going on in the cluster
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see what is running on the cluser (and get a feeling for what is the normal
+state of affairs) run ``kubectl get pods --all-namespaces``. This will list all
+pods that are running, including service pods that we don't ever interact with.
+
+You should see at least two pods in each namespace that is associated to a hub.
+The namespace and hubname are the same, so ``staginghub`` lives in the
+``staginghub`` namespace.
+
+Pods in the ``kube-system``, ``monitoring`` and ``router`` namespaces are best
+left alone.
+
+Each hub specific namespace should contain at least two pods: ``hub-77fbd96bb-dh2b5``
+and ``proxy-6549f4fbc8-8zn67``. Everything after hub- and proxy- will change
+when you restart the hub or make configuration changes. The status of these
+two pods should be ``Running``.
+
+To see what a pod is printing to its terminal run ``kubectl logs <podname> --namespace <hubname>``.
+This will let you see errors or exceptions that happened.
+
+You can find out more about a pod by running ``kubectl describe pod <podname> --namespace <hubname>``.
+This will give you information on why a pod is not running or what it is up to
+while you are waiting for it to start running.
+
+When someone logs in to the hub and starts their server a new pod will appear in
+the namespace of the hub. The pod will be named ``jupyter-<username>``. You can
+inspect it with the usual ``kubectl`` commands.
+
+
+Known problems and solutions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There is a known problem in one of JupyterHub's components that means sometimes
+the hub misses that a user's pod has started and will keep that user waiting
+after they logged in. The symptoms of this are that there is a running pod for
+a user in the right namespace but the login process does not complete. In this
+case restart the hub by running ``kubectl delete pod hub-.... --namespace <hubname>``,
+replacing the ... in the hub name with the proper name of the hub pod. This should
+not interrupt currently active users and fixes a lot of things that can go wrong.
+
+
+Inspecting virtual machines
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To tell how many virtual machines (or nodes) are part of the cluster run
+``kubectl get nodes``. There should be at least one node with ``core-pool`` in
+its name running at all times. Once users login and start their servers new
+nodes will appear that have ``user-pool`` in their name. These nodes are
+automatically created and destroyed based on demand.
+
+You can learn about a node by running ``kubectl describe node <nodename>``.
+
+
+Scaling up cluster before a class/workshop
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Having a cluster that automatically scales up and down based on demand is great,
+but starting a new virtual machine takes a few minutes (~5-9minutes). This makes
+for a poor user experience when lots of users login at the start of a class or
+workshop. Luckily in this case we know when the herd is going to arrive and can
+scale up the cluster just before. To do this go to the admin panel of your hub
+``https://hub.earthdatascience.org/<hubname>/hub/admin`` and start the servers
+for a large fraction of your users. This will trigger the scale up event and if
+you do this about 15minutes before the start of a class your cluster should be
+big and ready when students login.
+
+One thing to keep in mind is that unused user servers will eventually be turned
+off again and the cluster will shrink down again. This means you can not scale
+up the cluster using this strategy many hours before class starts.
+
+
 Making changes to an existing hub
 ---------------------------------
 
@@ -51,6 +134,36 @@ Each hub is configured by a "helm chart". A chart is a set of configuration file
 written using YAML that describe the state we want the hub to be in. After you
 create a new chart describing a hub configuration and merge it, travis will
 take care of making the real world correspond to your wishes.
+
+All the hub deployments are based on the `Zero to JupyterHub guide
+<http://zero-to-jupyterhub.readthedocs.io/>`_
+(`GitHub repository <https://github.com/jupyterhub/zero-to-jupyterhub-k8s>`_).
+The guide provides excellent advice on configuring your hub as well as a helm
+chart that we use. Each of the hubs here can use a different version of the
+Z2JH helm chart. This raises two questions: which version should I use and how
+do I find out what versions are available?
+
+All versions of the JupyterHub helm charts are available from `<https://jupyterhub.github.io/helm-chart/>`_.
+We are currently using a `development release <https://jupyterhub.github.io/helm-chart/#development-releases-jupyterhub>`_
+of the chart for msot hubs. The reason for this is that a lot of new features
+have been added but no new release has been made (should happen in August 2018).
+If you do not know better picking the latest development relase is a good choice.
+
+To change the version of the hub that you are using edit :code:`<hubname>/requirements.yaml`.
+The below snippet shows how to use :code:`v0.7-578b3a2`:
+
+.. code-block:: yaml
+
+    dependencies:
+    - name: jupyterhub
+      version: "v0.7-578b3a2"
+      repository: "https://jupyterhub.github.io/helm-chart"
+
+You can also inspect what version :code:`staginghub/requirements.yaml` is
+using. Unless there are security related fixes or bugs that hinder your use of
+a specific version of a chart the recommendation is to not update your chart
+version during a workshop. Over the course of a semester it might be worth
+upgrading to the latest version, but should mostly be avoided.
 
 Take a look at :code:`staginghub/` as an example chart to base yours on. A chart can
 describe anything from a simple to a very complex setup. We typically use them
