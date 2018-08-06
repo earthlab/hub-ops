@@ -41,12 +41,12 @@ jupyterhub:
         hosts:
           - hub.earthdatascience.org
   auth:
-    whitelist:
-      users:
-        - earth-lab
-        - jenp0277
-        - betatim
-        - lwasser
+  #  whitelist:
+  #    users:
+  #      - earth-lab
+  #      - jenp0277
+  #      - betatim
+  #      - lwasser
     admin:
       access: true
       users:
@@ -55,7 +55,7 @@ jupyterhub:
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/bootcamp-hub/hub/oauth_callback"
-      org_whitelist:
-        - "earthlab-education"
+  #    org_whitelist:
+  #      - "earthlab-education"
     scopes:
       - "read:user"
