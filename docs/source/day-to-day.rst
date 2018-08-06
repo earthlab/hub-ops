@@ -71,7 +71,8 @@ not interrupt currently active users and fixes a lot of things that can go wrong
 To tell how many virtual machines (or nodes) are part of the cluster run
 ``kubectl get nodes``. There should be at least one node with ``core-pool`` in
 its name running at all times. Once users login and start their servers new
-nodes will appear that have ``user-pool`` in their name.
+nodes will appear that have ``user-pool`` in their name. These nodes are
+automatically created and destroyed based on demand.
 
 
 Making changes to an existing hub
