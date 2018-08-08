@@ -24,7 +24,7 @@ install:
 script:
 - |
   # Build staginghub
-  python ./deploy.py --no-setup --build staginghub
+  python ./deploy.py --no-setup --build --local-deploy staginghub
 - |
   # Build earthhub
   python ./deploy.py --no-setup --build ea-hub

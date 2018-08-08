@@ -1,8 +1,6 @@
 #!/bin/bash
 set -ex
 
-echo $PATH
-
 # install nsenter if missing (needed by kube on trusty)
 if ! which nsenter; then
   curl -L https://github.com/minrk/git-crypt-bin/releases/download/trusty/nsenter > nsenter

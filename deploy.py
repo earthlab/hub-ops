@@ -181,7 +181,7 @@ def build_user_image(hubname, commit_range, push=False):
     return image_spec
 
 
-def deploy(chartname):
+def deploy(chartname, local=False):
     # monitoring chart isn't in the hub-charts directory
     if chartname != 'monitoring':
         chart_dir = os.path.join('hub-charts', chartname)
@@ -211,6 +211,9 @@ def deploy(chartname):
         print("Using", image_spec, "as hub image for", chartname)
         extra_args.extend(['--set',
                            'jupyterhub.hub.image.tag={}'.format(tag)])
+
+    if local:
+        extra_args.extend(['-f', 'minikube-config.yaml'])
 
     helm('dep', 'up', cwd=chart_dir)
 
@@ -265,6 +268,11 @@ def main():
         action='store_true',
     )
     argparser.add_argument(
+        '--local-deploy',
+        help='Deploy chart to local minikube',
+        action='store_true',
+    )
+    argparser.add_argument(
         'chartname',
         help="Select which chart to deploy",
         choices=['staginghub', 'ea-hub', 'wshub', 'bootcamp-hub', 'monitoring']
@@ -282,8 +290,8 @@ def main():
         build_user_image(args.chartname, commit_range, push=args.push)
         build_hub_image(args.chartname, commit_range, push=args.push)
 
-    if args.deploy:
-        deploy(args.chartname)
+    if args.deploy or args.local_deploy:
+        deploy(args.chartname, local=args.local_deploy)
 
 
 if __name__ == '__main__':
