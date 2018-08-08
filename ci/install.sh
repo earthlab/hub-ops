@@ -1,9 +1,6 @@
 #!/bin/bash
 set -ex
 
-mkdir -p bin
-export PATH="$PWD/bin:$PATH"
-
 # install nsenter if missing (needed by kube on trusty)
 if ! which nsenter; then
   curl -L https://github.com/minrk/git-crypt-bin/releases/download/trusty/nsenter > nsenter
@@ -17,15 +14,15 @@ fi
 echo "installing kubectl"
 curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.10.0/bin/linux/amd64/kubectl
 chmod +x kubectl
-mv kubectl bin/
+mv kubectl $HOME/bin/
 
 echo "installing minikube"
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.0/minikube-linux-amd64
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.2/minikube-linux-amd64
 chmod +x minikube
-mv minikube bin/
+mv minikube $HOME/bin/
 
 echo "starting minikube with RBAC"
-sudo CHANGE_MINIKUBE_NONE_USER=true $PWD/bin/minikube start --vm-driver=none --kubernetes-version=v1.10.0--extra-config=apiserver.Authorization.Mode=RBAC --bootstrapper=localkube
+sudo CHANGE_MINIKUBE_NONE_USER=true $HOME/bin/minikube start --vm-driver=none --kubernetes-version=v1.10.0--extra-config=apiserver.Authorization.Mode=RBAC --bootstrapper=localkube
 minikube update-context
 
 echo "waiting for kubernetes"
@@ -37,8 +34,8 @@ kubectl get nodes
 
 echo "installing helm"
 curl -ssL https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz \
-  | tar -xz -C bin --strip-components 1 linux-amd64/helm
-chmod +x bin/helm
+  | tar -xz -C $HOME/bin --strip-components 1 linux-amd64/helm
+chmod +x $HOME/bin/helm
 
 kubectl --namespace kube-system create sa tiller
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
