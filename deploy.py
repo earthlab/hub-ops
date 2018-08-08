@@ -57,6 +57,9 @@ def setup_helm():
         '--namespace', 'kube-system',
         '--watch', 'deployment', 'tiller-deploy',
     ])
+    helm(
+      'repo', 'add', 'jupyterhub', 'https://jupyterhub.github.io/helm-chart/'
+    )
 
 
 def setup_docker():
@@ -291,6 +294,7 @@ def main():
         build_hub_image(args.chartname, commit_range, push=args.push)
 
     if args.deploy or args.local_deploy:
+        setup_helm()
         deploy(args.chartname, local=args.local_deploy)
 
 
