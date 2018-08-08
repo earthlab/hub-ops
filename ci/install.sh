@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ex
 
+echo $PATH
+
 # install nsenter if missing (needed by kube on trusty)
 if ! which nsenter; then
   curl -L https://github.com/minrk/git-crypt-bin/releases/download/trusty/nsenter > nsenter
@@ -15,6 +17,7 @@ echo "installing kubectl"
 curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.10.0/bin/linux/amd64/kubectl
 chmod +x kubectl
 mv kubectl $HOME/bin/
+which kubectl
 
 echo "installing minikube"
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.2/minikube-linux-amd64
@@ -22,7 +25,7 @@ chmod +x minikube
 mv minikube $HOME/bin/
 
 echo "starting minikube with RBAC"
-sudo CHANGE_MINIKUBE_NONE_USER=true $HOME/bin/minikube start --vm-driver=none --kubernetes-version=v1.10.0--extra-config=apiserver.Authorization.Mode=RBAC --bootstrapper=localkube
+sudo CHANGE_MINIKUBE_NONE_USER=true $HOME/bin/minikube start --vm-driver=none --kubernetes-version=v1.10.0 --extra-config=apiserver.Authorization.Mode=RBAC --bootstrapper=localkube
 minikube update-context
 
 echo "waiting for kubernetes"
