@@ -41,12 +41,32 @@ jupyterhub:
         hosts:
           - hub.earthdatascience.org
   auth:
-  #  whitelist:
-  #    users:
-  #      - earth-lab
-  #      - jenp0277
-  #      - betatim
-  #      - lwasser
+    whitelist:
+      users:
+        - earth-lab
+        - jenp0277
+        - betatim
+        - lwasser
+        - MeganRMBrown
+        - emilyfairfax
+        - Dinobabe
+        - Emlo9916
+        - kspivey
+        - Dustinrapp
+        - EricOropezaelwood
+        - windnage
+        - Hydrometeor
+        - Mlevis1
+        - Olympiantwelve
+        - katysill
+        - Xennial23
+        - Hdumke
+        - Shwh2628
+        - Wien4134
+        - Mikedorfmann
+        - Yojihigh
+        - Jeje1140
+        - Allister-carter0
     admin:
       access: true
       users:
