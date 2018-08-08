@@ -1,5 +1,8 @@
-# hub-ops
-Infrastructure and operations for the Earthlab JupyterHubs.
+[![DOI](https://zenodo.org/badge/136452806.svg)](https://zenodo.org/badge/latestdoi/136452806)
+
+# Multiple Hub Deployment for Earth Lab JupyterHubs | hub-ops
+
+Infrastructure and operations for the Earth Lab JupyterHubs.
 
 Deployment status: [![Build Status](https://travis-ci.org/earthlab/hub-ops.svg?branch=master)](https://travis-ci.org/earthlab/hub-ops)
 Documentation status: [![Docs Status](https://readthedocs.org/projects/earthlab-hub-ops/badge/?version=latest)](https://readthedocs.org/projects/earthlab-hub-ops/builds/)
