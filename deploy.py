@@ -217,6 +217,11 @@ def deploy(chartname, local=False):
 
     if local:
         extra_args.extend(['-f', 'minikube-config.yaml'])
+    else:
+        # secrets are not needed and not available for local deployments
+        # which happen for every PR. Travis can only see them when merging
+        extra_args.extend(['-f',
+                           os.path.join('secrets', f'{chartname}.yaml')])
 
     helm('dep', 'up', cwd=chart_dir)
 
@@ -227,7 +232,6 @@ def deploy(chartname, local=False):
                     '--force',
                     '--wait',
                     '--timeout', '600',
-                    '-f', os.path.join('secrets', f'{chartname}.yaml')
                     ]
     install_args += extra_args
     helm(*install_args)
