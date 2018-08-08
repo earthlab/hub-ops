@@ -3,6 +3,12 @@ language: python
 python:
 - 3.6
 
+# checkout all of the history, not just last 50 commits
+# needed to help us work out the correct docker tags for
+# things that haven't changed in a long time
+git:
+  depth: false
+
 services:
 - docker
 
