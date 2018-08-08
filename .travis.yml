@@ -18,6 +18,9 @@ install:
 - |
   # Stage 1: Install pytest + test dependencies
   pip install -U pyyaml pytest requests sphinx sphinx-autobuild
+- |
+  # Stage 2: install minikube and co
+  ./ci/install.sh
 script:
 - |
   # Build staginghub
@@ -39,15 +42,6 @@ before_deploy:
 - |
   # Stage 1: Install gcloud SDK
   curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-173.0.0-linux-x86_64.tar.gz | tar --directory ${HOME} --extract --gzip --file -
-- |
-  # Stage 1: Install Kubectl
-  mkdir -p ${HOME}/bin
-  curl -L https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/linux/amd64/kubectl > ${HOME}/bin/kubectl
-  chmod +x ${HOME}/bin/kubectl
-- |
-  # Stage 1: Install helm
-  curl -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz | tar --directory ${HOME} --extract --gzip --file -
-  mv ${HOME}/linux-amd64/helm ${HOME}/bin/helm
 - |
   # Stage 1: Install git-crypt
   curl -L https://github.com/minrk/git-crypt-bin/releases/download/0.5.0/git-crypt > git-crypt
