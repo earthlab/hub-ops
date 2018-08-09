@@ -24,5 +24,5 @@ To remove the big pods: `kubectl delete deployment cluster-scale-deployment --na
 after the class/workshop/event is over as they consume nearly no resources.
 After the envet is over you want to delete them again to allow the cluster to
 shrink again, use: `kubectl delete deployment cluster-pin-deployment --namespace=bootcamp-hub`
-to do so. After about 10-15minutes nodes that are not needed anymore should
+to do so. After about 30minutes nodes that are not needed anymore should
 start being removed.
