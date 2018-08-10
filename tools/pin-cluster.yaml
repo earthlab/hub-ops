@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-pin-deployment
+  namespace: bootcamp-hub
+  labels:
+    app: cluster-pin
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cluster-pin
+  template:
+    metadata:
+      labels:
+        app: cluster-pin
+    spec:
+      nodeSelector:
+        earthlab.org/pool-type: user
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - cluster-pin
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: cluster-pin
+        image: earthlabhubops/ea-k8s-user-bootcamp-hub:fb2482f
+        resources:
+          limits:
+            cpu: "1m"
+          requests:
+            cpu: "1m"

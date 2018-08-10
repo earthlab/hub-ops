@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-scale-deployment
+  namespace: bootcamp-hub
+  labels:
+    app: cluster-scaler
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cluster-scaler
+  template:
+    metadata:
+      labels:
+        app: cluster-scaler
+    spec:
+      nodeSelector:
+        earthlab.org/pool-type: user
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - cluster-scaler
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: cluster-scaler
+        image: earthlabhubops/ea-k8s-user-bootcamp-hub:fb2482f
+        resources:
+          limits:
+            cpu: "5"
+          requests:
+            cpu: "5"
