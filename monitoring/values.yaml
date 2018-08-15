@@ -9,6 +9,8 @@ prometheus:
   rbac:
     create: true
   server:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     ingress:
       enabled: true
       hosts:
@@ -32,6 +34,8 @@ prometheus:
     retention: 30d
 
 grafana:
+  nodeSelector:
+    cloud.google.com/gke-nodepool: core-pool
   ingress:
     hosts:
       - grafana.hub.earthdatascience.org

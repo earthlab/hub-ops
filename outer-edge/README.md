@@ -1,6 +1,6 @@
 # Routing to individual hubs
 
-🚧 setup, chart and notes are all still under ehavy construction 🚧
+🚧 setup, chart and notes are all still under heavy construction 🚧
 🚧 The chart doesn't work, check the individual commands in the developer notes section 🚧
 
 This chart is responsible for the nginx-ingress and HTTPs certificates. We use
