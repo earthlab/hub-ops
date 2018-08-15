@@ -5,6 +5,13 @@ jupyterhub:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
       prometheus.io/path: /bootcamp-hub/hub/metrics
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
   singleuser:
     image:
       # tag will be set by travis on deployment
