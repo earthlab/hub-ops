@@ -1,10 +1,10 @@
 jupyterhub:
   hub:
-    baseUrl: /earthhub/
+    baseUrl: /ea-hub/
     annotations:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
-      prometheus.io/path: /earthhub/hub/metrics
+      prometheus.io/path: /ea-hub/hub/metrics
     resources:
       requests:
         cpu: 200m
@@ -15,14 +15,19 @@ jupyterhub:
   singleuser:
     image:
       # tag will be set by travis on deployment
-      name: earthlabhubops/ea-k8s-user-earthhub
+      name: earthlabhubops/ea-k8s-user-ea-hub
       tag: set-on-deployment
+    # number of users on each n1-standard-8 node in the user pool should
+    # be driven by the amount of memory given to them, so we set the
+    # CPU guarantee quite low. 15 users with 2GB each should fill up a
+    # node. This corresponds to roughly 0.5 cores per user -> go a bit
+    # below that to be sure
     cpu:
-      guarantee: 1.
+      guarantee: 0.4
       limit: 2
     memory:
       guarantee: 2G
-      limit: 2G
+      limit: 4G
   proxy:
     service:
       type: ClusterIP
@@ -47,8 +52,11 @@ jupyterhub:
           - hub.earthdatascience.org
 
   auth:
-    type: google
-    google:
-      callbackUrl: "https://hub.earthdatascience.org/earthhub/hub/oauth_callback"
-      hostedDomain: "colorado.edu"
-      loginService: "Colorado University"
+    admin:
+      access: true
+      users:
+        - betatim
+        - lwasser
+    type: github
+    github:
+      callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
