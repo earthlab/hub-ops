@@ -1,5 +1,7 @@
 jupyterhub:
   hub:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     baseUrl: /wshub/
     annotations:
       prometheus.io/scrape: "true"
@@ -45,6 +47,8 @@ jupyterhub:
               rsync --ignore-existing -razv --progress /data/ /home/jovyan/earth-analytics/data;
               gitpuller https://github.com/earthlab-education/2018-07-20-spatial-python-workshop master notebooks;
   proxy:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     service:
       type: ClusterIP
     chp:

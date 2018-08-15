@@ -1,5 +1,7 @@
 jupyterhub:
   hub:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     baseUrl: /ea-hub/
     annotations:
       prometheus.io/scrape: "true"
@@ -29,6 +31,8 @@ jupyterhub:
       guarantee: 2G
       limit: 4G
   proxy:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     service:
       type: ClusterIP
     chp:

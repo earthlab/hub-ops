@@ -1,5 +1,7 @@
 jupyterhub:
   hub:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     baseUrl: /bootcamp-hub/
     annotations:
       prometheus.io/scrape: "true"
@@ -33,6 +35,8 @@ jupyterhub:
             - >
               gitpuller https://github.com/earthlab-education/ea-bootcamp-day-1 master notebooks;
   proxy:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     service:
       type: ClusterIP
     chp:

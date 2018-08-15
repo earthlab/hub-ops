@@ -1,5 +1,7 @@
 jupyterhub:
   hub:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     baseUrl: /staginghub/
     annotations:
       prometheus.io/scrape: "true"
@@ -25,6 +27,8 @@ jupyterhub:
       guarantee: 500M
       limit: 500M
   proxy:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: core-pool
     service:
       type: ClusterIP
     chp:
