@@ -1,10 +1,10 @@
 jupyterhub:
   hub:
-    baseUrl: /earthhub/
+    baseUrl: /ea-hub/
     annotations:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
-      prometheus.io/path: /earthhub/hub/metrics
+      prometheus.io/path: /ea-hub/hub/metrics
     resources:
       requests:
         cpu: 200m
@@ -15,14 +15,14 @@ jupyterhub:
   singleuser:
     image:
       # tag will be set by travis on deployment
-      name: earthlabhubops/ea-k8s-user-earthhub
+      name: earthlabhubops/ea-k8s-user-ea-hub
       tag: set-on-deployment
     cpu:
-      guarantee: 1.
+      guarantee: 1
       limit: 2
     memory:
       guarantee: 2G
-      limit: 2G
+      limit: 4G
   proxy:
     service:
       type: ClusterIP
@@ -47,8 +47,11 @@ jupyterhub:
           - hub.earthdatascience.org
 
   auth:
-    type: google
-    google:
-      callbackUrl: "https://hub.earthdatascience.org/earthhub/hub/oauth_callback"
-      hostedDomain: "colorado.edu"
-      loginService: "Colorado University"
+    admin:
+      access: true
+      users:
+        - betatim
+        - lwasser
+    type: github
+    github:
+      callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
