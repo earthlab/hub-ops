@@ -17,8 +17,13 @@ jupyterhub:
       # tag will be set by travis on deployment
       name: earthlabhubops/ea-k8s-user-ea-hub
       tag: set-on-deployment
+    # number of users on each n1-standard-8 node in the user pool should
+    # be driven by the amount of memory given to them, so we set the
+    # CPU guarantee quite low. 15 users with 2GB each should fill up a
+    # node. This corresponds to roughly 0.5 cores per user -> go a bit
+    # below that to be sure
     cpu:
-      guarantee: 1
+      guarantee: 0.4
       limit: 2
     memory:
       guarantee: 2G
