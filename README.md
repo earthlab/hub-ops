@@ -20,11 +20,13 @@ Visit https://grafana.hub.earthdatascience.org/ for monitoring of the hubs.
 ## Available hubs
 
 Hubs which are running:
-* The [main earthhub](https://hub.earthdatascience.org/earthhub/). This should
-  always be running. It is configured via the chart in `earthhub/`.
+* The [earth analytics course hub](https://hub.earthdatascience.org/ea-hub/).
+  It is configured via the chart in `hub-charts/ea-hub/`.
+* The [bootcamp hub](https://hub.earthdatascience.org/bootcamp-hub/).
+  It is configured via the chart in `hub-charts/bootcamp-hub/`.
 * The [test hub](https://hub.earthdatascience.org/staginghub/). This is a hub
-  for experimenting with. It is configured via the chart in `staginghub/`.
+  for experimenting with. It is configured via the chart in `hub-charts/staginghub/`.
 
 Hubs available for deployment (currently not running):
 * The [workshop hub](https://hub.earthdatascience.org/wshub/). It is configured
-  via the chart in `wshub/`. Used for a 45 person workshop with temporary logins.
+  via the chart in `hub-charts/wshub/`. Used for a 45 person workshop with temporary logins.
