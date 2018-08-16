@@ -11,10 +11,10 @@ Monitoring
 To get an overview of the health of the hubs and infrastructure visit the
 `Grafana page <https://grafana.hub.earthdatascience.org/>`_.
 
-The `Hub monitor` page lets you see how many pods are running, launch success
+The ``Hub monitor`` page lets you see how many pods are running, launch success
 rate, which users are using a lot of CPU, etc. For each hub separately.
 
-The `Node monitor` page contains information about each of the compute nodes
+The ``Node monitor`` page contains information about each of the compute nodes
 that are part of the cluster.
 
 The best way to use the monitoring is to watch it for a while when not a lot
@@ -37,7 +37,7 @@ on your local laptop (see :ref:`google-cloud` for details).
 Inspecting what is going on in the cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see what is running on the cluser (and get a feeling for what is the normal
+To see what is running on the cluster (and get a feeling for what is the normal
 state of affairs) run ``kubectl get pods --all-namespaces``. This will list all
 pods that are running, including service pods that we don't ever interact with.
 
@@ -72,7 +72,7 @@ There is a known problem in one of JupyterHub's components that means sometimes
 the hub misses that a user's pod has started and will keep that user waiting
 after they logged in. The symptoms of this are that there is a running pod for
 a user in the right namespace but the login process does not complete. In this
-case restart the hub by running ``kubectl delete pod hub-.... --namespace <hubname>``,
+case restart the offending hub by running ``kubectl delete pod hub-... --namespace <hubname>``,
 replacing the ... in the hub name with the proper name of the hub pod. This should
 not interrupt currently active users and fixes a lot of things that can go wrong.
 
@@ -114,7 +114,7 @@ To make changes to an existing hub:
 
 * fork https://github.com/earthlab/hub-ops
 * in your fork create a new branch
-* edit the hub's configuration in :code:`<nameofthehub>/values.yaml`
+* edit the hub's configuration in :code:`hub-charts/<nameofthehub>/values.yaml`
 * commit the change and make a PR
 * fix any errors travis finds
 * once you merge the PR travis will start deploying your changes
@@ -145,11 +145,11 @@ do I find out what versions are available?
 
 All versions of the JupyterHub helm charts are available from `<https://jupyterhub.github.io/helm-chart/>`_.
 We are currently using a `development release <https://jupyterhub.github.io/helm-chart/#development-releases-jupyterhub>`_
-of the chart for msot hubs. The reason for this is that a lot of new features
+of the chart for most hubs. The reason for this is that a lot of new features
 have been added but no new release has been made (should happen in August 2018).
-If you do not know better picking the latest development relase is a good choice.
+If you do not know better picking the latest development release is a good choice.
 
-To change the version of the hub that you are using edit :code:`<hubname>/requirements.yaml`.
+To change the version of the hub that you are using edit :code:`hub-charts/<hubname>/requirements.yaml`.
 The below snippet shows how to use :code:`v0.7-578b3a2`:
 
 .. code-block:: yaml
@@ -159,7 +159,7 @@ The below snippet shows how to use :code:`v0.7-578b3a2`:
       version: "v0.7-578b3a2"
       repository: "https://jupyterhub.github.io/helm-chart"
 
-You can also inspect what version :code:`staginghub/requirements.yaml` is
+You can also inspect what version :code:`hub-charts/staginghub/requirements.yaml` is
 using. Unless there are security related fixes or bugs that hinder your use of
 a specific version of a chart the recommendation is to not update your chart
 version during a workshop. Over the course of a semester it might be worth
@@ -175,12 +175,13 @@ for ideas on what you might want to configure.
 Step one: Create a new hub directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To begin your hub creation, first create a new directory with the name that you'd
-like your hub to have. The hub name should end with the word :code:`hub`.
+To begin your hub creation, first create a new directory in ``hub-charts/``
+with the name that you'd like your hub to have. The hub name should end with
+the word :code:`hub`.
 
 You need to edit
 :code:`jupyterhub.hub.baseUrl` in your :code:`values.yaml` and set it to the same name
-as the directory (we will use :code:`<hubname>`). The hub name will become a
+as the directory (we will use :code:`yourhubname-hub`). The hub name will become a
 part of the hub URL, so pick a name wisely!
 
 Example:
@@ -194,8 +195,8 @@ Example:
 Step two: Setup authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Next decide how you'd like to authenticate your hub. You can use Github,
-Google or a "hash" based authenticator. Read more about that here
-`Read more about that here <https://earthlab-hub-ops.readthedocs.io/en/latest/authentication.html>`_
+Google or a "hash" based authenticator.
+Read more about :ref:`authentication`.
 
 Step three: Update the travis build so it recognizes the new hub
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

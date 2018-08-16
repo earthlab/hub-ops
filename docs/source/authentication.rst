@@ -95,7 +95,7 @@ An example of what to add to your secrets file:
           clientId: "5636ad98ccccbbbbaaaa"
           clientSecret: "3683566baaaabbbbccccxxxxff1ba7198a3022be"
 
-The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`:
+The public part of the configuration has to be done in :code:`hub-charts/<NAMEOFYOURHUB>/values.yaml`:
 
 .. code-block:: yaml
 
@@ -143,7 +143,7 @@ An example of what to add to your secrets file:
           clientId: "12345678988-abcdabcdat331tvltueu44elt98rb54f.apps.googleusercontent.com"
           clientSecret: "abcabcabcababcabcabc-abc"
 
-The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`:
+The public part of the configuration has to be done in :code:`hub-charts/<NAMEOFYOURHUB>/values.yaml`:
 
 .. code-block:: yaml
 
@@ -169,7 +169,7 @@ To be able to use the hash authenticator you will need to have a custom image
 for your hub as the Hash authenticator package is not installed by default.
 You will have to create a :ref:`self-made-hub-image`.
 
-The public part of the configuration has to be done in :code:`<NAMEOFYOURHUB>/values.yaml`:
+The public part of the configuration has to be done in :code:`hub-charts/<NAMEOFYOURHUB>/values.yaml`:
 
 .. code-block:: yaml
 

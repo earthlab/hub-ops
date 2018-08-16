@@ -1,10 +1,12 @@
 One time setup instructions
 ===========================
 
-These are instructions for setting up from scratch and recreate the setup
-that is assumed in all other parts of this documentation.
+These are instructions for setting up completely from scratch and recreating
+the setup that is assumed in all other parts of this documentation.
 
-You should not need the instructions in this section very often.
+You should not need the instructions in this section very often. They are only
+needed when you want to setup a new ``hub-ops`` setup or there was some
+catastrophic accident with the existing Google project.
 
 A good guide, maintained by the JupyterHub team on how to setup a single
 JupyterHub from zero is: `<https://zero-to-jupyterhub.readthedocs.io/en/latest/index.html>`_
@@ -115,13 +117,13 @@ We deviate a little from the guide in that we provide our own helm charts to
 manage each JupyterHub deployment. In addition we deploy lots of support
 infrastructure for monitoring, grading and the like.
 The main thing to look out for is that when the z2jh guide asks you to edit
-`config.yaml` you should instead edit `<hubname>/values.yaml`.
+``config.yaml`` you should instead edit ``hub-charts/<hubname>/values.yaml``.
 
 .. note::
 
     You will need to obtain the key to decrypt :code:`secrets/` somehow.
     Ask Tim Head or Leah Wasser.
 
-After this follow the instructions in `outer-edge/READMEmd` to setup the
+After this follow the instructions in ``outer-edge/README.md`` to setup the
 HTTP server that will route traffic to your hub. Without this your hub will not
 be reachable from the internet.
