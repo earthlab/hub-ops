@@ -20,7 +20,7 @@ to get an idea of how the images relate to each other and what is installed
 in each.
 
 To configure your hub to use the `datascience-notebook <https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-datascience-notebook>`_
-image edit your :code:`<hubname>/values.yaml` and add the following snippet:
+image edit your :code:`hub-charts/<hubname>/values.yaml` and add the following snippet:
 
 .. code-block:: yaml
 
@@ -57,7 +57,7 @@ rebuilding when you need to follow this naming convention.
 
 Below an example of a minimally modified earth-analytics-python-env
 docker image. It picks a specific tag of the earth-analytics-python-env and
-then installs JupyterHub version 0.9.0. It also installs the `nbzip <https://github.com/data-8/nbzip>`_
+then installs JupyterHub version 0.9.2. It also installs the `nbzip <https://github.com/data-8/nbzip>`_
 notebook extension that lets students download the contents of their JupyterHub
 home directories as a ZIP file to their local machine. The three commands that
 install and enable the extension are typical for notebook extensions.
@@ -67,7 +67,7 @@ install and enable the extension are typical for notebook extensions.
     FROM earthlab/earth-analytics-python-env:41ae80f
 
     RUN pip install --no-cache --upgrade --upgrade-strategy only-if-needed \
-      jupyterhub==0.9.0 nbzip==0.0.4
+      jupyterhub==0.9.2 nbzip==0.1.0
 
     RUN jupyter serverextension enable --py nbzip --sys-prefix
     RUN jupyter nbextension install --py nbzip --sys-prefix
@@ -148,7 +148,7 @@ The :code:`lifecycleHooks` entry in the :code:`values.yaml` of your hub give
 you the option to run commands when a user's pod starts. You can place any
 command here. Keep in mind that the user can start interacting with their pod
 already before these commands complete. This means you want commands in this
-section to runreasonably quickly. Otherwise users might be confused or interfere
+section to run reasonably quickly. Otherwise users might be confused or interfere
 with the commands here.
 
 The above snippet does two things: it makes sure that the :code:`earth-analytics/data`

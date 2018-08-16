@@ -182,6 +182,7 @@ def build_user_image(hubname, commit_range, push=False):
 
 
 def deploy(chartname):
+    chart_dir = os.path.join('hub-charts', chartname)
     extra_args = []
 
     # Check for a custom singleuser image
@@ -207,12 +208,12 @@ def deploy(chartname):
         extra_args.extend(['--set',
                            'jupyterhub.hub.image.tag={}'.format(tag)])
 
-    helm('dep', 'up', cwd=chartname)
+    helm('dep', 'up', cwd=chart_dir)
 
     install_args = ['upgrade', '--install',
                     '--namespace', chartname,
                     chartname,
-                    chartname,
+                    chart_dir,
                     '--force',
                     '--wait',
                     '--timeout', '600',
