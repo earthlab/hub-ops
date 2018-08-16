@@ -182,7 +182,11 @@ def build_user_image(hubname, commit_range, push=False):
 
 
 def deploy(chartname):
-    chart_dir = os.path.join('hub-charts', chartname)
+    # monitoring chart isn't in the hub-charts directory
+    if chartname != 'monitoring':
+        chart_dir = os.path.join('hub-charts', chartname)
+    else:
+        chart_dir = chartname
     extra_args = []
 
     # Check for a custom singleuser image
