@@ -55,13 +55,17 @@ jupyterhub:
       - secretName: kubelego-tls-jupyterhub
         hosts:
           - hub.earthdatascience.org
-
+          
   auth:
     admin:
       access: true
       users:
         - betatim
         - lwasser
+    whitelist:
+      users:
+        - earth-lab
+        - jlpalomino
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
