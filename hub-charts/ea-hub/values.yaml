@@ -55,7 +55,7 @@ jupyterhub:
       - secretName: kubelego-tls-jupyterhub
         hosts:
           - hub.earthdatascience.org
-          
+
   auth:
     admin:
       access: true
@@ -66,6 +66,21 @@ jupyterhub:
       users:
         - earth-lab
         - jlpalomino
+        - mgraber
+        - nkorinek
+        - Xennial23
+        - mcosmos12
+        - windnage
+        - willskor
+        - ansp7112
+        - shwh2628
+        - mlevis1
+        - durphy1227
+        - mirob9363
+        - hdumke
+        - mcshanec
+        - katysill
+        - cstuart7
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
