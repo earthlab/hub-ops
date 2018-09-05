@@ -96,6 +96,7 @@ jupyterhub:
         - allister-carter0
         - tkarfs1
         - wwicherski
+        - jeje1140
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
