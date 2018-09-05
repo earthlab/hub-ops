@@ -37,7 +37,7 @@ jupyterhub:
             - "sh"
             - "-c"
             - >
-              https://github.com/earthlab-education/earth-analytics-fall-2018 master homework-templates;
+              gitpuller https://github.com/earthlab-education/earth-analytics-fall-2018 master homework-templates;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
