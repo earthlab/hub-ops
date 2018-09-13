@@ -14,17 +14,6 @@ jupyterhub:
       limits:
         cpu: 200m
         memory: 256Mi
-    lifecycleHooks:
-      postStart:
-        exec:
-          command:
-            - "sh"
-            - "-c"
-            - >
-# mkdir -p /home/jovyan/earth-analytics/data;
-# rsync --ignore-existing -razv --progress /data/ /home/jovyan/earth-analytics/data;
-              gitpuller https://github.com/earthlab-education/earth-analytics-fall-2018 master homework-templates;
-
   singleuser:
     image:
       # tag will be set by travis on deployment
@@ -41,6 +30,14 @@ jupyterhub:
     memory:
       guarantee: 2G
       limit: 4G
+    lifecycleHooks:
+      postStart:
+        exec:
+          command:
+            - "sh"
+            - "-c"
+            - >
+              gitpuller https://github.com/earthlab-education/earth-analytics-fall-2018 master homework-templates;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
@@ -99,6 +96,7 @@ jupyterhub:
         - allister-carter0
         - tkarfs1
         - wwicherski
+        - jeje1140
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
