@@ -1,4 +1,4 @@
-FROM earthlab/earth-analytics-python-env:e8cc47d
+FROM earthlab/earth-analytics-python-env:8ed39e9
 
 RUN pip install --no-cache --upgrade --upgrade-strategy only-if-needed \
   jupyterhub==0.9.2 \
