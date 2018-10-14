@@ -19,3 +19,9 @@ controller:
 config:
   LEGO_EMAIL: Leah.Wasser@colorado.edu
   LEGO_URL: https://acme-v01.api.letsencrypt.org/directory
+# the below is needed to set the right version of kube-lego
+# as 0.1.6 (the default for the chart) doesn't actually renew certificates
+# This commented out by default so that it doesn't interfer with nginx-ingress
+# configuration
+#image:
+#  tag: 0.1.7
