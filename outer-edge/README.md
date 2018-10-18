@@ -40,6 +40,11 @@ and installed kube-lego v0.4.2 via
 helm install --name lego --namespace router stable/kube-lego --set rbac.create=true --set config.LEGO_EMAIL=Leah.Wasser@colorado.edu --set config.LEGO_URL=https://acme-v01.api.letsencrypt.org/directory
 ```
 
+To update or change the configuration of kube-lego use:
+```
+helm upgrade --namespace router lego stable/kube-lego -f outer-edge/values.yaml --set rbac.create=true
+```
+
 Set IP address by hand, unsure why I needed this:
 ```
 kubectl patch svc --namespace router ingress-nginx-ingress-controller -p '{"spec": {"loadBalancerIP": "35.226.96.84"}}'
