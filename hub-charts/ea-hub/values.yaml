@@ -70,10 +70,10 @@ jupyterhub:
       users:
         - betatim
         - lwasser
+        - jlpalomino
     whitelist:
       users:
         - earth-lab
-        - jlpalomino
         - mgraber
         - windnage
         - shwh2628
