@@ -6,3 +6,4 @@ travis/crypt-key
 staginghub/charts/
 monitoring/charts/
 docs/build/
+hub-ops.gitcrypt.key
