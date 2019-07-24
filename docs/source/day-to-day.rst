@@ -271,7 +271,8 @@ The first step in removing a hub is to turn it off. To do this
 1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
 2. Remove the commands listed below
 
-In the :code:`scripts` section remove:
+For example, to remove a hub called `bootcamp-hun`, in the :code:`scripts`
+section remove:
 
 .. code-block:: yaml
 
