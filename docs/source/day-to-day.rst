@@ -271,7 +271,8 @@ The first step in removing a hub is to turn it off. To do this
 1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
 2. Remove the commands listed below
 
-In the :code:`scripts` section remove:
+For example, to remove a hub called `bootcamp-hun`, in the :code:`scripts`
+section remove:
 
 .. code-block:: yaml
 
@@ -332,7 +333,7 @@ similar to this::
 Depending on how many hubs are running there will be at least three releases
 deployed: :code:`ingress`, :code:`lego`, and :code:`monitoring`. These support
 all hubs and should never be removed. In the case shown above there are three
-hubs running: :code:`staginghub`, :code:`wshub` and :code:earthhub`.
+hubs running: :code:`staginghub`, :code:`wshub` and :code:`earthhub`.
 
 To delete the :code:`wshub` run :code:`helm delete wshub --purge`. If you now
 visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.

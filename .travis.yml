@@ -26,9 +26,6 @@ script:
   # Build earthhub
   python ./deploy.py --no-setup --build ea-hub
 - |
-  # Build bootcamp-hub
-  python ./deploy.py --no-setup --build bootcamp-hub
-- |
   # Build nbgrader-hub
   python ./deploy.py --no-setup --build nbgrader-hub
 - |
@@ -75,9 +72,6 @@ before_deploy:
 - |
   # Stage 3, Step 2: Deploy the earthhub
   python ./deploy.py --build --push --deploy ea-hub
-- |
-  # Stage 3, Step 3: Deploy the bootcamp-hub
-  python ./deploy.py --build --push --deploy bootcamp-hub
 - |
   # Stage 3, Step 4: Deploy the nbgrader-hub
   python ./deploy.py --build --push --deploy nbgrader-hub
