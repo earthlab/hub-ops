@@ -1,10 +1,26 @@
 # installing nbgrader and extensions on top of earthlab python env
-FROM earthlab/earth-analytics-python-env:41ae80f
+FROM earthlab/earth-analytics-python-env:eeb6a3b
 
-RUN pip install --no-cache --upgrade --upgrade-strategy only-if-needed \
-  jupyterhub==0.9.6 \
-  nbgrader==0.5.5
+RUN pip install --no-cache-dir --upgrade jupyterhub==1.0.0
+
+# install nbgrader from git to get not-yet-merged partial credit branch
+RUN pip install --upgrade \
+  git+https://github.com/kcranston/nbgrader.git@partial_credit
 
 RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite
 RUN jupyter nbextension enable --sys-prefix --py nbgrader
 RUN jupyter serverextension enable --sys-prefix --py nbgrader
+
+# then uninstall everything but the validate extension
+# disable create_assignment
+RUN jupyter nbextension disable --sys-prefix create_assignment/main
+
+# disable formgrader
+RUN jupyter nbextension disable --sys-prefix formgrader/main --section=tree
+RUN jupyter serverextension disable --sys-prefix \
+  nbgrader.server_extensions.formgrader
+
+# disable assignment_list
+RUN jupyter nbextension disable –sys-prefix assignment_list/main –section=tree
+RUN jupyter serverextension disable –sys-prefix \
+  nbgrader.server_extensions.assignment_list

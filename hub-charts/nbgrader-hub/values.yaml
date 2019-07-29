@@ -64,5 +64,6 @@ jupyterhub:
         - earth-lab
         - kcranston
         - lwasser
+        - jlpalomino
     github:
       callbackUrl: "https://hub.earthdatascience.org/nbgrader-hub/hub/oauth_callback"
