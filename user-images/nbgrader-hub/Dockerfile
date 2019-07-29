@@ -21,6 +21,6 @@ RUN jupyter serverextension disable --sys-prefix \
   nbgrader.server_extensions.formgrader
 
 # disable assignment_list
-RUN jupyter nbextension disable –-sys-prefix assignment_list/main –section=tree
-RUN jupyter serverextension disable –sys-prefix \
+RUN jupyter nbextension disable –-sys-prefix assignment_list/main –-section=tree
+RUN jupyter serverextension disable –-sys-prefix \
   nbgrader.server_extensions.assignment_list
