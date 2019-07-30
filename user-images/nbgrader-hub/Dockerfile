@@ -1,7 +1,8 @@
 # installing nbgrader and extensions on top of earthlab python env
 FROM earthlab/earth-analytics-python-env:eeb6a3b
 
-RUN pip install --no-cache-dir --upgrade jupyterhub==1.0.0
+# install jupyterhub from conda-forge
+RUN conda install -c conda-forge jupyterhub
 
 # install nbgrader from git to get not-yet-merged partial credit branch
 RUN pip install --upgrade \
