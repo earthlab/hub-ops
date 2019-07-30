@@ -71,6 +71,7 @@ jupyterhub:
         - betatim
         - lwasser
         - jlpalomino
+        - kcranston
     whitelist:
       users:
         - earth-lab
