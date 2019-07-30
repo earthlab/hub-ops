@@ -22,11 +22,14 @@ Visit https://grafana.hub.earthdatascience.org/ for monitoring of the hubs.
 Hubs which are running:
 * The [earth analytics course hub](https://hub.earthdatascience.org/ea-hub/).
   It is configured via the chart in `hub-charts/ea-hub/`.
-* The [bootcamp hub](https://hub.earthdatascience.org/bootcamp-hub/).
-  It is configured via the chart in `hub-charts/bootcamp-hub/`.
 * The [test hub](https://hub.earthdatascience.org/staginghub/). This is a hub
   for experimenting with. It is configured via the chart in `hub-charts/staginghub/`.
-
+* The [nbgrader hub](https://hub.earthdatascience.org/nbgrader-hub). This is a
+  hub that uses a development version of nbgrader while we wait for a PR to be
+  merged into the base repo. It is configured using  the chart in
+  `hub-charts/nbgrader-hub/`.
 Hubs available for deployment (currently not running):
 * The [workshop hub](https://hub.earthdatascience.org/wshub/). It is configured
   via the chart in `hub-charts/wshub/`. Used for a 45 person workshop with temporary logins.
+* The [bootcamp hub](https://hub.earthdatascience.org/bootcamp-hub/).
+    It is configured via the chart in `hub-charts/bootcamp-hub/`.
