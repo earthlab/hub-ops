@@ -3,7 +3,7 @@ FROM earthlab/earth-analytics-python-env:eeb6a3b
 
 # install jupyterhub from conda-forge and update jupyter_console
 RUN conda install -c conda-forge jupyterhub
-RUN pip uninstall jupyter-console
+RUN pip uninstall --yes jupyter-console
 RUN conda install -c conda-forge jupyter_console=6.0.0
 
 # install nbgrader from git to get not-yet-merged partial credit branch
