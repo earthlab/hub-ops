@@ -6,6 +6,7 @@ RUN pip install --no-cache-dir --upgrade jupyterhub==1.0.0
 # install nbgrader from git to get not-yet-merged partial credit branch
 RUN pip install --upgrade \
   git+https://github.com/kcranston/nbgrader.git@partial_credit
+RUN pip install --upgrade matplotcheck
 
 RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite
 RUN jupyter nbextension enable --sys-prefix --py nbgrader
