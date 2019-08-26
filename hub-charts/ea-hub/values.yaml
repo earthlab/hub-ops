@@ -68,19 +68,14 @@ jupyterhub:
     admin:
       access: true
       users:
-        - betatim
+        - kcranston
         - lwasser
         - jlpalomino
     whitelist:
       users:
-        - earth-lab
-        - mgraber
-        - windnage
-        - shwh2628
-        - mlevis1
-        - katysill
-        - yojihigh
-        - rbenzeev
+        - kcranston
+        - lwasser
+        - jlpalomino
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
