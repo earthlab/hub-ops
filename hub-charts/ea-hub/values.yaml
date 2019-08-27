@@ -30,14 +30,6 @@ jupyterhub:
     memory:
       guarantee: 2G
       limit: 4G
-    lifecycleHooks:
-      postStart:
-        exec:
-          command:
-            - "sh"
-            - "-c"
-            - >
-              gitpuller https://github.com/earthlab-education/earth-analytics-fall-2018 master homework-templates;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
@@ -68,21 +60,14 @@ jupyterhub:
     admin:
       access: true
       users:
-        - betatim
+        - kcranston
         - lwasser
         - jlpalomino
-        - kcranston
     whitelist:
       users:
-        - earth-lab
-        - mgraber
-        - windnage
-        - shwh2628
-        - mlevis1
-        - katysill
-        - yojihigh
-        - rbenzeev
         - kcranston
+        - lwasser
+        - jlpalomino
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
