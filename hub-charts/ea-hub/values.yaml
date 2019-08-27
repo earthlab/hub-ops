@@ -68,6 +68,7 @@ jupyterhub:
         - kcranston
         - lwasser
         - jlpalomino
+        - eastudent
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
