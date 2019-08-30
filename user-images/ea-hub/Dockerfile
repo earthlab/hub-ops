@@ -17,9 +17,8 @@ RUN jupyter nbextension disable --sys-prefix create_assignment/main \
 # disable formgrader
     && jupyter nbextension disable --sys-prefix formgrader/main --section=tree \
     && jupyter serverextension disable --sys-prefix \
-  nbgrader.server_extensions.formgrader
-
+  nbgrader.server_extensions.formgrader \
 # disable assignment_list
-RUN jupyter nbextension disable --sys-prefix assignment_list/main --section=tree \
+    && jupyter nbextension disable --sys-prefix assignment_list/main --section=tree \
     && jupyter serverextension disable --sys-prefix \
   nbgrader.server_extensions.assignment_list
