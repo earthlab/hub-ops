@@ -84,14 +84,18 @@ jupyterhub:
         - stephlshep
         - richardudell
         - cantord1698
-        - reedtheriver
-        - clairekarban
+        - ReedtheRiver
+        - ClaireKarban
         - nickaplan
         - wolterso
         - isabelschroeter
         - superneyo
         - evangallagher
         - timd409
+        - ccassisi
+        - jweber333
+        - jaeyoungjin
+        - lucap1211
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
