@@ -4,6 +4,8 @@ FROM earthlab/earth-analytics-python-env:ed6ee91
 # validate extension, but you can't just install one. You need to install
 # them all and then disable the ones you don't want. Hmmm, ok.
 
+RUN conda install -c conda-forge nbgitpuller
+
 RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite
 RUN jupyter nbextension enable --sys-prefix --py nbgrader
 RUN jupyter serverextension enable --sys-prefix --py nbgrader
