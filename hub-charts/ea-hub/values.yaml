@@ -96,7 +96,7 @@ jupyterhub:
         - jweber333
         - jaeyoungjin
         - kezi7216
-	- annapav7
+        - annapav7
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
