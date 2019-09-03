@@ -26,6 +26,14 @@ jupyterhub:
     memory:
       guarantee: 500M
       limit: 500M
+    lifecycleHooks:
+      postStart:
+        exec:
+          command:
+            - "sh"
+            - "-c"
+            - >
+              gitpuller https://github.com/earthlab-education/earth-analytics-bootcamp-fall-2019 master ea-homework-notebooks;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
@@ -44,7 +52,7 @@ jupyterhub:
     hosts:
       - hub.earthdatascience.org
     annotations:
-      ingress.kubernetes.io/proxy-body-size: 64m
+      nginx.ingress.kubernetes.io/proxy-body-size: 64m
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
     tls:
@@ -53,8 +61,18 @@ jupyterhub:
           - hub.earthdatascience.org
 
   auth:
-    type: google
-    google:
+    admin:
+      access: true
+      users:
+        - kcranston
+        - lwasser
+        - jlpalomino
+    whitelist:
+      users:
+        - kcranston
+        - lwasser
+        - jlpalomino
+        - eastudent
+    type: github
+    github:
       callbackUrl: "https://hub.earthdatascience.org/staginghub/hub/oauth_callback"
-      hostedDomain: "colorado.edu"
-      loginService: "Colorado University"
