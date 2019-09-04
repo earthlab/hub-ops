@@ -61,7 +61,7 @@ def setup_helm():
 
 def setup_docker():
     subprocess.check_output(['docker', 'login',
-                             '-u', 'earthlabhubops',
+                             '-u', 'earthlabcu',
                              '-p', open("secrets/dockerhub").read().strip()])
 
 
