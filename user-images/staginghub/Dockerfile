@@ -1,4 +1,4 @@
-FROM earthlab/earth-analytics-python-env
+FROM earthlab/earth-analytics-python-env:d58264a
 
 # Install nbgrader server extensions - we only want the students to see the
 # validate extension, but you can't just install one. You need to install
