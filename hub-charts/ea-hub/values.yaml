@@ -97,7 +97,6 @@ jupyterhub:
         - nickaplan
         - wolterso
         - isabelschroeter
-        - superneyo
         - evangallagher
         - timd409
         - jweber333
@@ -105,6 +104,8 @@ jupyterhub:
         - kezi7216
         - annapav7
         - toastferry
+        - sauer3
+        - 4ryanwhite
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
