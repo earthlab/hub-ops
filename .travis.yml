@@ -19,7 +19,8 @@ install:
   # Stage 1: Install pytest + test dependencies
   pip install -U pyyaml pytest requests sphinx sphinx-autobuild
 script:
-#- | # Build staginghub
+- | 
+  # Build staginghub
   python ./deploy.py --no-setup --build staginghub
 - |
   # Build earth-analytics-hub
