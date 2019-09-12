@@ -19,11 +19,11 @@ install:
   # Stage 1: Install pytest + test dependencies
   pip install -U pyyaml pytest requests sphinx sphinx-autobuild
 script:
-- |
+#- |
   # Build staginghub
-  python ./deploy.py --no-setup --build staginghub
+  #python ./deploy.py --no-setup --build staginghub
 - |
-  # Build earthhub
+  # Build earth-analytics-hub
   python ./deploy.py --no-setup --build ea-hub
 - |
   # Build documentation
@@ -63,11 +63,11 @@ before_deploy:
   helm init --client-only
   helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
   helm repo update
-- |
+#- |
   # Stage 3, Step 1: Deploy the staginghub
-  python ./deploy.py --build --push --deploy staginghub
+  #python ./deploy.py --build --push --deploy staginghub
 - |
-  # Stage 3, Step 2: Deploy the earthhub
+  # Stage 3, Step 2: Deploy the earth-analytics-hub
   python ./deploy.py --build --push --deploy ea-hub
 - |
   # Stage 3, Step 5: Deploy monitoring of the hubs
