@@ -106,6 +106,7 @@ jupyterhub:
         - toastferry
         - sauer3
         - 4ryanwhite
+        - nkorinek
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
