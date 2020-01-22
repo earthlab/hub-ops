@@ -38,6 +38,8 @@ jupyterhub:
             - "-c"
             - >
               gitpuller https://github.com/earthlab-education/earth-analytics-bootcamp-fall-2019 master ea-homework-notebooks;
+            - >
+              gitpuller https://github.com/earthlab-education/spring-2020-course-notebooks master ea-2020-class-notebooks;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
