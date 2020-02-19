@@ -83,7 +83,6 @@ jupyterhub:
         - wpaigej
         - calekochenour
         - coro1253
-        - kbfeldmann
         - kessb
         - chbr1191
         - shaheen19
@@ -93,21 +92,14 @@ jupyterhub:
         - calerwilliams
         - stephlshep
         - richardudell
-        - cantord1698
         - ReedtheRiver
         - ClaireKarban
         - nickaplan
         - wolterso
-        - isabelschroeter
         - evangallagher
-        - timd409
-        - jweber333
-        - jaeyoungjin
-        - kezi7216
         - annapav7
         - toastferry
         - sauer3
-        - 4ryanwhite
         - nkorinek
     type: github
     github:
