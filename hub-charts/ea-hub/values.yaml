@@ -89,17 +89,13 @@ jupyterhub:
         - sarahmjaffe
         - dphillips97
         - krosenberg01
-        - calerwilliams
         - stephlshep
         - richardudell
-        - ReedtheRiver
         - ClaireKarban
         - nickaplan
         - wolterso
         - evangallagher
         - annapav7
-        - toastferry
-        - sauer3
         - nkorinek
     type: github
     github:
