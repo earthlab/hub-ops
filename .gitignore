@@ -7,3 +7,7 @@ staginghub/charts/
 monitoring/charts/
 docs/build/
 hub-ops.gitcrypt.key
+.DS_Store
+requirements.lock
+hub-charts/ea-hub/requirements.lock
+monitoring/requirements.lock
