@@ -1,8 +1,8 @@
-Daily Operations
-================
+Scaling Up A Cluster
+====================
 
-Scaling up cluster before a class/workshop
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Scaling up a cluster before a class/workshop
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Having a cluster that automatically scales up and down based on demand is great,
 but starting a new virtual machine takes a few minutes (~5-9minutes). This makes

@@ -7,6 +7,5 @@ Welcome to the hub-ops's documentation!
 
    daily-operations/index
    authentication
+   setup/index.rst
    additional-hub-configuration
-   tooling
-   initial-setup

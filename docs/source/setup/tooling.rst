@@ -74,7 +74,7 @@ knows how to decrypt these files and by the end of this section so will you.
 
 1. install :code:`git-crypt`. On OSX `brew install git-crypt` will work or follow
    the isntructions on https://www.agwa.name/projects/git-crypt/
-2. obtain a copy of :code:`hub-ops.gitcrypt.key`. You can ask Tim Head or Max
+2. obtain a copy of :code:`hub-ops.gitcrypt.key`. You can ask Leah Wasser or Max
    Joseph for a copy. Copy the file into your checkout of :code:`hub-ops`
 3. from the checkout directory run :code:`cat hub-ops.gitcrypt.key | git-crypt unlock -`
    or :code:`git-crypt unlock hub-ops.gitcrypt.key`. You should now be able to

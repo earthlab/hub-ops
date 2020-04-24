@@ -11,7 +11,7 @@ Get started
    :maxdepth: 1
    :caption: Daily Operations
 
-   day-to-day
+   scaling
    hub-monitoring
    new-hub
    modify-remove-hub

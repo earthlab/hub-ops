@@ -1,7 +1,7 @@
-Additional ideas and snippets to customise your hub
-===================================================
+Customize Your Hub
+==================
 
-This is a collection of snippets and pointers to further customise your hub.
+This is a collection of snippets and pointers to further customize your hub.
 
 
 Custom user image
