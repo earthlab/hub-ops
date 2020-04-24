@@ -5,7 +5,7 @@ Welcome to the hub-ops's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   day-to-day
+   daily-operations/index
    authentication
    additional-hub-configuration
    tooling
