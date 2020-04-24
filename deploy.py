@@ -198,7 +198,7 @@ def deploy(chartname):
         image_spec = image_name + ':' + tag
 
         print("Using", image_spec, "as user image for", chartname)
-        extra_args.extend(['--set',
+        extra_args.extend(['--set-string',
                            'jupyterhub.singleuser.image.tag={}'.format(tag)])
 
     # Check for a custom hub image
@@ -209,7 +209,7 @@ def deploy(chartname):
         image_spec = image_name + ':' + tag
 
         print("Using", image_spec, "as hub image for", chartname)
-        extra_args.extend(['--set',
+        extra_args.extend(['--set-string',
                            'jupyterhub.hub.image.tag={}'.format(tag)])
 
     helm('dep', 'up', cwd=chart_dir)
@@ -221,6 +221,7 @@ def deploy(chartname):
                     '--force',
                     '--wait',
                     '--timeout', '600',
+                    '--cleanup-on-fail',
                     '-f', os.path.join('secrets', f'{chartname}.yaml')
                     ]
     install_args += extra_args
