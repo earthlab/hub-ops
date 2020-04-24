@@ -18,7 +18,7 @@ install:
 - |
   # Stage 1: Install pytest + test dependencies
   # pip install -U pyyaml pytest requests sphinx sphinx-autobuild
-  pip install dev-requirements.txt
+  pip install -r dev-requirements.txt
 script:
 - |
   # Build staginghub
