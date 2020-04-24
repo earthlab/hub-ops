@@ -1,6 +1,6 @@
 .. _authentication:
 
-Authentication for your hub
+Hub Authentication
 ===========================
 
 This section documents the different options of configuring authentication

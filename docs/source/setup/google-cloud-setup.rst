@@ -1,24 +1,11 @@
-One time setup instructions
-===========================
-
-These are instructions for setting up completely from scratch and recreating
-the setup that is assumed in all other parts of this documentation.
-
-You should not need the instructions in this section very often. They are only
-needed when you want to setup a new ``hub-ops`` setup or there was some
-catastrophic accident with the existing Google project.
-
-A good guide, maintained by the JupyterHub team on how to setup a single
-JupyterHub from zero is: `<https://zero-to-jupyterhub.readthedocs.io/en/latest/index.html>`_
-Reading and following that guide once will help you understand more of this guide.
-
+Google Cloud & Kubernetes Tools
+===============================
 
 Create a project on Google cloud
 --------------------------------
 
-We assume you already did this or are using the Earthlab project. If you do not
+We assume you already did this or are using the Earth Lab project. If you do not
 have a project create one on `<https://console.cloud.google.com>`_.
-
 
 Configure your gcloud and kubectl tools
 ---------------------------------------
@@ -59,36 +46,6 @@ Give your account super-user permissions needed to set up JupyterHub::
     kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="<your google account email>"
 
 
-
-Setup Helm
-----------
-
-Helm is the tool we use to manage "helm charts" which describe what we want to
-have installed and running on the kubernetes cluster.
-
-Full details on setting up helm: `<https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-helm.html#setting-up-helm>`_.
-
-After installing :code:`helm` locally, this is the abridged version of cluster side
-things::
-
-    kubectl --namespace kube-system create serviceaccount tiller
-    kubectl create clusterrolebinding tiller \
-            --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-
-    helm init --service-account tiller
-
-
-Verify this worked by running :code:`helm version`. You might have to wait a
-minute or two for this command to succeed. It should display something like::
-
-    Client: &version.Version{SemVer:"v2.8.2", GitCommit:"a80231648a1473929271764b920a8e346f6de844", GitTreeState:"clean"}
-    Server: &version.Version{SemVer:"v2.8.2", GitCommit:"a80231648a1473929271764b920a8e346f6de844", GitTreeState:"clean"}
-
-Secure your helm setup::
-
-    kubectl --namespace=kube-system patch deployment tiller-deploy --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
-
-
 Create a static IP
 ------------------
 
@@ -122,7 +79,7 @@ The main thing to look out for is that when the z2jh guide asks you to edit
 .. note::
 
     You will need to obtain the key to decrypt :code:`secrets/` somehow.
-    Ask Tim Head or Leah Wasser.
+    Ask Leah Wasser, Max Joseph or Tim Head.
 
 After this follow the instructions in ``outer-edge/README.md`` to setup the
 HTTP server that will route traffic to your hub. Without this your hub will not

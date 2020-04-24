@@ -5,8 +5,7 @@ Welcome to the hub-ops's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   day-to-day
+   daily-operations/index
    authentication
+   setup/index.rst
    additional-hub-configuration
-   tooling
-   initial-setup
