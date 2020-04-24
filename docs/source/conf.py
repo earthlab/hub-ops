@@ -15,12 +15,12 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-
+from datetime import date
 
 # -- Project information -----------------------------------------------------
 
-project = 'Earthlab JupyterHub Operations'
-copyright = '2020, Earthlabbers'
+project = 'Earth Lab JupyterHub Operations'
+copyright = '{year}, Earth Lab Contributors'.format(year=date.today().year)
 author = 'Earth Lab'
 
 # The short X.Y version
@@ -74,6 +74,7 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 html_theme = 'pydata_sphinx_theme'#'alabaster'
+html_logo = '_static/images/earth-lab-logo.png'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
