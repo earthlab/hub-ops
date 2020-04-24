@@ -198,8 +198,8 @@ def deploy(chartname):
         image_spec = image_name + ':' + tag
 
         print("Using", image_spec, "as user image for", chartname)
-        extra_args.extend(['--set',
-                           'jupyterhub.singleuser.image.tag="{}"'.format(tag)])
+        extra_args.extend(['--set-string',
+                           'jupyterhub.singleuser.image.tag={}'.format(tag)])
 
     # Check for a custom hub image
     hub_image_dir = "hub-images/" + chartname
@@ -209,8 +209,8 @@ def deploy(chartname):
         image_spec = image_name + ':' + tag
 
         print("Using", image_spec, "as hub image for", chartname)
-        extra_args.extend(['--set',
-                           'jupyterhub.hub.image.tag="{}"'.format(tag)])
+        extra_args.extend(['--set-string',
+                           'jupyterhub.hub.image.tag={}'.format(tag)])
 
     helm('dep', 'up', cwd=chart_dir)
 
