@@ -9,11 +9,7 @@ RUN conda install -c conda-forge nbgitpuller \
     && jupyter serverextension enable --py nbgitpuller --sys-prefix
 
 # Setup nbzip - this allows students to download files from the hub
-RUN pip install --no-cache --upgrade --upgrade-strategy only-if-needed \
-  nbzip==0.1.0 \
-  && jupyter serverextension enable --py nbzip --sys-prefix \
-  && jupyter nbextension install --py nbzip --sys-prefix \
-  && jupyter nbextension enable --py nbzip --sys-prefix
+RUN pip install git+https://github.com/ryanlovett/jupyter-tree-download.git
 
 # Setup nbgrader + extensions
 RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite \
