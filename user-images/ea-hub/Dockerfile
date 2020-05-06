@@ -4,10 +4,18 @@ FROM earthlab/earth-analytics-python-env:84549e0
 # validate extension, but you can't just install one. You need to install
 # them all and then disable the ones you don't want. Hmmm, ok.
 
-# setup nbgitpuller to sync files
+# Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
     && jupyter serverextension enable --py nbgitpuller --sys-prefix
 
+# Setup nbzip - this allows students to download files from the hub
+RUN pip install --no-cache --upgrade --upgrade-strategy only-if-needed \
+  nbzip==0.1.0 \
+  && jupyter serverextension enable --py nbzip --sys-prefix \
+  && jupyter nbextension install --py nbzip --sys-prefix \
+  && jupyter nbextension enable --py nbzip --sys-prefix
+
+# Setup nbgrader + extensions
 RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite \
     && jupyter nbextension enable --sys-prefix --py nbgrader \
     && jupyter serverextension enable --sys-prefix --py nbgrader
