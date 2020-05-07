@@ -36,8 +36,8 @@ jupyterhub:
           command:
             - "sh"
             - "-c"
-            - >
-              gitpuller https://github.com/earthlab-education/spring-2020-course-notebooks master ea-2020-class-notebooks; || echo no space here
+            #- >
+            #  gitpuller https://github.com/earthlab-education/spring-2020-course-notebooks master ea-2020-class-notebooks;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
