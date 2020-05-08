@@ -28,12 +28,12 @@ jupyterhub:
       limit: 500M
     lifecycleHooks:
       postStart:
-        #exec:
-        #  command:
-        #    - "sh"
-        #    - "-c"
-        #    - >
-        #      gitpuller https://github.com/earthlab-education/earth-analytics-bootcamp-fall-2019 master ea-homework-notebooks;
+        exec:
+          command:
+            - "sh"
+            - "-c"
+            - >
+              gitpuller https://github.com/earthlab-education/earth-analytics-bootcamp-fall-2019 master ea-homework-notebooks;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
