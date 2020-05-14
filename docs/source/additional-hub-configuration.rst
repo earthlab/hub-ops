@@ -1,3 +1,5 @@
+.. _additional-hub-configuration:
+
 Customize Your Hub
 ==================
 

@@ -1,3 +1,5 @@
+.. _hub-monitoring:
+
 Monitoring the Hubs
 ===================
 
