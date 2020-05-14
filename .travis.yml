@@ -1,7 +1,7 @@
 language: python
 
 python:
-- 3.6
+- 3.7
 
 # checkout all of the history, not just last 50 commits
 # needed to help us work out the correct docker tags for
