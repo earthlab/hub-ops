@@ -1,7 +1,11 @@
 Customize Your Hub
 ==================
 
-This is a collection of snippets and pointers to further customize your hub.
+This is a collection of snippets and pointers to further customize your hub. Common customization include the image used to run the hub. A summary of the different ways to customize images:
+
+* hub-chart images: in the helm chart, you can specify a pre-built docker image for the JupyterHub environment; set in :code`hub-charts/<hubname>/values.yaml`
+* user image: when none of the pre-built images are right, you can create a Dockerfile in this repo that gets built as part of deployment; lives in  :code:`user-images/<hubname>/Dockerfile`
+* hub images: these alter the environment in which JupyterHub runs (as opposed to the packages installed in JupyterHub); we don't use this currently, but added it when testing hash authentication (see :ref:`authentication`).
 
 
 Custom user image
