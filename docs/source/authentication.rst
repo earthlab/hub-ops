@@ -26,7 +26,7 @@ have a UC Boulder account. The Hash authenticator is not part of the default
 JupyterHub setup we use, so you will have to create a :ref:`self-made-hub-image`.
 
 
-User whitelist and admin accounts
+User Whitelist and Admin Accounts
 ---------------------------------
 
 You can control what users can login by creating a whitelist of usernames. This
@@ -69,20 +69,32 @@ GitHub OAuth
 GitHub authentication is good if you want people who already have a GitHub
 account to login.
 
-For full details check the `GitHub Authentication section <https://zero-to-jupyterhub.readthedocs.io/en/latest/authentication.html#github>`_
+For a full description on using GitHub authentication with JupyterHub, check
+the `GitHub Authentication section <https://zero-to-jupyterhub.readthedocs.io/en/latest/authentication.html#github>`_
 of the zero2jupyterhub guide.
 
-Create a OAuth application on GitHub by going to |location_link|,
+
+Step 1: Create a OAuth Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To begin setup of GitHub based logins on your JupyterHub, create a OAuth
+application on GitHub.com by going to |location_link|,
 
 .. |location_link| raw:: html
 
    <a href="https://github.com/settings/developers" target="_blank">Github developer settings</a>
 
-in "OAuth apps" create a new app. You will have to provide a name and description.
+In "OAuth apps" create a new app. You will have to provide a name and description.
 The most important field is "Authorization callback URL" which has to be set to
 :code:`https://hub.earthdatascience.org/<NAMEOFYOURHUB>/hub/oauth_callback`.
 Once you create the app you will be provided with a Client ID and a Client secret.
 You will need to add both in :code:`secrets/<NAMEOFYOURHUB>.yaml`.
+
+.. note::
+  Note that to modify the secrets files you need to first unlock those files
+  using git-crypt. Once the files are unlocked, you can edit them locally and
+  then push them to GitHub. Git-crypt will manage re-encrypting the files prior
+  to committing & pushing.
 
 An example of what to add to your secrets file:
 
@@ -110,7 +122,7 @@ The public part of the configuration has to be done in :code:`hub-charts/<NAMEOF
           - "read:user"
 
 In this example configuration only users who are members of the :code:`earthlab`
-organisation on GitHub will be allowed to login. To allow anyone to login remove
+organization on GitHub will be allowed to login. To allow anyone to login remove
 that part of the configuration.
 
 
