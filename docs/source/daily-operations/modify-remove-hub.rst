@@ -1,10 +1,10 @@
 .. _modify-remove-hub:
 
-======================
-Modify or Remove a Hub
-======================
+===============================
+Manage, Modify or Remove a Hub
+===============================
 
-Making changes to an existing hub
+Making Changes to an Existing Hub
 ---------------------------------
 
 To make changes to an existing hub:
@@ -24,9 +24,36 @@ To make changes to an existing hub:
   again with a new PR.
 
 
+Hub Maintanence
+----------------
 
-Removing a hub
---------------
+The JupyterHub interface has a built in administration panel that allows you to:
+
+1. View users with access to the hub
+2. View and manage active servers
+
+It is important to note that this admin interface works well for a hub working
+on a local server or virtual machine. However when running through Kubernetes
+using Google Cloud (which is our current setup), most of the admin tasks will
+need to be performed directly through kubernetes and google cloud rather than
+in the admin interface.
+
+Some features of the build in hub admin panel that will not work include the
+ability to:
+
+1. remove users and
+2. shutdown the hub.
+
+The above two steps should not be utilized in a Google Cloud deployment as
+kubernetes is running behind the scenes and will thus control users and hub
+deployment. To remove users you will thus need to
+
+1. Edit the hub's yaml file which contains a list of users with permission to access the hub
+2. Manually delete storage <TODO: add more details about the best way to handle storage removal>
+
+
+Shut Down a Hub (And Remove Associated Storage)
+-----------------------------------------------
 
 At the end of a workshop or semester you should consider removing a hub again.
 While a hub scales down to use minimal resources when no one is logged in, it
