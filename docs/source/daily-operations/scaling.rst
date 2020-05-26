@@ -1,3 +1,5 @@
+.. _scaling:
+
 Scaling Up A Cluster
 ====================
 

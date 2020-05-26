@@ -1,3 +1,5 @@
+.. _modify-remove-hub:
+
 ======================
 Modify or Remove a Hub
 ======================
