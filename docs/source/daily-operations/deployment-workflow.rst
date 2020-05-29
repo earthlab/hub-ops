@@ -12,7 +12,7 @@ User workflow
 When making changes to a hub (including both :ref:`new-hub` and :ref:`modify-remove-hub`), the expected workflow is:
 
 * change the required settings in this repo (e.g. the helm charts in :code:`hub-charts`, or the Dockerfiles in :code:`user-images`)
-* create a pull request with your changes - this will initiate a travis run that tests the builds of the docker image(s) and the docs. This does not push to Dockerhub, and does not deploy the hub. More specifically, this build `skips` the :code:`before_deploy` and :code:`deploy` sections in `.travis.yml`.
+* create a pull request with your changes - this will initiate a travis run that tests the builds of the docker image(s) and the docs. This does not push to Dockerhub, and does not deploy the hub. More specifically, this build `skips` the :code:`before_deploy` and :code:`deploy` sections in :code:`.travis.yml`.
 * after the PR is merged, travis builds the docker image(s), pushes them to dockerhub, and deploys the hub(s). This build `runs` the :code:`before_deploy` and :code:`deploy` sections in :code:`.travis.yml`.
 
 Before making changes to a production hub (i.e. one being used for a course), test your changes on :code:`staginghub` and only when that deploys correctly, copy these changes to the production hub.
