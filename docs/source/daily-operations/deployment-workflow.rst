@@ -24,7 +24,7 @@ The :code:`deploy.py` script at the top-level of this repo manages docker builds
 
 Basic usage is :code:`python deploy.py chartname`. The following options are available:
 
-* :code:`--no-setup` :  run without setup procedures (checking authentication to GCloud and docker, checking status of helm / tiller)
+* :code:`--no-setup` :  run without setup procedures (authentication to GCloud and docker, helm / tiller status)
 * :code:`--build` : build docker images; see :ref:`additional-hub-configuration` for setting these up
 * :code:`--push` : push images to dockerhub (option ignored if build==False)
 * :code:`--deploy` : deploy the hub
@@ -41,3 +41,6 @@ Then, for each deployments found with :code:`kubectl -n <chartname> get deployme
 .. code-block:: bash
 
   kubectl rollout status --namespace <chartname> --watch <deployment>
+
+
+.. Warning:: If you do run :code:`deploy.py` locally, use the :code:`--no-setup` flag to avoid authenticating to gcloud as the travis user and borking your local access to the cluster. If that does happen, you can delete your :code:`.kube` directory and re-authenticate to gcloud.
