@@ -27,6 +27,9 @@ script:
   # Build earth-analytics-hub
   python ./deploy.py --no-setup --build ea-hub
 - |
+  # Build edsc-hub
+  python ./deploy.py --no-setup --build edsc-hub
+- |
   # Build documentation
   pushd docs && make html && popd
 
@@ -65,13 +68,16 @@ before_deploy:
   helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
   helm repo update
 - |
-  # Stage 3, Step 1: Deploy the staginghub
+  # Stage 3a, Step 1: Deploy the staginghub
   python ./deploy.py --build --push --deploy staginghub
 - |
-  # Stage 3, Step 2: Deploy the earth-analytics-hub
+  # Stage 3b, Step 2: Deploy the edsc-hub
+  python ./deploy.py --build --push --deploy edsc-hub
+- |
+  # Stage 3c, Step 2: Deploy the earth-analytics-hub
   python ./deploy.py --build --push --deploy ea-hub
 - |
-  # Stage 3, Step 5: Deploy monitoring of the hubs
+  # Stage 3d, Step 5: Deploy monitoring of the hubs
   python ./deploy.py --deploy monitoring
 
 
