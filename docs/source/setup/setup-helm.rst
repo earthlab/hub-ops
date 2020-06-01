@@ -15,6 +15,11 @@ help:
 
 Helm 2 Installation Tips: `<https://discourse.brew.sh/t/install-specific-version-of-kubernetes-helm/6342/4>`_.
 
+.. note::
+
+    To upgrade help version 2 of ``helm`` using ``homebrew`` on mac run:
+
+    brew upgrade helm@2
 
 After installing :code:`helm` locally, this is the abridged version of cluster side
 things::
