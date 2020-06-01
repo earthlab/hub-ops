@@ -268,7 +268,7 @@ def main():
     argparser.add_argument(
         'chartname',
         help="Select which chart to deploy",
-        choices=['staginghub', 'ea-hub', 'nbgrader-hub', 'monitoring']
+        choices=['staginghub', 'ea-hub', 'edsc-hub', 'nbgrader-hub', 'monitoring']
     )
 
     args = argparser.parse_args()
