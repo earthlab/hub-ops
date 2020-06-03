@@ -19,14 +19,14 @@ For more discussion see: https://github.com/helm/charts/issues/11904#issuecommen
 
 The Earth Lab Hub deployment has multiple hubs that are deployed from a single
 google cloud project. To begin you may want to view a list of available
-namespaces (hubs) in your google cloud project.
+namespaces (hubs) in your google cloud project. To do that use::
 
-``kubectl get namespace``
+  kubectl get namespace
 
 Then select the namespace that you wish to get more information for and run the
-following:
+following::
 
-``kubectl -n <namespace> get events --sort-by='{.lastTimestamp}'``
+  kubectl -n <namespace> get events --sort-by='{.lastTimestamp}'
 
 GCloud authentication
 ~~~~~~~~~~~~~~~~~~~~~
@@ -35,9 +35,9 @@ If you get permission errors using ``kubectl``, check your authentication::
 
   gcloud auth list
 
-If the active account is ``travis-deployer``, you need to switch back to your personal 
-account (which will be the one with your gmail account). This can happen if you run 
-the ``deploy.py`` script locally, which is designed to be run by Travis. Somehow, 
+If the active account is ``travis-deployer``, you need to switch back to your personal
+account (which will be the one with your gmail account). This can happen if you run
+the ``deploy.py`` script locally, which is designed to be run by Travis. Somehow,
 this authentication gets saved to your kubectl config / cache. To fix:
 
 * remove (or rename) the ``~/.kube`` directory in your local home folder
