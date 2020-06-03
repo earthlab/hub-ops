@@ -46,7 +46,7 @@ Give your account super-user permissions needed to set up JupyterHub::
     kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="<your google account email>"
 
 
-Create a static IP
+Create a Static IP
 ------------------
 
 For a test deployment you can make do with a temporary IP. If you are setting
@@ -56,11 +56,11 @@ To get one run::
 
     gcloud compute addresses create jhub-ip --region us-central1
 
-and to see what value was assigned to it:
+and to see what value was assigned to it::
 
     gcloud compute addresses describe jhub-ip --region us-central1
 
-and if you want to see what IP addresses were reserved for this project:
+and if you want to see what IP addresses were reserved for this project::
 
     gcloud compute addresses list
 

@@ -11,6 +11,10 @@ Documentation status: [![Docs Status](https://readthedocs.org/projects/earthlab-
 
 Read the documentation at: https://earthlab-hub-ops.readthedocs.io/en/latest/index.html
 
+Build the documentation locally using:
+
+`$ cd docs`
+`$ make html`
 
 ## Monitoring
 
@@ -36,3 +40,8 @@ Hubs available for deployment (currently not running):
   via the chart in `hub-charts/wshub/`. Used for a 45 person workshop with temporary logins.
 * The [bootcamp hub](https://hub.earthdatascience.org/bootcamp-hub/).
     It is configured via the chart in `hub-charts/bootcamp-hub/`.
+
+
+## Development
+
+TODO: Add instructionst o build the docs locally here

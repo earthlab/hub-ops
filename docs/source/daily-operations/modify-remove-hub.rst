@@ -144,9 +144,16 @@ hubs running: :code:`staginghub`, :code:`wshub` and :code:`earthhub`.
 To delete the :code:`wshub` run :code:`helm delete wshub --purge`. If you now
 visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.
 
-The final step is to delete all storage and IP addresses associated to your hub.
-If you execute the next step there is no way to recover the data in student's
+Step Three: Clean Up & Remove Storage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The final step is to delete all storage and IP addresses associated with your hub.
+
+IMPORTANT: If you execute the next step there is no way to recover the data in student's
 home drives or any other data associated to the cluster. Take a moment to make
-sure you have all the data you will need from the cluster. To remove (without
-chance of undoing it) all storage run the following command:
+sure you have all the data you will need from the cluster.
+
+To permanently remove all storage (**THERE IS NO RECOVERING THE DATA AFTER DOING
+THIS!**) run the following command:
+
 :code:`kubectl delete namespace <hubname>`.
