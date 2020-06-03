@@ -13,7 +13,8 @@ Read the documentation at: https://earthlab-hub-ops.readthedocs.io/en/latest/ind
 
 Build the documentation locally using:
 
-`make html`
+`$ cd docs`
+`$ make html`
 
 ## Monitoring
 
