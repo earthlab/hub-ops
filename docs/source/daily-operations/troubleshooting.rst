@@ -1,7 +1,7 @@
 .. _troubleshooting:
 
-Troubleshooting
-===============
+Troubleshooting Hub Deployments
+===============================
 
 TODO: NOTE: this may be it's own section in the future but starting it here for
 now.
@@ -35,10 +35,13 @@ If you get permission errors using ``kubectl``, check your authentication::
 
   gcloud auth list
 
-If the active account is ``travis-deployer``, you need to switch back to your personal account (which will be the one with your gmail account). This can happen if you run the ``deploy.py`` script locally, which is designed to be run by Travis. Somehow, this authentication gets saved to your kubectl config / cache. To fix:
+If the active account is ``travis-deployer``, you need to switch back to your personal 
+account (which will be the one with your gmail account). This can happen if you run 
+the ``deploy.py`` script locally, which is designed to be run by Travis. Somehow, 
+this authentication gets saved to your kubectl config / cache. To fix:
 
 * remove (or rename) the ``~/.kube`` directory in your local home folder
-* re-authenticate using ``gcloud container clusters get-credentials jhub``
+* re-authenticate using ``gcloud container clusters get-credentials jhub --region us-central1-b``
 
 Helpful CLI commands
 ~~~~~~~~~~~~~~~~~~~~
