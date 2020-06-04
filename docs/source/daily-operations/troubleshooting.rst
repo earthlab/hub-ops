@@ -28,8 +28,8 @@ following::
 
   kubectl -n <namespace> get events --sort-by='{.lastTimestamp}'
 
-GCloud authentication
-~~~~~~~~~~~~~~~~~~~~~
+Google Cloud Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you get permission errors using ``kubectl``, check your authentication::
 
@@ -41,7 +41,9 @@ the ``deploy.py`` script locally, which is designed to be run by Travis. Somehow
 this authentication gets saved to your kubectl config / cache. To fix:
 
 * remove (or rename) the ``~/.kube`` directory in your local home folder
-* re-authenticate using ``gcloud container clusters get-credentials jhub --region us-central1-b``
+* re-authenticate using::
+
+   gcloud container clusters get-credentials jhub --region us-central1-b
 
 Helpful CLI commands
 ~~~~~~~~~~~~~~~~~~~~
