@@ -1,13 +1,13 @@
 Google Cloud & Kubernetes Tools
 ===============================
 
-Create a project on Google cloud
+Create a Project on Google cloud
 --------------------------------
 
 We assume you already did this or are using the Earth Lab project. If you do not
 have a project create one on `<https://console.cloud.google.com>`_.
 
-Configure your gcloud and kubectl tools
+Configure Your gcloud and kubectl Tools
 ---------------------------------------
 
 To install the :code:`gcloud` command-line tool follow `step 3b of the z2jh guide <https://zero-to-jupyterhub.readthedocs.io/en/latest/google/step-zero-gcp.html>`_.
@@ -15,9 +15,13 @@ To install the :code:`gcloud` command-line tool follow `step 3b of the z2jh guid
 To install :code:`kubectl` (pronounced kube-cuddle) see `setp 4 of the z2jh guide <https://zero-to-jupyterhub.readthedocs.io/en/latest/google/step-zero-gcp.html>`_.
 
 Make sure that you are talking to your newly created project. To list your
-projects :code:`gcloud projects list`. Use the name from the PROJECT_ID column.
-For example if your project is called :code:`ea-jupyter` run the following
-command to set yourself up to use that project::
+projects use::
+
+    gcloud projects list
+
+Use the name from the PROJECT_ID column. For example if your project is
+called :code:`ea-jupyter` run the following command to set yourself up to
+use that project::
 
     gcloud config set project ea-jupyter
 
