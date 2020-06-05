@@ -100,6 +100,7 @@ jupyterhub:
         - Drayton-Kary
         - Bigballajoe
         - Gawi8331
+        - kernsjenl
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/edsc-hub/hub/oauth_callback"
