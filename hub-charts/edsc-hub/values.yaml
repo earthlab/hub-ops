@@ -74,6 +74,19 @@ jupyterhub:
         - jlpalomino
         - eastudent
         - nquarder
+	- ewoolner
+	- Makowapi
+	- RDon76
+	- jguinn-UTTC
+	- Ewolfe2
+	- tayjh445
+	- ColoradoJake1
+	- michelle-leung
+	- fasi2164
+	- cwhalen9
+	- Robertsam7
+	- Bri33
+	- ShanaLace2
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/edsc-hub/hub/oauth_callback"
