@@ -91,6 +91,15 @@ jupyterhub:
         - wtrav
         - kileeblevins
         - E-Lx
+        - EBiggane
+        - kthhillot
+        - dparr1
+        - jjoseph8367
+        - KeevaGC
+        - ianlcalger
+        - Drayton-Kary
+        - Bigballajoe
+        - Gawi8331
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/edsc-hub/hub/oauth_callback"
