@@ -104,6 +104,7 @@ jupyterhub:
         - kdoyle2587
         - eyellow6279
         - jferguson13717
+        - KeevaGC
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/edsc-hub/hub/oauth_callback"
