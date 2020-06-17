@@ -18,6 +18,41 @@ helm upgrade --install --namespace router router outer-edge --version=v0.1.0
 
 ## Developer notes
 
+### Migrating from kube-lego to cert-manager
+
+Following [cert-manager migration guide](https://cert-manager.io/docs/tutorials/acme/migrating-from-kube-lego/), noting that cert-manager installed in `cert-manager` namespace as per the installation docs, not in `kube-system` as described in the migration guide. 
+
+```
+$ kubectl scale deployment lego-kube-lego -n router --replicas=0
+$ kubectl create namespace cert-manager
+$ helm repo add jetstack https://charts.jetstack.io
+$ helm repo update
+$ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.1/cert-manager-legacy.crds.yaml
+$ helm install --name cert-manager --namespace cert-manager --version v0.15.1 jetstack/cert-manager
+$ kubectl get pods --namespace cert-manager
+$ kubectl get secret kube-lego-account -o yaml -n router --export > kube-lego-account.yaml
+```
+
+Modify the `metadata.name` field in `kube-lego-account.yaml` to
+`letsencrypt-private-key`.
+
+```
+$ kubectl create -f kube-lego-account.yaml -n cert-manager
+```
+Create the `cluster-issuer.yaml` file as per the docs, using
+name=letsencrypt-prod
+email=Leah.Wasser@colorado.edu
+url=https://acme-v02.api.letsencrypt.org/directory :
+```
+$ kubectl create -f cluster-issuer.yaml
+$ kubectl describe clusterissuer letsencrypt-prod
+$ helm upgrade cert-manager jetstack/cert-manager --namespace cert-manager --set ingressShim.defaultIssuerName=letsencrypt-prod --set ingressShim.defaultIssuerKind=ClusterIssuer
+$ kubectl get certificates --all-namespaces  
+
+```
+
+### Older notes
+
 Currently bundling these two together into a meta chart does not work. It seems
 the creation of RBAC roles is borked and as a result kube-lego can't access what
 it needs about the ingresses.
