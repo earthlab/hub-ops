@@ -105,42 +105,42 @@ def image_requires_build(image_dir, commit_range=None):
     return image_touched
 
 
-def build_hub_image(hubname, commit_range, push=False):
-    # Build and push to Docker Hub the hub(!) images that need updating
-    # from `hub-images/`
-    image_dir = "hub-images/" + hubname
-    # No work for us if there is no custom user image
-    if not os.path.exists(image_dir):
-        return
-
-    tag = last_git_modified(image_dir)
-    image_name = "earthlabhubops/ea-k8s-hub-" + hubname
-    image_spec = image_name + ':' + tag
-
-    needs_rebuilding = image_requires_build(image_dir, commit_range)
-
-    if needs_rebuilding:
-        previous_image_spec = get_previous_image_spec(image_name, image_dir)
-
-        if previous_image_spec is not None:
-            docker('build',
-                   '--cache-from', previous_image_spec,
-                   '-t', image_spec,
-                   image_dir)
-        else:
-            docker('build',
-                   '-t', image_spec,
-                   image_dir)
-
-        if push:
-            docker('push', image_spec)
-
-        print('build completed for hub image', image_spec)
-
-    else:
-        print('Do not need to rebuild hub image, using', image_spec)
-
-    return image_spec
+# def build_hub_image(hubname, commit_range, push=False):
+#     # Build and push to Docker Hub the hub(!) images that need updating
+#     # from `hub-images/`
+#     image_dir = "hub-images/" + hubname
+#     # No work for us if there is no custom user image
+#     if not os.path.exists(image_dir):
+#         return
+#
+#     tag = last_git_modified(image_dir)
+#     image_name = "earthlabhubops/ea-k8s-hub-" + hubname
+#     image_spec = image_name + ':' + tag
+#
+#     needs_rebuilding = image_requires_build(image_dir, commit_range)
+#
+#     if needs_rebuilding:
+#         previous_image_spec = get_previous_image_spec(image_name, image_dir)
+#
+#         if previous_image_spec is not None:
+#             docker('build',
+#                    '--cache-from', previous_image_spec,
+#                    '-t', image_spec,
+#                    image_dir)
+#         else:
+#             docker('build',
+#                    '-t', image_spec,
+#                    image_dir)
+#
+#         if push:
+#             docker('push', image_spec)
+#
+#         print('build completed for hub image', image_spec)
+#
+#     else:
+#         print('Do not need to rebuild hub image, using', image_spec)
+#
+#     return image_spec
 
 
 def build_user_image(hubname, commit_range, push=False):
@@ -201,16 +201,18 @@ def deploy(chartname):
         extra_args.extend(['--set-string',
                            'jupyterhub.singleuser.image.tag={}'.format(tag)])
 
+    # No longer have hub-image dir, but leaving this here in case
+    # it gets resurrected in the future
     # Check for a custom hub image
-    hub_image_dir = "hub-images/" + chartname
-    if os.path.exists(hub_image_dir):
-        tag = last_git_modified(hub_image_dir)
-        image_name = "earthlabhubops/ea-k8s-hub-" + chartname
-        image_spec = image_name + ':' + tag
-
-        print("Using", image_spec, "as hub image for", chartname)
-        extra_args.extend(['--set-string',
-                           'jupyterhub.hub.image.tag={}'.format(tag)])
+    # hub_image_dir = "hub-images/" + chartname
+    # if os.path.exists(hub_image_dir):
+    #     tag = last_git_modified(hub_image_dir)
+    #     image_name = "earthlabhubops/ea-k8s-hub-" + chartname
+    #     image_spec = image_name + ':' + tag
+    #
+    #     print("Using", image_spec, "as hub image for", chartname)
+    #     extra_args.extend(['--set-string',
+    #                        'jupyterhub.hub.image.tag={}'.format(tag)])
 
     helm('dep', 'up', cwd=chart_dir)
 
@@ -281,7 +283,7 @@ def main():
     if args.build:
         commit_range = os.getenv('TRAVIS_COMMIT_RANGE')
         build_user_image(args.chartname, commit_range, push=args.push)
-        build_hub_image(args.chartname, commit_range, push=args.push)
+        # build_hub_image(args.chartname, commit_range, push=args.push)
 
     if args.deploy:
         deploy(args.chartname)
