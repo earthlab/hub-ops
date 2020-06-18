@@ -83,7 +83,7 @@ def get_next_image_spec(chartname, image_dir):
         image_name = "earthlabhubops/ea-k8s-user-" + chartname
         image_spec = image_name + ':' + tag
         return image_spec
-    else
+    else:
         return None
 
 def get_previous_image_spec(image_name, image_dir):
