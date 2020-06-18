@@ -86,8 +86,9 @@ def get_next_image_spec(chartname, image_dir):
     else:
         return None
 
-def get_previous_image_spec(image_name, image_dir):
+def get_previous_image_spec(chartname, image_dir):
     """Pull latest available version of image to maximize cache use."""
+    image_name = "earthlabhubops/ea-k8s-user-" + chartname
     try_count = 0
     # try increasingly older git revisions
     while try_count < 5:
@@ -164,7 +165,7 @@ def build_user_image(chartname, commit_range, push=False):
     needs_rebuilding = image_requires_build(image_dir, commit_range)
 
     if needs_rebuilding:
-        previous_image_spec = get_previous_image_spec(image_name, image_dir)
+        previous_image_spec = get_previous_image_spec(chartname, image_dir)
 
         if previous_image_spec is not None:
             docker('build',
