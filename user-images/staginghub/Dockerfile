@@ -1,4 +1,4 @@
-FROM earthlab/earth-analytics-python-env:84549e0
+FROM earthlab/earth-analytics-python-env:b997eb0
 
 # Install nbgrader server extensions - we only want the students to see the
 # validate extension, but you can't just install one. You need to install
@@ -7,6 +7,7 @@ FROM earthlab/earth-analytics-python-env:84549e0
 # Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
     && jupyter serverextension enable --py nbgitpuller --sys-prefix
+ADD ../../wrap_gitpuller.py
 
 # Setup nbzip - this allows students to download files from the hub
 RUN pip install git+https://github.com/ryanlovett/jupyter-tree-download.git
