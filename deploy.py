@@ -75,6 +75,16 @@ def last_git_modified(path, n=1):
         path
         ]).decode('utf-8').split('\n')[-1]
 
+def get_next_image_spec(chartname, image_dir):
+    """Build and return the name of the image to use, based on last commit"""
+    if os.path.exists(image_dir):
+        # get last image spec
+        tag = last_git_modified(image_dir)
+        image_name = "earthlabhubops/ea-k8s-user-" + chartname
+        image_spec = image_name + ':' + tag
+        return image_spec
+    else
+        return None
 
 def get_previous_image_spec(image_name, image_dir):
     """Pull latest available version of image to maximize cache use."""
@@ -147,13 +157,9 @@ def build_user_image(hubname, commit_range, push=False):
     # Build and push to Docker Hub singleuser images that need updating
     # from `user-images/`
     image_dir = "user-images/" + hubname
-    # No work for us if there is no custom user image
-    if not os.path.exists(image_dir):
+    image_spec = get_next_image_spec(hubname, image_dir)
+    if image_spec is None:
         return
-
-    tag = last_git_modified(image_dir)
-    image_name = "earthlabhubops/ea-k8s-user-" + hubname
-    image_spec = image_name + ':' + tag
 
     needs_rebuilding = image_requires_build(image_dir, commit_range)
 
@@ -191,12 +197,8 @@ def deploy(chartname):
 
     # Check for a custom singleuser image
     image_dir = "user-images/" + chartname
-    if os.path.exists(image_dir):
-        # get last image spec
-        tag = last_git_modified(image_dir)
-        image_name = "earthlabhubops/ea-k8s-user-" + chartname
-        image_spec = image_name + ':' + tag
-
+    image_spec = get_next_image_spec(hubname, image_dir)
+    if image_spec is not None:
         print("Using", image_spec, "as user image for", chartname)
         extra_args.extend(['--set-string',
                            'jupyterhub.singleuser.image.tag={}'.format(tag)])
