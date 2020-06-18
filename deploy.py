@@ -153,11 +153,11 @@ def image_requires_build(image_dir, commit_range=None):
 #     return image_spec
 
 
-def build_user_image(hubname, commit_range, push=False):
+def build_user_image(chartname, commit_range, push=False):
     # Build and push to Docker Hub singleuser images that need updating
     # from `user-images/`
-    image_dir = "user-images/" + hubname
-    image_spec = get_next_image_spec(hubname, image_dir)
+    image_dir = "user-images/" + chartname
+    image_spec = get_next_image_spec(chartname, image_dir)
     if image_spec is None:
         return
 
@@ -197,7 +197,7 @@ def deploy(chartname):
 
     # Check for a custom singleuser image
     image_dir = "user-images/" + chartname
-    image_spec = get_next_image_spec(hubname, image_dir)
+    image_spec = get_next_image_spec(chartname, image_dir)
     if image_spec is not None:
         print("Using", image_spec, "as user image for", chartname)
         extra_args.extend(['--set-string',
