@@ -2,7 +2,7 @@ FROM earthlab/earth-analytics-python-env:f880467
 
 # Install nbgrader server extensions - we only want the students to see the
 # validate extension, but you can't just install one. You need to install
-# them all and then disable the ones you don't want. Hmmm, ok.
+# them all and then disable the ones you don't want. 
 
 # Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
