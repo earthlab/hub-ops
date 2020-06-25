@@ -200,9 +200,9 @@ def deploy(chartname):
     image_dir = "user-images/" + chartname
     image_spec = get_next_image_spec(chartname, image_dir)
     # tag is the part after the ':'
-    tag = image_spec.split(':').pop()
     if image_spec is not None:
         print("Using", image_spec, "as user image for", chartname)
+        tag = image_spec.split(':').pop()
         extra_args.extend(['--set-string',
                            'jupyterhub.singleuser.image.tag={}'.format(tag)])
 
