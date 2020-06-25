@@ -91,6 +91,7 @@ def get_previous_image_spec(chartname, image_dir):
     image_name = "earthlabhubops/ea-k8s-user-" + chartname
     try_count = 0
     # try increasingly older git revisions
+    print("Try to pull older image to use in build with --cache-from")
     while try_count < 5:
         last_image_tag = last_git_modified(image_dir, try_count + 1)
 
@@ -176,11 +177,14 @@ def build_user_image(chartname, commit_range, push=False):
             docker('build',
                    '-t', image_spec,
                    image_dir)
+        print('Build completed for image', image_spec)
 
         if push:
-            docker('push', image_spec)
-
-        print('build completed for image', image_spec)
+            try:
+                docker('push', image_spec)
+                print("Pushed {} to dockerhub".format(image_spec))
+            except subprocess.CalledProcessError:
+                print("Failed to push {} to dockerhub".format(image_spec))
 
     else:
         print('Do not need to rebuild image, using', image_spec)
@@ -199,8 +203,10 @@ def deploy(chartname):
     # Check for a custom singleuser image
     image_dir = "user-images/" + chartname
     image_spec = get_next_image_spec(chartname, image_dir)
+    # tag is the part after the ':'
     if image_spec is not None:
         print("Using", image_spec, "as user image for", chartname)
+        tag = image_spec.split(':').pop()
         extra_args.extend(['--set-string',
                            'jupyterhub.singleuser.image.tag={}'.format(tag)])
 
