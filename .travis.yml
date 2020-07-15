@@ -23,9 +23,9 @@ script:
 - |
   # Build staginghub image
   python ./deploy.py --no-setup --build staginghub
-- |
+#- |
   # Build earth-analytics-hub image
-  python ./deploy.py --no-setup --build ea-hub
+#  python ./deploy.py --no-setup --build ea-hub
 - |
   # Build edsc-hub image
   python ./deploy.py --no-setup --build edsc-hub
@@ -76,10 +76,10 @@ before_deploy:
   # Stage 3, Step 2: Build & push image, then deploy edsc-hub
   python ./deploy.py --build --push edsc-hub
   python ./deploy.py --deploy edsc-hub
-- |
+#- |
   # Stage 3, Step 2: Build & push image, then deploy earth-analytics-hub
-  python ./deploy.py --build --push ea-hub
-  python ./deploy.py --deploy ea-hub
+#  python ./deploy.py --build --push ea-hub
+#  python ./deploy.py --deploy ea-hub
 - |
   # Stage 3, Step 4: Deploy monitoring of the hubs
   python ./deploy.py --deploy monitoring
