@@ -143,7 +143,7 @@ hubs running: :code:`staginghub`, :code:`wshub` and :code:`earthhub`.
 
 To delete the :code:`wshub` run::
 
-    helm delete wshub --purge`
+    helm delete wshub --purge
 
 If you now
 visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.
