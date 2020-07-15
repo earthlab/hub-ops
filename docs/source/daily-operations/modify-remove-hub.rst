@@ -158,6 +158,8 @@ home drives or any other data associated to the cluster. Take a moment to make
 sure you have all the data you will need from the cluster.
 
 To permanently remove all storage (**THERE IS NO RECOVERING THE DATA AFTER DOING
-THIS!**) run the following command:
+THIS!**) run the following command::
 
-:code:`kubectl delete namespace <hubname>`.
+    kubectl delete namespace <hubname>
+    
+You have now deleted the hub and all of its storage.
