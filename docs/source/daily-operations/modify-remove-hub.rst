@@ -77,7 +77,7 @@ The first step in removing a hub is to turn it off. To do this
 1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
 2. Remove the commands listed below
 
-For example, to remove a hub called `bootcamp-hun`, in the :code:`scripts`
+For example, to remove a hub called `bootcamp-hub`, in the :code:`scripts`
 section remove:
 
 .. code-block:: yaml
@@ -141,7 +141,11 @@ deployed: :code:`ingress`, :code:`lego`, and :code:`monitoring`. These support
 all hubs and should never be removed. In the case shown above there are three
 hubs running: :code:`staginghub`, :code:`wshub` and :code:`earthhub`.
 
-To delete the :code:`wshub` run :code:`helm delete wshub --purge`. If you now
+To delete the :code:`wshub` run::
+
+    helm delete wshub --purge
+
+If you now
 visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.
 
 Step Three: Clean Up & Remove Storage
@@ -154,6 +158,8 @@ home drives or any other data associated to the cluster. Take a moment to make
 sure you have all the data you will need from the cluster.
 
 To permanently remove all storage (**THERE IS NO RECOVERING THE DATA AFTER DOING
-THIS!**) run the following command:
+THIS!**) run the following command::
 
-:code:`kubectl delete namespace <hubname>`.
+    kubectl delete namespace <hubname>
+    
+You have now deleted the hub and all of its storage.
