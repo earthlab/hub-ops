@@ -33,7 +33,7 @@ jupyterhub:
             - "sh"
             - "-c"
             - >
-              gitpuller https://github.com/earthlab/edsc-summer-2020 master edsc-resources;
+              gitpuller https://github.com/earthlab/edsc-summer-2020 master edsc-resources-cln;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
