@@ -29,11 +29,11 @@ jupyterhub:
     lifecycleHooks:
       postStart:
         exec:
-          command:
-            - "sh"
-            - "-c"
-            - >
-              gitpuller https://github.com/earthlab-education/spring-2020-course-notebooks master ea-2020-class-notebooks;
+          command: ["bash", "gitpuller", "https://github.com/fake-repo-does-not-exist", "master", "ea-2020-class-notebooks", "||", "echo", "\'gitpuller failed\'"]
+            # - "sh"
+            # - "-c"
+            # - >
+            #   gitpuller https://github.com/earthlab-education/spring-2020-course-notebooks master ea-2020-class-notebooks;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
