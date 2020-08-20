@@ -28,5 +28,6 @@ RUN jupyter nbextension disable --sys-prefix create_assignment/main \
   nbgrader.server_extensions.assignment_list
 
 # Add the nbgitpuller wrapper script that runs as a postStart lifecycleHook
+# The deploy script copies this file into the right context
 # (see values.yaml in hub-charts)
-ADD ../../wrap_gitpuller.py
+COPY wrap_gitpuller.py /tmp/
