@@ -2,7 +2,7 @@ FROM earthlab/earth-analytics-python-env:f880467
 
 # Install nbgrader server extensions - we only want the students to see the
 # validate extension, but you can't just install one. You need to install
-# them all and then disable the ones you don't want. 
+# them all and then disable the ones you don't want.
 
 # Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
@@ -26,3 +26,7 @@ RUN jupyter nbextension disable --sys-prefix create_assignment/main \
     && jupyter nbextension disable --sys-prefix assignment_list/main --section=tree \
     && jupyter serverextension disable --sys-prefix \
   nbgrader.server_extensions.assignment_list
+
+# Add the nbgitpuller wrapper script that runs as a postStart lifecycleHook
+# (see values.yaml in hub-charts)
+ADD ../../wrap_gitpuller.py
