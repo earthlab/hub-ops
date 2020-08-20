@@ -166,7 +166,7 @@ def build_user_image(chartname, commit_range, push=False):
 
     script_dir = "user-images/scripts"
     if (image_requires_build(image_dir, commit_range) or
-        image_requires_build(script_dir, commit_range):
+        image_requires_build(script_dir, commit_range)):
         # build if either the image dir or script dir have changed
         needs_rebuilding = True
 
