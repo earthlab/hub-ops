@@ -11,3 +11,4 @@ hub-ops.gitcrypt.key
 requirements.lock
 hub-charts/ea-hub/requirements.lock
 monitoring/requirements.lock
+.idea/
