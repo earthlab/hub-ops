@@ -2,6 +2,7 @@
 
 import argparse
 import subprocess
+import os
 
 from nbgitpuller import GitPuller
 
@@ -17,18 +18,22 @@ if __name__ == '__main__':
         help="Desired branch",
     )
     argparser.add_argument(
-        'localdir',
+        'localrepo',
         help="Name of the local repo directory",
     )
 
     args = argparser.parse_args()
 
     try:
-        puller = GitPuller(args.url, args.branch, args.localdir)
+        cmd = ["gitpuller", args.url, args.branch, args.localrepo]
+        subprocess.run(cmd,check=True)
+        #puller = GitPuller(args.url, args.branch, args.localdir)
         # I don't really understand why this iterator construct is necessary
         # Copied from nbgitpuller tests; without the loop it does not throw
         # exception when it fails
-        for l in puller.pull():
-            print(l)
+        #for l in puller.pull():
+            #print(l)
     except subprocess.CalledProcessError as err:
         print(err)
+        print('-'*60)
+        print("gitpuller failed; open console in pod to investigate")
