@@ -29,7 +29,8 @@ jupyterhub:
     lifecycleHooks:
       postStart:
         exec:
-          command: ["bash", "gitpuller", "https://github.com/fake-repo-does-not-exist", "master", "ea-2020-class-notebooks", "||", "echo", "\'gitpuller failed\'"]
+          command: ["python", "wrap_gitpuller.py", "https://github.com/fake-repo-does-not-exist", "master", "ea-2020-class-notebooks"]
+          #command: ["bash", "gitpuller", "https://github.com/fake-repo-does-not-exist", "master", "ea-2020-class-notebooks", "||", "echo", "\'gitpuller failed\'"]
             # - "sh"
             # - "-c"
             # - >
