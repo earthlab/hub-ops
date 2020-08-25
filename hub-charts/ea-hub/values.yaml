@@ -80,6 +80,17 @@ jupyterhub:
         - lwasser
         - lisestdenis
         - nkorinek
+        - streamfireflies
+        - MECMccormick
+        - c-andry
+        - gpogoncheff
+        - adamancer
+        - nlamkey
+        - bri33
+        - haselwimmer
+        - ColoradoJake1
+        - tayjh445
+        - camrynsorg
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
