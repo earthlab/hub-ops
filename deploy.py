@@ -4,7 +4,6 @@ import logging
 import subprocess
 import yaml
 import os
-import shutil
 
 logging.basicConfig(level=logging.INFO)
 
@@ -164,15 +163,7 @@ def build_user_image(chartname, commit_range, push=False):
     if image_spec is None:
         return
 
-    script_dir = "user-images/scripts"
-    if (image_requires_build(image_dir, commit_range) or
-        image_requires_build(script_dir, commit_range)):
-        # build if either the image dir or script dir have changed
-        needs_rebuilding = True
-
-    # copy script files into image_dir (i.e. the context dir for docker)
-    for f in os.listdir(script_dir):
-        shutil.copy(os.path.join(script_dir,f), image_dir)
+    needs_rebuilding = image_requires_build(image_dir, commit_range)
 
     if needs_rebuilding:
         previous_image_spec = get_previous_image_spec(chartname, image_dir)
