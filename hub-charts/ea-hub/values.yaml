@@ -102,6 +102,10 @@ jupyterhub:
         - kz-yamaguchi
         - amap989
         - lrwives
+        - gracehood
+        - mred1208
+        - alicia-2
+        - Ewolfe2
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
