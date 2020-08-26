@@ -91,6 +91,17 @@ jupyterhub:
         - ColoradoJake1
         - tayjh445
         - camrynsorg
+        - fergusca
+        - eloizeaux
+        - tbogdano
+        - mike-petrut
+        - esgeo
+        - frma6457
+        - Mitch88
+        - krantz23
+        - kz-yamaguchi
+        - amap989
+        - lrwives
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
