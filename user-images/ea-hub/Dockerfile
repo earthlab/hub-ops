@@ -26,3 +26,7 @@ RUN jupyter nbextension disable --sys-prefix create_assignment/main \
     && jupyter nbextension disable --sys-prefix assignment_list/main --section=tree \
     && jupyter serverextension disable --sys-prefix \
   nbgrader.server_extensions.assignment_list
+
+# Install zip to support the download tool
+USER root
+RUN apt-get update && apt-get -y install zip
