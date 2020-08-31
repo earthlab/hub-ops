@@ -92,7 +92,6 @@ jupyterhub:
         - tayjh445
         - camrynsorg
         - fergusca
-        - eloizeaux
         - tbogdano
         - mike-petrut
         - esgeo
@@ -112,6 +111,8 @@ jupyterhub:
         - epkennedy120
         - kernsjenl
         - bridgetfloyd
+        - sutherm
+        - sachin9390
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
