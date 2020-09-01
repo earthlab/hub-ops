@@ -68,21 +68,21 @@ before_deploy:
   helm init --client-only
   helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
   helm repo update
-#- |
+- |
   # Stage 3, Step 1: Build & push image, then deploy staginghub
-#  python ./deploy.py --build --push staginghub
-#  python ./deploy.py --deploy staginghub
+  python ./deploy.py --build --push staginghub
+  python ./deploy.py --deploy staginghub
 #- |
 #  # Stage 3, Step 2: Build & push image, then deploy edsc-hub
 #  python ./deploy.py --build --push edsc-hub
 #  python ./deploy.py --deploy edsc-hub
-- |
-  # Stage 3, Step 2: Build & push image, then deploy earth-analytics-hub
-  python ./deploy.py --build --push ea-hub
-  python ./deploy.py --deploy ea-hub
-- |
-  # Stage 3, Step 4: Deploy monitoring of the hubs
-  python ./deploy.py --deploy monitoring
+# - |
+#   # Stage 3, Step 2: Build & push image, then deploy earth-analytics-hub
+#   python ./deploy.py --build --push ea-hub
+#   python ./deploy.py --deploy ea-hub
+# - |
+#   # Stage 3, Step 4: Deploy monitoring of the hubs
+#   python ./deploy.py --deploy monitoring
 
 
 env:
@@ -95,8 +95,8 @@ deploy:
   script: /bin/true
   on:
     branch:
-      - master
+      - staging
 
 branches:
   only:
-    - master
+    - staging
