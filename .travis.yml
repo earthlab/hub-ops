@@ -20,15 +20,9 @@ install:
   # pip install -U pyyaml pytest requests sphinx sphinx-autobuild
   pip install -r dev-requirements.txt
 script:
-#- |
-#  # Build staginghub image
-#  python ./deploy.py --no-setup --build staginghub
 - |
-  # Build earth-analytics-hub image
-  python ./deploy.py --no-setup --build ea-hub
-#- |
-#  # Build edsc-hub image
-#  python ./deploy.py --no-setup --build edsc-hub
+  # Build staginghub image
+  python ./deploy.py --no-setup --build staginghub
 - |
   # Build documentation
   pushd docs && make html && popd
