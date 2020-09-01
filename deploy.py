@@ -276,10 +276,11 @@ def main():
         help='Deploy chart',
         action='store_true',
     )
+    # on staging branch, only staging hub allowed!
     argparser.add_argument(
         'chartname',
         help="Select which chart to deploy",
-        choices=['staginghub', 'ea-hub', 'nbgrader-hub', 'monitoring']
+        choices=['staginghub']
     )
 
     args = argparser.parse_args()
