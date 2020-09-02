@@ -176,9 +176,11 @@ def build_user_image(chartname, commit_range, push=False):
     needs_rebuilding = image_requires_build(image_dir, commit_range)
 
     # if the image does not appear to need re-building, test that it
-    # actually exists 
+    # actually exists
     if not needs_rebuilding:
+        print("Commits do not affect {}, but checking for image".format(image_dir))
         if not image_exists(image_spec):
+            print("Image {} does not exist; rebuilding".format(image_spec))
             needs_rebuilding = True
 
     if needs_rebuilding:
