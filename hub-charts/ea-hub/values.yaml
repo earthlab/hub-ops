@@ -114,6 +114,7 @@ jupyterhub:
         - sutherm
         - sachin9390
         - gnarledbranches
+        - nquarder
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
