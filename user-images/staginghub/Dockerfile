@@ -27,7 +27,10 @@ RUN jupyter nbextension disable --sys-prefix create_assignment/main \
     && jupyter serverextension disable --sys-prefix \
   nbgrader.server_extensions.assignment_list
 
+# Install zip to support the download tool
+USER root
+RUN apt-get update && apt-get -y install zip
+
 # Add the nbgitpuller wrapper script that runs as a postStart lifecycleHook
-# The deploy script copies this file into the right context
-# (see values.yaml in hub-charts)
-# COPY wrap_gitpuller.py /tmp/
+# (see values.yaml in hub-charts for usage)
+COPY wrap_gitpuller.py /tmp/

@@ -29,7 +29,7 @@ jupyterhub:
     lifecycleHooks:
       postStart:
         exec:
-          command: ["python", "/tmp/wrap_gitpuller.py", "https://github.com/fake-repo-does-not-exist", "master", "ea-2020-class-notebooks"]
+          command: ["python", "/tmp/wrap_gitpuller.py", "https://github.com/earthlab-education/ea-bootcamp-fall-2020", "master", "course-materials"]
             # - "sh"
             # - "-c"
             # - >
