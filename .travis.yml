@@ -24,6 +24,9 @@ script:
   # Build staginghub image
   python ./deploy.py --no-setup --build staginghub
 - |
+  # Build nbgrader image
+  python ./deploy.py --no-setup --build nbgrader-hub
+- |
   # Build documentation
   pushd docs && make html && popd
 
@@ -66,10 +69,10 @@ before_deploy:
   # Stage 3, Step 1: Build & push image, then deploy staginghub
   python ./deploy.py --build --push staginghub
   python ./deploy.py --deploy staginghub
-#- |
-#  # Stage 3, Step 2: Build & push image, then deploy edsc-hub
-#  python ./deploy.py --build --push edsc-hub
-#  python ./deploy.py --deploy edsc-hub
+- |
+  # Stage 3, Step 2: Build & push image, then deploy nbgrader-hub
+  python ./deploy.py --build --push nbgrader-hub
+  python ./deploy.py --deploy nbgrader-hub
 # - |
 #   # Stage 3, Step 2: Build & push image, then deploy earth-analytics-hub
 #   python ./deploy.py --build --push ea-hub
