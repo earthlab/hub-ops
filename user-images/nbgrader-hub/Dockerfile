@@ -3,15 +3,17 @@ FROM earthlab/earth-analytics-python-env:d53d66c
 
 # Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
+    # abc-classroom for github classroom management
+    abc-classroom \
     && jupyter serverextension enable --py nbgitpuller --sys-prefix
 
 # Setup nbzip - this allows students to download files from the hub
 RUN pip install git+https://github.com/ryanlovett/jupyter-tree-download.git
 
 # install jupyterhub from conda-forge and update jupyter_console
-RUN conda install -c conda-forge jupyterhub
-RUN pip uninstall --yes jupyter-console
-RUN conda install -c conda-forge jupyter_console=6.0.0
+RUN conda install -c conda-forge jupyterhub \
+    && pip uninstall --yes jupyter-console \
+    && conda install -c conda-forge jupyter_console=6.0.0
 
 # Setup nbgrader + extensions
 RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite \
