@@ -69,11 +69,14 @@ jupyterhub:
         - kcranston
         - lwasser
         - earth-lab
+        - nkorinek
+        - nquarder
     whitelist:
       users:
         - earth-lab
         - kcranston
         - lwasser
         - nkorinek
+        - nquarder
     github:
       callbackUrl: "https://hub.earthdatascience.org/nbgrader-hub/hub/oauth_callback"
