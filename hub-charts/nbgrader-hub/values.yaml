@@ -71,6 +71,7 @@ jupyterhub:
         - earth-lab
         - nkorinek
         - nquarder
+        - lisestdenis
     whitelist:
       users:
         - earth-lab
@@ -78,5 +79,6 @@ jupyterhub:
         - lwasser
         - nkorinek
         - nquarder
+        - lisestdenis
     github:
       callbackUrl: "https://hub.earthdatascience.org/nbgrader-hub/hub/oauth_callback"
