@@ -4,7 +4,7 @@ FROM earthlab/earth-analytics-python-env:d53d66c
 # Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
     # abc-classroom for github classroom management
-    abc-classroom \
+    abc-classroom=0.1.4 \
     && jupyter serverextension enable --py nbgitpuller --sys-prefix
 
 # Setup nbzip - this allows students to download files from the hub
