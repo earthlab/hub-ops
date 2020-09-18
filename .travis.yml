@@ -21,6 +21,9 @@ install:
   pip install -r dev-requirements.txt
 script:
 - |
+  # Build nbgrader-hub image
+  python ./deploy.py --no-setup --build nbgrader-hub
+- |
   # Build earth-analytics-hub image
   python ./deploy.py --no-setup --build ea-hub
 - |
@@ -62,6 +65,10 @@ before_deploy:
   helm init --client-only
   helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
   helm repo update
+- |
+  # Stage 3, Step 1: Build & push image, then deploy nbgrader-hub
+  python ./deploy.py --build --push nbgrader-hub
+  python ./deploy.py --deploy nbgrader-hub
 - |
   # Stage 3, Step 2: Build & push image, then deploy earth-analytics-hub
   python ./deploy.py --build --push ea-hub

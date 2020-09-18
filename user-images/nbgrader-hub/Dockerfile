@@ -1,30 +1,25 @@
 # installing nbgrader and extensions on top of earthlab python env
-FROM earthlab/earth-analytics-python-env:eeb6a3b
+FROM earthlab/earth-analytics-python-env:d53d66c
+
+# Setup nbgitpuller to sync files from course repo to hub
+RUN conda install -c conda-forge nbgitpuller \
+    # abc-classroom for github classroom management
+    abc-classroom=0.1.5 \
+    && jupyter serverextension enable --py nbgitpuller --sys-prefix
+
+# Setup nbzip - this allows students to download files from the hub
+RUN pip install git+https://github.com/ryanlovett/jupyter-tree-download.git
 
 # install jupyterhub from conda-forge and update jupyter_console
-RUN conda install -c conda-forge jupyterhub
-RUN pip uninstall --yes jupyter-console
-RUN conda install -c conda-forge jupyter_console=6.0.0
+RUN conda install -c conda-forge jupyterhub \
+    && pip uninstall --yes jupyter-console \
+    && conda install -c conda-forge jupyter_console=6.0.0
 
-# install nbgrader from git to get not-yet-merged partial credit branch
-RUN pip install --upgrade \
-  git+https://github.com/kcranston/nbgrader.git@partial_credit
-RUN pip install --upgrade matplotcheck
+# Setup nbgrader + extensions
+RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite \
+    && jupyter nbextension enable --sys-prefix --py nbgrader \
+    && jupyter serverextension enable --sys-prefix --py nbgrader
 
-RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite
-RUN jupyter nbextension enable --sys-prefix --py nbgrader
-RUN jupyter serverextension enable --sys-prefix --py nbgrader
-
-# then uninstall everything but the validate extension
-# disable create_assignment
-RUN jupyter nbextension disable --sys-prefix create_assignment/main
-
-# disable formgrader
-RUN jupyter nbextension disable --sys-prefix formgrader/main --section=tree
-RUN jupyter serverextension disable --sys-prefix \
-  nbgrader.server_extensions.formgrader
-
-# disable assignment_list
-RUN jupyter nbextension disable --sys-prefix assignment_list/main --section=tree
-RUN jupyter serverextension disable --sys-prefix \
-  nbgrader.server_extensions.assignment_list
+  # Install zip to support the download tool
+  USER root
+  RUN apt-get update && apt-get -y install zip

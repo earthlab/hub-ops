@@ -19,13 +19,14 @@ jupyterhub:
       # tag will be set by travis on deployment
       name: earthlabhubops/ea-k8s-user-nbgrader-hub
       tag: set-on-deployment
-    startTimeout: 600
+    storage:
+      capacity: 10Gi
     cpu:
-      guarantee: 0.1
-      limit: 1.
+      guarantee: 0.4
+      limit: 2
     memory:
-      guarantee: 500M
-      limit: 500M
+      guarantee: 2G
+      limit: 4G
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
@@ -59,15 +60,19 @@ jupyterhub:
       users:
         - kcranston
         - lwasser
+        - earth-lab
+        - nkorinek
+        - nquarder
+        - lisestdenis
+        - lherwehe
     whitelist:
       users:
         - earth-lab
         - kcranston
         - lwasser
-        - jlpalomino
         - nkorinek
-        - wino6687
-        - mbjoseph
+        - nquarder
+        - lisestdenis
         - lherwehe
     github:
       callbackUrl: "https://hub.earthdatascience.org/nbgrader-hub/hub/oauth_callback"
