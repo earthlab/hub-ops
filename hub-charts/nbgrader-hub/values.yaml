@@ -27,14 +27,6 @@ jupyterhub:
     memory:
       guarantee: 2G
       limit: 4G
-    lifecycleHooks:
-      postStart:
-        exec:
-          command:
-            - "sh"
-            - "-c"
-            - >
-              gitpuller https://github.com/earthlab-education/ea-bootcamp-fall-2020 master ea-bootcamp-shared;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
