@@ -108,6 +108,7 @@ def get_previous_image_spec(chartname, image_dir):
 
 
 def image_requires_build(image_dir, commit_range=None):
+    """Check whether the commit range includes any changes to the image_dir."""
     if commit_range is None:
         return False
     image_touched = subprocess.check_output([
@@ -116,6 +117,13 @@ def image_requires_build(image_dir, commit_range=None):
 
     return image_touched
 
+def image_exists(image_spec):
+    try:
+        docker('pull', image_spec)
+        return True
+
+    except subprocess.CalledProcessError:
+        return False
 
 # def build_hub_image(hubname, commit_range, push=False):
 #     # Build and push to Docker Hub the hub(!) images that need updating
@@ -159,11 +167,21 @@ def build_user_image(chartname, commit_range, push=False):
     # Build and push to Docker Hub singleuser images that need updating
     # from `user-images/`
     image_dir = "user-images/" + chartname
+
+    # get the image_spec based on the git commit that last modified image_dir
     image_spec = get_next_image_spec(chartname, image_dir)
     if image_spec is None:
         return
 
     needs_rebuilding = image_requires_build(image_dir, commit_range)
+
+    # if the image does not appear to need re-building, test that it
+    # actually exists
+    if not needs_rebuilding:
+        print("Commits do not affect {}, but checking for image".format(image_dir))
+        if not image_exists(image_spec):
+            print("Image {} does not exist; rebuilding".format(image_spec))
+            needs_rebuilding = True
 
     if needs_rebuilding:
         previous_image_spec = get_previous_image_spec(chartname, image_dir)
