@@ -37,8 +37,8 @@ state of affairs) run ``kubectl get pods --all-namespaces``. This will list all
 pods that are running, including service pods that we don't ever interact with.
 
 You should see at least two pods in each namespace that is associated to a hub.
-The namespace and hubname are the same, so ``staginghub`` lives in the
-``staginghub`` namespace.
+The namespace and hubname are the same, so an ``eahub`` hub lives in the
+``eahub`` namespace.
 
 Pods in the ``kube-system``, ``monitoring`` and ``router`` namespaces are best
 left alone.

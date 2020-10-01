@@ -132,22 +132,24 @@ To check that your :code:`helm` command is properly configured run :code:`helm l
 This will list all helm releases that are currently installed. It should look
 similar to this::
 
-    NAME      	REVISION	UPDATED                 	STATUS  	CHART               	NAMESPACE
-    earthhub  	24      	Thu Jul 26 16:53:46 2018	DEPLOYED	earthhub-0.1.0      	earthhub
-    ingress   	2       	Tue Jul  3 18:09:46 2018	DEPLOYED	nginx-ingress-0.22.1	router
-    lego      	1       	Thu Jun 21 16:19:50 2018	DEPLOYED	kube-lego-0.4.2     	router
-    monitoring	28      	Thu Jul 26 16:54:03 2018	DEPLOYED	monitoring-0.1.0    	monitoring
-    staginghub	25      	Thu Jul 26 16:53:30 2018	DEPLOYED	staginghub-0.1.0    	staginghub
-    wshub     	18      	Thu Jul 26 16:54:11 2018	DEPLOYED	wshub-0.1.0         	wshub
+  NAME        	REVISION	UPDATED                 	STATUS  	CHART               	APP VERSION	NAMESPACE
+  cert-manager	2       	Wed Jun 17 10:36:47 2020	DEPLOYED	cert-manager-v0.15.1	v0.15.1    	cert-manager
+  ea-hub      	19      	Fri Sep 18 14:01:53 2020	DEPLOYED	earthhub-0.1.0      	           	ea-hub
+  edsc-hub    	2       	Wed Aug 26 21:26:46 2020	DEPLOYED	edsc-hub-0.1.0      	           	edsc-hub
+  ingress     	3       	Tue Jul 31 06:23:04 2018	DEPLOYED	nginx-ingress-0.23.0	0.15.0     	router
+  lego        	3       	Sun Oct 14 12:16:18 2018	DEPLOYED	kube-lego-0.4.2     	v0.1.6     	router
+  monitoring  	162     	Fri Sep 18 14:02:34 2020	DEPLOYED	monitoring-0.1.0    	           	monitoring
+  nbgrader-hub	7       	Fri Sep 18 14:00:24 2020	DEPLOYED	nbgrader-hub-0.1.0  	           	nbgrader-hub
+  staginghub  	63      	Tue Sep 29 13:38:40 2020	DEPLOYED	staginghub-0.1.0    	           	staginghub
 
 Depending on how many hubs are running there will be at least three releases
-deployed: :code:`ingress`, :code:`lego`, and :code:`monitoring`. These support
-all hubs and should never be removed. In the case shown above there are three
-hubs running: :code:`staginghub`, :code:`wshub` and :code:`earthhub`.
+deployed: :code:`ingress`, :code:`cert-manager`, and :code:`monitoring`. These support
+all hubs and should never be removed. In the case shown above there are four
+hubs running: :code:`ea-hub`, :code:`edsc-hub`, :code:`nbgrader-hub` and :code:`staginghub`.
 
-To delete the :code:`wshub` run::
+To delete the :code:`<hubname>` run::
 
-    helm delete wshub --purge
+    helm delete <hubname> --purge
 
 If you now
 visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.
