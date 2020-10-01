@@ -48,6 +48,10 @@ that describes the changes that you are making::
 
 Now you can make your changes locally.
 
+If you are proposing changes that affect deployment (e.g. changing `.travis.yml`
+or `deploy.py`) make and test those changes on the `staging` branch before
+creating a feature branch from `master`. See the `operations guide <https://earthlab-hub-ops.readthedocs.io/en/latest/daily-operations/index.html>`_ for details.
+
 5. Build the Docs Locally
 -------------------------
 
