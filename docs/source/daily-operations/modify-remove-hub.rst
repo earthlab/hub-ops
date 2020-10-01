@@ -4,6 +4,10 @@
 Manage, Modify or Remove a Hub
 ===============================
 
+These instructions are for modifying a JupyterHub. If you want to understand
+more about how deployment works, or want to modify how we do deployment, see
+:doc:`deployment </daily-operations/deployment-workflow>`.
+
 Making Changes to an Existing Hub
 ---------------------------------
 
@@ -161,5 +165,5 @@ To permanently remove all storage (**THERE IS NO RECOVERING THE DATA AFTER DOING
 THIS!**) run the following command::
 
     kubectl delete namespace <hubname>
-    
+
 You have now deleted the hub and all of its storage.
