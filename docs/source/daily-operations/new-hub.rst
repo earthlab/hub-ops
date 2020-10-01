@@ -45,9 +45,10 @@ Step one: Create a new hub directory
 
 To begin your hub creation, first create a new directory in ``hub-charts/``
 with the name that you'd like your hub to have. The hub name should end with
-the word :code:`hub`. Then, it is simplest to copy over the `Chart.yaml`,         `requirements.yaml`, and `values.yaml` from another hub and edit them as you
-need. Check the
-`zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
+the word :code:`hub`. Then, it is simplest to copy over the
+:code:`Chart.yaml`, :code:`requirements.yaml`, and :code:`values.yaml` from
+another hub and edit them as you need. Check the
+`Zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
 for ideas on what you might want to configure.
 
 You need to edit

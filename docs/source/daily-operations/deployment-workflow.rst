@@ -9,15 +9,16 @@ There are two protected branches in this repo - `master` and `staging`. Travis
 runs on both branches, and both branches are deployed to the same Google Cloud
 cluster.
 
-* `master` : This branch contains the production hubs - the ones we are
-using for courses. We use this branch through a pull request workflow, and
-deployment happens when a PR is merged.
+* :code:`master` : This branch contains the production hubs - the ones we are
+  using for courses. We use this branch through a pull request workflow, and
+  deployment happens when a PR is merged.
 
-* `staging` : This branch is for testing, especially for testing changes
-to deployment (i.e. changes to `.travis.yml` or `deploy.py` that go beyond
-adding / removing hubs). You can safely test deployment changes here without
-affecting production hubs. We commit / push directly to this branch, and it
-never gets merged to master.
+* :code:`staging` : This branch is for testing, especially for testing changes
+  to deployment (i.e. changes to :code:`.travis.yml` or :code:`deploy.py` that
+  go beyond
+  adding / removing hubs). You can safely test deployment changes here without
+  affecting production hubs. We commit / push directly to this branch, and it
+  never gets merged to master.
 
 User workflow
 -------------
@@ -29,7 +30,7 @@ When making changes to a hub (including both :ref:`new-hub` and :ref:`modify-rem
 * after the PR is merged, travis builds the docker image(s), pushes them to dockerhub, and deploys the hub(s). This build `runs` the :code:`before_deploy` and :code:`deploy` sections in :code:`.travis.yml`.
 
 Before making changes to a production hub (i.e. one being used for a course),
-try them out on a test hub on `staging` branch before creating a feature
+try them out on a test hub on :code:`staging` branch before creating a feature
 branch with the changes and pull requesting to master.
 
 Deploy script
