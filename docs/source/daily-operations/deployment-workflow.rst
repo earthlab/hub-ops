@@ -9,11 +9,11 @@ There are two protected branches in this repo - `master` and `staging`. Travis
 runs on both branches, and both branches are deployed to the same Google Cloud
 cluster.
 
-* `master` branch : This branch contains the production hubs - the ones we are
+* `master` : This branch contains the production hubs - the ones we are
 using for courses. We use this branch through a pull request workflow, and
 deployment happens when a PR is merged.
 
-* `staging` branch : This branch is for testing, especially for testing changes
+* `staging` : This branch is for testing, especially for testing changes
 to deployment (i.e. changes to `.travis.yml` or `deploy.py` that go beyond
 adding / removing hubs). You can safely test deployment changes here without
 affecting production hubs. We commit / push directly to this branch, and it
