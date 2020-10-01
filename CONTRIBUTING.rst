@@ -60,6 +60,7 @@ creating a feature branch from `master`. See the `operations guide <https://eart
 
 Ensure that the tests pass, and the documentation builds successfully::
 
+    $ cd docs
     $ make html
 
 **Note to Windows users**
