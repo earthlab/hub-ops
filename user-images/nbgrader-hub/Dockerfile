@@ -22,6 +22,6 @@ RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite \
 
   # Install zip to support the download tool
   USER root
-  RUN apt-get update && apt-get -y install zip \
+  RUN apt-get update && apt-get -y install  \
       # install open ssh to generate keys
-      && apt-get install openssh-client
+      && apt-get -y install openssh-client
