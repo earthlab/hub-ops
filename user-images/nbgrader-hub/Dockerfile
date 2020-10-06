@@ -4,7 +4,7 @@ FROM earthlab/earth-analytics-python-env:d53d66c
 # Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
     # abc-classroom for github classroom management
-    abc-classroom=0.1.5 \
+    abc-classroom>0.1.5 \
     && jupyter serverextension enable --py nbgitpuller --sys-prefix
 
 # Setup nbzip - this allows students to download files from the hub
@@ -22,4 +22,6 @@ RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite \
 
   # Install zip to support the download tool
   USER root
-  RUN apt-get update && apt-get -y install zip
+  RUN apt-get update && apt-get -y install  \
+      # install open ssh to generate keys
+      && apt-get -y install openssh-client
