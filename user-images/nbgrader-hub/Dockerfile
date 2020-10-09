@@ -1,4 +1,4 @@
-# installing nbgrader and extensions on top of earthlab python env
+# Install nbgrader and extensions on top of earthlab python env
 FROM earthlab/earth-analytics-python-env:d53d66c
 
 # Setup nbgitpuller to sync files from course repo to hub
@@ -20,8 +20,12 @@ RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite \
     && jupyter nbextension enable --sys-prefix --py nbgrader \
     && jupyter serverextension enable --sys-prefix --py nbgrader
 
-  # Install zip to support the download tool
-  USER root
-  RUN apt-get update && apt-get -y install  \
-      # install open ssh to generate keys
-      && apt-get -y install openssh-client
+# Install zip to support the download tool
+USER root
+RUN apt-get update && apt-get -y install  \
+    # install open ssh to generate keys
+    && apt-get -y install openssh-client
+      
+# For downgrade of nbconvert and traitlets following nbgrader setup.py file
+RUN conda install -c conda-forge nbconvert==5.6.1 \
+    traitlets==4.3.3
