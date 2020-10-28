@@ -157,5 +157,6 @@ Your secret file will look something like this:
         clientId: client-id-string-from-github-oath-app
         clientSecret: secret-id-string-from-github-oath-app
 
+See the authentication section of these docs for more on setting up authentication
 The JupyterHub secret token comes from a secret place. Leah needs to figure out
-where that is generated in the near future. :) 
+where that is generated in the near future. :)
