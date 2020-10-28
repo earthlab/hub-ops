@@ -17,7 +17,7 @@ jupyterhub:
   singleuser:
     image:
       # tag will be set by travis on deployment
-      name: earthlabhubops/ea-k8s-user-nccasc-hub
+      name: earthlabhubops/ea-k8s-user-climate-hub
       tag: set-on-deployment
     startTimeout: 600
     cpu:
