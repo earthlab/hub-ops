@@ -79,6 +79,13 @@ jupyterhub:
         - shelbyross
         - andpaxt
         - gcgusts
+        - apmonr
+        - ritareisor
+        - pmodi7
+        - carrielevine
+        - caileeny
+        - nvanschmidt
+        - annalopresti
     admin:
       access: true
       users:
