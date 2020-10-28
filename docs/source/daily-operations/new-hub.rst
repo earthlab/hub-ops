@@ -21,10 +21,7 @@ Z2JH helm chart. This raises two questions: which version should I use and how
 do I find out what versions are available?
 
 All versions of the JupyterHub helm charts are available from `<https://jupyterhub.github.io/helm-chart/>`_.
-We are currently using a `development release <https://jupyterhub.github.io/helm-chart/#development-releases-jupyterhub>`_
-of the chart for most hubs. The reason for this is that a lot of new features
-have been added but no new release has been made (should happen in August 2018).
-If you do not know better picking the latest development release is a good choice.
+We are generally use the latest stable release. The JupyterHub [heml chart changelog](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/CHANGELOG.md) has all of the details about changes between versions.
 
 To change the version of the hub that you are using edit :code:`hub-charts/<hubname>/requirements.yaml`.
 The below snippet shows how to use :code:`v0.7-578b3a2`:
@@ -36,25 +33,23 @@ The below snippet shows how to use :code:`v0.7-578b3a2`:
       version: "v0.7-578b3a2"
       repository: "https://jupyterhub.github.io/helm-chart"
 
-You can also inspect what version :code:`hub-charts/staginghub/requirements.yaml` is
-using. Unless there are security related fixes or bugs that hinder your use of
-a specific version of a chart the recommendation is to not update your chart
+You can check `requirements.yml` file for other production hubs to see what version we are using elsewhere.
+
+Unless there are security related fixes or bugs that hinder your use of
+a specific version of a chart, we recommend not modifying the chart
 version during a workshop. Over the course of a semester it might be worth
 upgrading to the latest version, but should mostly be avoided.
-
-Take a look at :code:`staginghub/` as an example chart to base yours on. A chart can
-describe anything from a simple to a very complex setup. We typically use them
-for low complexity things. The most important file is :code:`values.yaml` which is
-where you configure your hub. Check the
-`zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
-for ideas on what you might want to configure.
 
 Step one: Create a new hub directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To begin your hub creation, first create a new directory in ``hub-charts/``
 with the name that you'd like your hub to have. The hub name should end with
-the word :code:`hub`.
+the word :code:`hub`. Then, it is simplest to copy over the
+:code:`Chart.yaml`, :code:`requirements.yaml`, and :code:`values.yaml` from
+another hub and edit them as you need. Check the
+`Zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
+for ideas on what you might want to configure.
 
 You need to edit
 :code:`jupyterhub.hub.baseUrl` in your :code:`values.yaml` and set it to the same name
@@ -96,7 +91,8 @@ file:
 
     - |
       # Stage 3, Step XXX: Deploy the <HUBNAME>
-      python ./deploy.py --build --push --deploy <HUBNAME>
+      python ./deploy.py --build --push <HUBNAME>
+      python ./deploy.py --deploy <HUBNAME>
 
 Step four: Update the deploy.py file with the hub name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,7 +106,7 @@ argument:
     argparser.add_argument(
         'chartname',
         help="Select which chart to deploy",
-        choices=['staginghub', 'earthhub', 'wshub', 'monitoring', '<HUBNAME>']
+        choices=['earthhub', 'wshub', 'monitoring', '<HUBNAME>']
     )
 
 Configuration values that need to remain secret can be stored in

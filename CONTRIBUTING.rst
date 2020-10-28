@@ -5,7 +5,6 @@ Contributing Guidelines
 This repository contains the code needed to maintain and update the Earth Lab
 Jupyter Hub.
 
-
 Get Started!
 ============
 
@@ -48,11 +47,20 @@ that describes the changes that you are making::
 
 Now you can make your changes locally.
 
+There are two protected branches in this repo - `master` and `staging`. Travis
+runs on both branches, and both branches are deployed to the same Google Cloud
+cluster.
+
+If you are proposing changes that affect deployment (e.g. changing `.travis.yml`
+or `deploy.py`) make and test those changes on the `staging` branch before
+creating a feature branch from `master`. See the `operations guide <https://earthlab-hub-ops.readthedocs.io/en/latest/daily-operations/index.html>`_ for details.
+
 5. Build the Docs Locally
 -------------------------
 
 Ensure that the tests pass, and the documentation builds successfully::
 
+    $ cd docs
     $ make html
 
 **Note to Windows users**
