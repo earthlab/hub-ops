@@ -66,11 +66,14 @@ jupyterhub:
         - lherwehe
         - nkorinek
         - lwasser
-        - kcranston
+        - nquarder
     whitelist:
       users:
         - earth-lab
-        - lwasser
+        - joemcglinchy
+        - lisestdenis
+        - kysolvik
+        - maxwellCcook
         - acrunyon
         - gretfitz
         - CQuinn8
