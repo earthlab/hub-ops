@@ -121,3 +121,41 @@ check that travis looked at your new hub configuration, then merge the PR.
 
 Once your hub is up and running you will be able to reach it
 at :code:`https://hub.earthdatascience.org/<hubname>`.
+
+
+Step Five: If you use GItHub Authentication: Create new GitHub Oath App
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you are using GitHub authentication then you will need to add a new
+hubname.yaml file in the secrets/ directory. This directory can be unlocked
+using git crypt (see setup instructions in these docs for more.)
+
+To setup authentication:
+
+1. In Github.com go to settings --> Developer  and create a new github oauth application
+
+Homepage Url: https://hub.earthdatascience.org/hubname-hub/hub/login
+Authorization Callback Url: https://hub.earthdatascience.org/edsc-hub/hub/oauth_callback
+
+For earth lab we prefer to keep authentication in a single account (the earth
+lab account) rather than have this hosted on different individual user accounts.
+
+Click "Register Application"
+
+2. Once you register the application, you will have a new Client ID and Client secret that you can add to the secrets/hubmame.yaml file.
+
+Your secret file will look something like this:
+
+.. code-block:: yaml
+
+  jupyterhub:
+    proxy:
+      secretToken: "longstring-of-characters here"
+    auth:
+      type: github
+      github:
+        clientId: client-id-string-from-github-oath-app
+        clientSecret: secret-id-string-from-github-oath-app
+
+The JupyterHub secret token comes from a secret place. Leah needs to figure out
+where that is generated in the near future. :) 
