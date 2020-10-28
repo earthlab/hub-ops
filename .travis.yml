@@ -27,6 +27,9 @@ script:
   # Build earth-analytics-hub image
   python ./deploy.py --no-setup --build ea-hub
 - |
+  # Build climate workshop image
+  python ./deploy.py --no-setup --build climate-hub
+- |
   # Build documentation
   pushd docs && make html && popd
 
@@ -73,6 +76,10 @@ before_deploy:
   # Stage 3, Step 2: Build & push image, then deploy earth-analytics-hub
   python ./deploy.py --build --push ea-hub
   python ./deploy.py --deploy ea-hub
+- |
+  # Stage 3, Step 3: Build & push image, then deploy climate-hub
+  python ./deploy.py --build --push climate-hub
+  python ./deploy.py --deploy climate-hub
 - |
   # Stage 3, Step 4: Deploy monitoring of the hubs
   python ./deploy.py --deploy monitoring

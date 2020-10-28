@@ -2,11 +2,11 @@ jupyterhub:
   hub:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
-    baseUrl: /nccasc-hub/
+    baseUrl: /climate-hub/
     annotations:
       prometheus.io/scrape: "true"
       # this needs to start with the value of `hub.baseUrl`
-      prometheus.io/path: /nccasc-hub/hub/metrics
+      prometheus.io/path: /climate-hub/hub/metrics
     resources:
       requests:
         cpu: 200m
@@ -33,7 +33,7 @@ jupyterhub:
             - "sh"
             - "-c"
             - >
-              gitpuller https://github.com/earthlab/nccasc-climate-data-101;
+              gitpuller https://github.com/earthlab/climate-data-101;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
@@ -60,35 +60,17 @@ jupyterhub:
         hosts:
           - hub.earthdatascience.org
   auth:
-    whitelist:
-      users:
-        - earth-lab
-        - acrunyon
-        - gretfitz
-        - CQuinn8
-        - shwang01
-        - tbeeton
-        - mhovey8
-        - katherinejchase
-        - sheelbansal
-        - Muellers-CFRI
-        - kaniewskic0106
-        - LizWWA
-        - janewolken
-        - mewieczo
-        - shelbyross
-        - andpaxt
-        - gcgusts
     admin:
       access: true
       users:
         - lherwehe
         - nkorinek
         - lwasser
+        - kcranston
+    whitelist:
+      users:
+        - earth-lab
+        - lwasser
     type: github
     github:
-      callbackUrl: "https://hub.earthdatascience.org/nccasc-hub/hub/oauth_callback"
-  #    org_whitelist:
-  #      - "earthlab-education"
-    scopes:
-      - "read:user"
+      callbackUrl: "https://hub.earthdatascience.org/climate-hub/hub/oauth_callback"
