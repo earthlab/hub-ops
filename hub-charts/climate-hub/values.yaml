@@ -33,7 +33,7 @@ jupyterhub:
             - "sh"
             - "-c"
             - >
-              gitpuller https://github.com/earthlab/climate-data-101 master workshop-materials;
+              gitpuller https://github.com/earthlab/climate-data-101 main workshop-materials;
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
