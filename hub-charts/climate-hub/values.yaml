@@ -71,6 +71,30 @@ jupyterhub:
       users:
         - earth-lab
         - lwasser
+        - acrunyon
+        - gretfitz
+        - CQuinn8
+        - shwang01
+        - tbeeton
+        - mhovey8
+        - katherinejchase
+        - sheelbansal
+        - Muellers-CFRI
+        - kaniewskic0106
+        - LizWWA
+        - janewolken
+        - mewieczo
+        - shelbyross
+        - andpaxt
+        - gcgusts
+        - apmonr
+        - ritareisor
+        - pmodi7
+        - carrielevine
+        - caileeny
+        - nvanschmidt
+        - annalopresti
+        - biadias
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/climate-hub/hub/oauth_callback"
