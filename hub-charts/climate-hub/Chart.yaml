@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for the climate 101 workshop hub
+name: climate-hub
+version: 0.1.0
