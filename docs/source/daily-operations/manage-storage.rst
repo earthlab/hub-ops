@@ -77,7 +77,7 @@ When you edit the pvc, you will edit the size in the `spec` section of the yaml:
 
 Save your changes, and check the new limit::
 
-  kubectl describe pvc claim-kcranston -n staginghub
+  kubectl describe pvc claim-kcranston -n ea-hub
 
 You will see the message "Waiting for user to (re-)start a pod to finish file
 system resize of volume on node." An admin user can stop the user's pod with
