@@ -109,6 +109,12 @@ jupyterhub:
         - VelosoAguila
         - JessShyvers
         - dendrojeff
+        - risamadoff
+        - arezaii
+        - fianna107
+        - kejones8
+        - crestedcaracaryn
+        - adrifost
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/climate-hub/hub/oauth_callback"
