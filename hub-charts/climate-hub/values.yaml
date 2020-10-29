@@ -98,6 +98,17 @@ jupyterhub:
         - nvanschmidt
         - annalopresti
         - biadias
+        - toniklemm
+        - bg2012reg
+        - shveytserv
+        - gonzalezivan90
+        - kryberg-USGS
+        - msant-usgs
+        - dmbertrand
+        - rattlingleaf
+        - VelosoAguila
+        - JessShyvers
+        - dendrojeff
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/climate-hub/hub/oauth_callback"
