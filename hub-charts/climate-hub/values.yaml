@@ -119,6 +119,7 @@ jupyterhub:
         - jmoore-wildlife
         - dwrliz
         - rachelnlo
+        - kehangit
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/climate-hub/hub/oauth_callback"
