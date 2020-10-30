@@ -66,6 +66,7 @@ jupyterhub:
         - lherwehe
         - nkorinek
         - lwasser
+        - kcranston
         - nquarder
     whitelist:
       users:
