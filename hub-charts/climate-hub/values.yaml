@@ -114,7 +114,10 @@ jupyterhub:
         - fianna107
         - kejones8
         - crestedcaracaryn
-        - adrifost
+        - adrifoster
+        - jmoore-wildlife
+        - dwrliz
+        - rachelnlo
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/climate-hub/hub/oauth_callback"
