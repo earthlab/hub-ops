@@ -29,3 +29,7 @@ RUN apt-get update && apt-get -y install  \
 # For downgrade of nbconvert and traitlets following nbgrader setup.py file
 RUN conda install -c conda-forge nbconvert==5.6.1 \
     traitlets==4.3.3
+
+# Install zip to support the download tool
+USER root
+RUN apt-get update && apt-get -y install zip
