@@ -22,11 +22,11 @@ jupyterhub:
     storage:
       capacity: 10Gi
     cpu:
-      guarantee: 0.4
+      guarantee: 0.8
       limit: 2
     memory:
-      guarantee: 2G
-      limit: 4G
+      guarantee: 3G
+      limit: 5G
   proxy:
     nodeSelector:
       cloud.google.com/gke-nodepool: core-pool
