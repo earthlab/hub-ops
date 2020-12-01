@@ -18,6 +18,7 @@ a hub and observe what it looks like on the monitoring. Next time a workshop
 is happening keep an eye on the monitoring to see what happens when lots of
 people login at the same time.
 
+For more about the our Grafana setup, see :ref:`grafana_and_prometheus`.
 
 Operations
 ----------

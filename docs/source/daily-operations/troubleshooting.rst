@@ -50,26 +50,40 @@ Helpful CLI commands
 
 You can view and edit components of your cluster from the command line using a combination of commands from Google Cloud SDK, Kubernetes, and Helm.
 
-GCloud commands::
+**GCloud commands**
 
-  $ gcloud containers cluster list  # list your clusters (probably only one; jhub)
+List your clusters (probably only one, `jhub`)::
 
-  $ gcloud container clusters describe jhub  # show details about the cluster ``jhub``
+  $ gcloud containers cluster list
 
-  $ gcloud auth list # list all gcloud authentications; highlights active authentication
+Show details about cluster jhub::
+
+  $ gcloud container clusters describe jhub
+
+List all gcloud authentications; highlights active authentication::
+
+  $ gcloud auth list
 
 **Kubernetes commands**
 
-You can view and edit your kubernetes cluster using `kubectl`. There is a great cheat sheet in the official docs: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+You can view and edit your kubernetes cluster using `kubectl`. There is a great cheat sheet in the official docs: https://kubernetes.io/docs/reference/kubectl/cheatsheet/ but here are some common ones.
 
-Short list of kubectl commands::
+List namespaces::
 
-  $ kubectl get namespace  # list of namespaces
+  $ kubectl get namespace
 
-  $ kubectl get pods -n <namespace>  # list all pods in a namespace
+List all pods in a namespace::
 
-  $ kubectl logs -n <namespace> <podname> # get logs for a single pod
+  $ kubectl get pods -n <namespace>
 
-  $ kubectl get events -n <namespace> --sort-by='{.lastTimestamp}'  # get events for a pod
+Get logs for a single pod::
 
-  $ kubectl get pvc -n <namespace>  # get list of PersistentVolumeClaims
+  $ kubectl logs -n <namespace> <podname>
+
+Get recent events for a pod::
+
+  $ kubectl get events -n <namespace> --sort-by='{.lastTimestamp}'
+
+Get list of PersistentVolumeClaims::
+
+  $ kubectl get pvc -n <namespace>
