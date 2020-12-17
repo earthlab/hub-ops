@@ -33,4 +33,4 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build the Docker image
-      run: python deploy.py --no-setup --build --push
+      run: python deploy.py --no-setup --build --push staginghub
