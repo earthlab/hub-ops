@@ -2,7 +2,6 @@
 import argparse
 import logging
 import subprocess
-import yaml
 import os
 
 logging.basicConfig(level=logging.INFO)
