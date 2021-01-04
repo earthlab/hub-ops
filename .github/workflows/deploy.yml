@@ -1,0 +1,45 @@
+# Re-deploys the cluster
+# The bulk of this workflow happens in the deploy.py script
+# Based on https://github.com/actions/starter-workflows/blob/cefd62c81b2bacc08ed2c13451e1302e52713d16/ci/google.yml
+
+name: Re-deploy hubs
+
+on:
+  push:
+    branches: [ staging ]
+  pull_request:
+    branches: [ staging ]
+
+env:
+  PYTHON_VERSION: 3.8
+  GKE_PROJECT: ea-jupyter
+  GKE_ZONE: us-central1-b
+  GKE_CLUSTER: jhub
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Setup gcloud CLI
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GCLOUD_GH_ACTIONS }}
+        project_id: ${{ env.GKE_PROJECT }}
+
+    - uses: google-github-actions/get-gke-credentials@v0.2.1
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.GCLOUD_GH_ACTIONS }}
+
+    - name: Deploy the hub
+      run: python deploy.py --no-setup --deploy staginghub
