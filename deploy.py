@@ -280,7 +280,7 @@ def deploy(chartname):
         "--force",
         "--wait",
         "--timeout",
-        "600",
+        "600s",
         "--cleanup-on-fail",
         "-f",
         os.path.join("secrets", f"{chartname}.yaml"),
