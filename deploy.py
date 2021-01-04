@@ -106,15 +106,15 @@ def get_previous_image_spec(chartname, image_dir):
     return None
 
 
-def image_requires_build(image_dir, commit_range=None):
-    """Check whether the commit range includes any changes to the image_dir."""
-    if commit_range is None:
-        return False
-    image_touched = subprocess.check_output([
-        'git', 'diff', '--name-only', commit_range, image_dir,
-    ]).decode('utf-8').strip() != ''
-
-    return image_touched
+# def image_requires_build(image_dir, commit_range=None):
+#     """Check whether the commit range includes any changes to the image_dir."""
+#     if commit_range is None:
+#         return False
+#     image_touched = subprocess.check_output([
+#         'git', 'diff', '--name-only', commit_range, image_dir,
+#     ]).decode('utf-8').strip() != ''
+#
+#     return image_touched
 
 def image_exists(image_spec):
     try:
@@ -172,17 +172,12 @@ def build_user_image(chartname, push=False):
     if image_spec is None:
         return
 
-    needs_rebuilding = image_requires_build(image_dir, commit_range)
+    # check whether the image already exists
+    if image_exists(image_spec):
+        print("Image {} exists; no need to rebuild".format(image_spec))
 
-    # if the image does not appear to need re-building, test that it
-    # actually exists
-    if not needs_rebuilding:
-        print("Commits do not affect {}, but checking for image".format(image_dir))
-        if not image_exists(image_spec):
-            print("Image {} does not exist; rebuilding".format(image_spec))
-            needs_rebuilding = True
-
-    if needs_rebuilding:
+    else:
+        print("Image {} does not exist; rebuilding".format(image_spec))
         previous_image_spec = get_previous_image_spec(chartname, image_dir)
 
         if previous_image_spec is not None:
