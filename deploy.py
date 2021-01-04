@@ -8,24 +8,24 @@ logging.basicConfig(level=logging.INFO)
 
 
 def helm(*args, **kwargs):
-    logging.info("Executing helm %s", ' '.join(args))
-    return subprocess.check_call(['helm'] + list(args), **kwargs)
+    logging.info("Executing helm %s", " ".join(args))
+    return subprocess.check_call(["helm"] + list(args), **kwargs)
 
 
 def kubectl(*args, **kwargs):
-    logging.info("Executing kubectl %s", ' '.join(args))
-    return subprocess.check_call(['kubectl'] + list(args), **kwargs)
+    logging.info("Executing kubectl %s", " ".join(args))
+    return subprocess.check_call(["kubectl"] + list(args), **kwargs)
 
 
 def docker(*args, **kwargs):
-    logging.info("Executing docker %s", ' '.join(args))
-    return subprocess.check_call(['docker'] + list(args), **kwargs)
+    logging.info("Executing docker %s", " ".join(args))
+    return subprocess.check_call(["docker"] + list(args), **kwargs)
 
 
 def capture_kubectl(*args, **kwargs):
     # capture the output of calling kubectl
-    logging.info("Executing and capturing kubectl %s", ' '.join(args))
-    return subprocess.check_output(['kubectl'] + list(args), **kwargs)
+    logging.info("Executing and capturing kubectl %s", " ".join(args))
+    return subprocess.check_output(["kubectl"] + list(args), **kwargs)
 
 
 def setup_auth():
@@ -33,46 +33,76 @@ def setup_auth():
     Set up GCloud + kubectl authentication for the Earthlab cluster
     """
     # Authenticate to GoogleCloud using our "travis-deployer" service account
-    subprocess.check_output([
-        "gcloud", "auth", "activate-service-account",
-        "--key-file=secrets/gke-auth-key.json"
-    ])
+    subprocess.check_output(
+        [
+            "gcloud",
+            "auth",
+            "activate-service-account",
+            "--key-file=secrets/gke-auth-key.json",
+        ]
+    )
 
     # Use gcloud to populate ~/.kube/config, which kubectl / helm can use
-    subprocess.check_call([
-        "gcloud", "container", "clusters", "get-credentials",
-        "jhub", "--zone=us-central1-b", "--project=ea-jupyter"
-    ])
+    subprocess.check_call(
+        [
+            "gcloud",
+            "container",
+            "clusters",
+            "get-credentials",
+            "jhub",
+            "--zone=us-central1-b",
+            "--project=ea-jupyter",
+        ]
+    )
 
 
 def setup_helm():
     """Ensure helm is up to date and ready to go"""
-    subprocess.check_call([
-        'helm', 'init', '--upgrade',
-    ])
+    subprocess.check_call(
+        [
+            "helm",
+            "init",
+            "--upgrade",
+        ]
+    )
     # wait for tiller to come up
-    subprocess.check_call([
-        'kubectl', 'rollout', 'status',
-        '--namespace', 'kube-system',
-        '--watch', 'deployment', 'tiller-deploy',
-    ])
+    subprocess.check_call(
+        [
+            "kubectl",
+            "rollout",
+            "status",
+            "--namespace",
+            "kube-system",
+            "--watch",
+            "deployment",
+            "tiller-deploy",
+        ]
+    )
 
 
 def setup_docker():
-    subprocess.check_output(['docker', 'login',
-                             '-u', 'earthlabcu',
-                             '-p', open("secrets/dockerhub").read().strip()])
+    subprocess.check_output(
+        [
+            "docker",
+            "login",
+            "-u",
+            "earthlabcu",
+            "-p",
+            open("secrets/dockerhub").read().strip(),
+        ]
+    )
 
 
 def last_git_modified(path, n=1):
     """Get last revision at which `path` got modified"""
-    return subprocess.check_output([
-        'git',
-        'log',
-        '-n', str(n),
-        '--pretty=format:%h',
-        path
-        ]).decode('utf-8').split('\n')[-1]
+    return (
+        subprocess.check_output(
+            ["git", "log", "-n", str(n), "--pretty=format:%h", path]
+        )
+        .decode("utf-8")
+        .split("\n")[-1]
+    )
+
 
 def get_next_image_spec(chartname, image_dir):
     """Build and return the name of the image to use, based on last commit"""
@@ -80,10 +110,11 @@ def get_next_image_spec(chartname, image_dir):
         # get last image spec
         tag = last_git_modified(image_dir)
         image_name = "earthlabhubops/ea-k8s-user-" + chartname
-        image_spec = image_name + ':' + tag
+        image_spec = image_name + ":" + tag
         return image_spec
     else:
         return None
+
 
 def get_previous_image_spec(chartname, image_dir):
     """Pull latest available version of image to maximize cache use."""
@@ -94,9 +125,9 @@ def get_previous_image_spec(chartname, image_dir):
     while try_count < 5:
         last_image_tag = last_git_modified(image_dir, try_count + 1)
 
-        last_image_spec = image_name + ':' + last_image_tag
+        last_image_spec = image_name + ":" + last_image_tag
         try:
-            docker('pull', last_image_spec)
+            docker("pull", last_image_spec)
             return last_image_spec
 
         except subprocess.CalledProcessError:
@@ -116,13 +147,15 @@ def get_previous_image_spec(chartname, image_dir):
 #
 #     return image_touched
 
+
 def image_exists(image_spec):
     try:
-        docker('pull', image_spec)
+        docker("pull", image_spec)
         return True
 
     except subprocess.CalledProcessError:
         return False
+
 
 # def build_hub_image(hubname, commit_range, push=False):
 #     # Build and push to Docker Hub the hub(!) images that need updating
@@ -181,33 +214,32 @@ def build_user_image(chartname, push=False):
         previous_image_spec = get_previous_image_spec(chartname, image_dir)
 
         if previous_image_spec is not None:
-            docker('build',
-                   '--cache-from', previous_image_spec,
-                   '-t', image_spec,
-                   image_dir)
+            docker(
+                "build",
+                "--cache-from",
+                previous_image_spec,
+                "-t",
+                image_spec,
+                image_dir,
+            )
         else:
-            docker('build',
-                   '-t', image_spec,
-                   image_dir)
-        print('Build completed for image', image_spec)
+            docker("build", "-t", image_spec, image_dir)
+        print("Build completed for image", image_spec)
 
         if push:
             try:
-                docker('push', image_spec)
+                docker("push", image_spec)
                 print("Pushed {} to dockerhub".format(image_spec))
             except subprocess.CalledProcessError:
                 print("Failed to push {} to dockerhub".format(image_spec))
-
-    else:
-        print('Do not need to rebuild image, using', image_spec)
 
     return image_spec
 
 
 def deploy(chartname):
     # monitoring chart isn't in the hub-charts directory
-    if chartname != 'monitoring':
-        chart_dir = os.path.join('hub-charts', chartname)
+    if chartname != "monitoring":
+        chart_dir = os.path.join("hub-charts", chartname)
     else:
         chart_dir = chartname
     extra_args = []
@@ -218,9 +250,10 @@ def deploy(chartname):
     # tag is the part after the ':'
     if image_spec is not None:
         print("Using", image_spec, "as user image for", chartname)
-        tag = image_spec.split(':').pop()
-        extra_args.extend(['--set-string',
-                           'jupyterhub.singleuser.image.tag={}'.format(tag)])
+        tag = image_spec.split(":").pop()
+        extra_args.extend(
+            ["--set-string", "jupyterhub.singleuser.image.tag={}".format(tag)]
+        )
 
     # No longer have hub-image dir, but leaving this here in case
     # it gets resurrected in the future
@@ -235,63 +268,63 @@ def deploy(chartname):
     #     extra_args.extend(['--set-string',
     #                        'jupyterhub.hub.image.tag={}'.format(tag)])
 
-    helm('dep', 'up', cwd=chart_dir)
+    helm("dep", "up", cwd=chart_dir)
 
-    install_args = ['upgrade', '--install',
-                    '--namespace', chartname,
-                    chartname,
-                    chart_dir,
-                    '--force',
-                    '--wait',
-                    '--timeout', '600',
-                    '--cleanup-on-fail',
-                    '-f', os.path.join('secrets', f'{chartname}.yaml')
-                    ]
+    install_args = [
+        "upgrade",
+        "--install",
+        "--namespace",
+        chartname,
+        chartname,
+        chart_dir,
+        "--force",
+        "--wait",
+        "--timeout",
+        "600",
+        "--cleanup-on-fail",
+        "-f",
+        os.path.join("secrets", f"{chartname}.yaml"),
+    ]
     install_args += extra_args
     helm(*install_args)
 
-    logging.info(
-        "Waiting for all deployments to be up and running"
-        )
-    deployments = capture_kubectl('--namespace', chartname,
-                                  'get', 'deployments',
-                                  '-o', 'name'
-                                  ).decode().strip().split('\n')
+    logging.info("Waiting for all deployments to be up and running")
+    deployments = (
+        capture_kubectl("--namespace", chartname, "get", "deployments", "-o", "name")
+        .decode()
+        .strip()
+        .split("\n")
+    )
 
     for d in deployments:
-        kubectl('rollout', 'status',
-                '--namespace', chartname,
-                '--watch', d
-                )
+        kubectl("rollout", "status", "--namespace", chartname, "--watch", d)
 
 
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
-        '--no-setup',
-        help='Do not run setup procedures',
-        dest='run_setup',
-        action='store_false',
+        "--no-setup",
+        help="Do not run setup procedures",
+        dest="run_setup",
+        action="store_false",
     )
     argparser.add_argument(
-        '--build',
-        help='Build user images',
-        action='store_true',
+        "--build",
+        help="Build user images",
+        action="store_true",
     )
     argparser.add_argument(
-        '--push',
-        help='Push docker images to Docker Hub',
-        action='store_true',
+        "--push",
+        help="Push docker images to Docker Hub",
+        action="store_true",
     )
     argparser.add_argument(
-        '--deploy',
-        help='Deploy chart',
-        action='store_true',
+        "--deploy",
+        help="Deploy chart",
+        action="store_true",
     )
     argparser.add_argument(
-        'chartname',
-        help="Select which chart to deploy",
-        choices=['staginghub']
+        "chartname", help="Select which chart to deploy", choices=["staginghub"]
     )
 
     args = argparser.parse_args()
@@ -310,5 +343,5 @@ def main():
         deploy(args.chartname)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
