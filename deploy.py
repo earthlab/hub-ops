@@ -162,7 +162,7 @@ def image_exists(image_spec):
 #     return image_spec
 
 
-def build_user_image(chartname, commit_range, push=False):
+def build_user_image(chartname, push=False):
     # Build and push to Docker Hub singleuser images that need updating
     # from `user-images/`
     image_dir = "user-images/" + chartname
@@ -307,8 +307,8 @@ def main():
         setup_docker()
 
     if args.build:
-        commit_range = os.getenv('TRAVIS_COMMIT_RANGE')
-        build_user_image(args.chartname, commit_range, push=args.push)
+        # commit_range = os.getenv('TRAVIS_COMMIT_RANGE')
+        build_user_image(args.chartname, push=args.push)
         # build_hub_image(args.chartname, commit_range, push=args.push)
 
     if args.deploy:
