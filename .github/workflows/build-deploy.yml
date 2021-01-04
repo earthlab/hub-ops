@@ -14,7 +14,10 @@ on:
 env:
   PYTHON_VERSION: 3.8
   DOCKERHUB_USERNAME: earthlabcu
-
+  GKE_PROJECT: ea-jupyter
+  GKE_ZONE: us-central1-b
+  GKE_CLUSTER: jhub
+  
 jobs:
 
   build-push:
