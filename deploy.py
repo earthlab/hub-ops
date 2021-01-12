@@ -28,69 +28,69 @@ def capture_kubectl(*args, **kwargs):
     return subprocess.check_output(["kubectl"] + list(args), **kwargs)
 
 
-def setup_auth():
-    """
-    Set up GCloud + kubectl authentication for the Earthlab cluster
-    """
-    # Authenticate to GoogleCloud using our "travis-deployer" service account
-    subprocess.check_output(
-        [
-            "gcloud",
-            "auth",
-            "activate-service-account",
-            "--key-file=secrets/gke-auth-key.json",
-        ]
-    )
-
-    # Use gcloud to populate ~/.kube/config, which kubectl / helm can use
-    subprocess.check_call(
-        [
-            "gcloud",
-            "container",
-            "clusters",
-            "get-credentials",
-            "jhub",
-            "--zone=us-central1-b",
-            "--project=ea-jupyter",
-        ]
-    )
-
-
-def setup_helm():
-    """Ensure helm is up to date and ready to go"""
-    subprocess.check_call(
-        [
-            "helm",
-            "init",
-            "--upgrade",
-        ]
-    )
-    # wait for tiller to come up
-    subprocess.check_call(
-        [
-            "kubectl",
-            "rollout",
-            "status",
-            "--namespace",
-            "kube-system",
-            "--watch",
-            "deployment",
-            "tiller-deploy",
-        ]
-    )
-
-
-def setup_docker():
-    subprocess.check_output(
-        [
-            "docker",
-            "login",
-            "-u",
-            "earthlabcu",
-            "-p",
-            open("secrets/dockerhub").read().strip(),
-        ]
-    )
+# def setup_auth():
+#     """
+#     Set up GCloud + kubectl authentication for the Earthlab cluster
+#     """
+#     # Authenticate to GoogleCloud using our "travis-deployer" service account
+#     subprocess.check_output(
+#         [
+#             "gcloud",
+#             "auth",
+#             "activate-service-account",
+#             "--key-file=secrets/gke-auth-key.json",
+#         ]
+#     )
+#
+#     # Use gcloud to populate ~/.kube/config, which kubectl / helm can use
+#     subprocess.check_call(
+#         [
+#             "gcloud",
+#             "container",
+#             "clusters",
+#             "get-credentials",
+#             "jhub",
+#             "--zone=us-central1-b",
+#             "--project=ea-jupyter",
+#         ]
+#     )
+#
+#
+# def setup_helm():
+#     """Ensure helm is up to date and ready to go"""
+#     subprocess.check_call(
+#         [
+#             "helm",
+#             "init",
+#             "--upgrade",
+#         ]
+#     )
+#     # wait for tiller to come up
+#     subprocess.check_call(
+#         [
+#             "kubectl",
+#             "rollout",
+#             "status",
+#             "--namespace",
+#             "kube-system",
+#             "--watch",
+#             "deployment",
+#             "tiller-deploy",
+#         ]
+#     )
+#
+#
+# def setup_docker():
+#     subprocess.check_output(
+#         [
+#             "docker",
+#             "login",
+#             "-u",
+#             "earthlabcu",
+#             "-p",
+#             open("secrets/dockerhub").read().strip(),
+#         ]
+#     )
 
 
 def last_git_modified(path, n=1):
@@ -104,21 +104,23 @@ def last_git_modified(path, n=1):
     )
 
 
-def get_next_image_spec(chartname, image_dir):
+def get_next_image_spec(hubname, image_dir):
     """Build and return the name of the image to use, based on last commit"""
     if os.path.exists(image_dir):
         # get last image spec
         tag = last_git_modified(image_dir)
-        image_name = "earthlabhubops/ea-k8s-user-" + chartname
+        image_name = "earthlabhubops/ea-k8s-user-" + hubname
         image_spec = image_name + ":" + tag
+        print("Image spec is {}".format(image_spec))
         return image_spec
     else:
+        print("No image spec")
         return None
 
 
-def get_previous_image_spec(chartname, image_dir):
+def get_previous_image_spec(hubname, image_dir):
     """Pull latest available version of image to maximize cache use."""
-    image_name = "earthlabhubops/ea-k8s-user-" + chartname
+    image_name = "earthlabhubops/ea-k8s-user-" + hubname
     try_count = 0
     # try increasingly older git revisions
     print("Try to pull older image to use in build with --cache-from")
@@ -195,13 +197,13 @@ def image_exists(image_spec):
 #     return image_spec
 
 
-def build_user_image(chartname, push=False):
+def build_user_image(hubname, push=False):
     # Build and push to Docker Hub singleuser images that need updating
     # from `user-images/`
-    image_dir = "user-images/" + chartname
+    image_dir = "user-images/" + hubname
 
     # get the image_spec based on the git commit that last modified image_dir
-    image_spec = get_next_image_spec(chartname, image_dir)
+    image_spec = get_next_image_spec(hubname, image_dir)
     if image_spec is None:
         return
 
@@ -211,7 +213,7 @@ def build_user_image(chartname, push=False):
 
     else:
         print("Image {} does not exist; rebuilding".format(image_spec))
-        previous_image_spec = get_previous_image_spec(chartname, image_dir)
+        previous_image_spec = get_previous_image_spec(hubname, image_dir)
 
         if previous_image_spec is not None:
             docker(
@@ -236,20 +238,20 @@ def build_user_image(chartname, push=False):
     return image_spec
 
 
-def deploy(chartname):
+def deploy(hubname):
     # monitoring chart isn't in the hub-charts directory
-    if chartname != "monitoring":
-        chart_dir = os.path.join("hub-charts", chartname)
+    if hubname != "monitoring":
+        chart_dir = os.path.join("hub-charts", hubname)
     else:
-        chart_dir = chartname
+        chart_dir = hubname
     extra_args = []
 
     # Check for a custom singleuser image
-    image_dir = "user-images/" + chartname
-    image_spec = get_next_image_spec(chartname, image_dir)
+    image_dir = "user-images/" + hubname
+    image_spec = get_next_image_spec(hubname, image_dir)
     # tag is the part after the ':'
     if image_spec is not None:
-        print("Using", image_spec, "as user image for", chartname)
+        print("Using", image_spec, "as user image for", hubname)
         tag = image_spec.split(":").pop()
         extra_args.extend(
             ["--set-string", "jupyterhub.singleuser.image.tag={}".format(tag)]
@@ -258,56 +260,96 @@ def deploy(chartname):
     # No longer have hub-image dir, but leaving this here in case
     # it gets resurrected in the future
     # Check for a custom hub image
-    # hub_image_dir = "hub-images/" + chartname
+    # hub_image_dir = "hub-images/" + hubname
     # if os.path.exists(hub_image_dir):
     #     tag = last_git_modified(hub_image_dir)
-    #     image_name = "earthlabhubops/ea-k8s-hub-" + chartname
+    #     image_name = "earthlabhubops/ea-k8s-hub-" + hubname
     #     image_spec = image_name + ':' + tag
     #
-    #     print("Using", image_spec, "as hub image for", chartname)
+    #     print("Using", image_spec, "as hub image for", hubname)
     #     extra_args.extend(['--set-string',
     #                        'jupyterhub.hub.image.tag={}'.format(tag)])
 
-    helm("dep", "up", cwd=chart_dir)
+    # The helm command is
+    # helm upgrade --install <CHARTNAME> jupyterhub/jupyterhub \
+    # --namespace <CHARTNAME> --version <VERSION> \
+    # --timeout 600s -f hub-charts/<CHARTNAME>/config.yaml \
+    # -f secrets/<CHARTNAME>.yaml --cleanup-on-fail
 
-    install_args = [
+    helm_release = hubname
+    helm_chart = "jupyterhub/jupyterhub"
+    jupyter_version = "0.10.6"
+    # assume settings for
+    yamlfile = "{}.yaml".format(hubname)
+    config_file = os.path.join("hub-configs",yamlfile)
+    secrets_file = os.path.join("secrets", yamlfile)
+
+    helm_args = [
         "upgrade",
         "--install",
+        helm_release,
+        helm_chart,
         "--namespace",
-        chartname,
-        chartname,
-        chart_dir,
-        "--force",
-        "--wait",
+        hubname,
+        "--version",
+        jupyter_version,
         "--timeout",
         "600s",
-        "--cleanup-on-fail",
         "-f",
-        os.path.join("secrets", f"{chartname}.yaml"),
+        config_file,
+        "-f",
+        secrets_file,
+        "--cleanup-on-fail"
     ]
-    install_args += extra_args
-    helm(*install_args)
+    #### START old helm stuff
+    # helm("dep", "up", cwd=chart_dir)
+    #
+    # install_args = [
+    #     "upgrade",
+    #     "--install",
+    #     "--namespace",
+    #     hubname,
+    #     hubname,
+    #     chart_dir,
+    #     "--force",
+    #     "--wait",
+    #     "--timeout",
+    #     "600s",
+    #     "--cleanup-on-fail",
+    #     "-f",
+    #     os.path.join("secrets", f"{hubname}.yaml"),
+    # ]
+    # install_args += extra_args
+    # helm(*install_args)
+    #### END old helm stuff
 
-    logging.info("Waiting for all deployments to be up and running")
-    deployments = (
-        capture_kubectl("--namespace", chartname, "get", "deployments", "-o", "name")
-        .decode()
-        .strip()
-        .split("\n")
-    )
+    helm_args += extra_args
+    helm(*helm_args)
 
+
+    logging.info("Checking that all deployments are up and running")
+    kubectl_output = capture_kubectl("--namespace", "staginghub", "get", "deployments", "-o", "name")
+    deployments = kubectl_output.decode().strip().split("\n")
     for d in deployments:
-        kubectl("rollout", "status", "--namespace", chartname, "--watch", d)
+        name = d.split('/')[1]
+        kubectl_args = [
+            "rollout",
+            "status",
+            "--namespace",
+            hubname,
+            "deployment/{}".format(name)
+            ]
+        kubectl(*kubectl_args)
 
 
 def main():
     argparser = argparse.ArgumentParser()
-    argparser.add_argument(
-        "--no-setup",
-        help="Do not run setup procedures",
-        dest="run_setup",
-        action="store_false",
-    )
+    # argparser.add_argument(
+    #     "--no-setup",
+    #     help="Do not run setup procedures",
+    #     dest="run_setup",
+    #     action="store_false",
+    # )
     argparser.add_argument(
         "--build",
         help="Build user images",
@@ -320,27 +362,27 @@ def main():
     )
     argparser.add_argument(
         "--deploy",
-        help="Deploy chart",
+        help="Deploy hub",
         action="store_true",
     )
     argparser.add_argument(
-        "chartname", help="Select which chart to deploy", choices=["staginghub"]
+        "hubname", help="Select which hub to deploy", choices=["staginghub"]
     )
 
     args = argparser.parse_args()
 
-    if args.run_setup:
-        setup_auth()
-        setup_helm()
-        setup_docker()
+    # if args.run_setup:
+    #     setup_auth()
+    #     setup_helm()
+    #     setup_docker()
 
     if args.build:
         # commit_range = os.getenv('TRAVIS_COMMIT_RANGE')
-        build_user_image(args.chartname, push=args.push)
-        # build_hub_image(args.chartname, commit_range, push=args.push)
+        build_user_image(args.hubname, push=args.push)
+        # build_hub_image(args.hubname, commit_range, push=args.push)
 
     if args.deploy:
-        deploy(args.chartname)
+        deploy(args.hubname)
 
 
 if __name__ == "__main__":
