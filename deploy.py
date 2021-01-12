@@ -254,7 +254,7 @@ def deploy(hubname):
         print("Using", image_spec, "as user image for", hubname)
         tag = image_spec.split(":").pop()
         extra_args.extend(
-            ["--set-string", "jupyterhub.singleuser.image.tag={}".format(tag)]
+            ["--set-string", "singleuser.image.tag={}".format(tag)]
         )
 
     # No longer have hub-image dir, but leaving this here in case
@@ -299,7 +299,8 @@ def deploy(hubname):
         config_file,
         "-f",
         secrets_file,
-        "--cleanup-on-fail"
+        "--cleanup-on-fail",
+        "--debug",
     ]
     #### START old helm stuff
     # helm("dep", "up", cwd=chart_dir)
