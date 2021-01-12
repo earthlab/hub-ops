@@ -70,5 +70,8 @@ jobs:
           location: ${{ env.GKE_ZONE }}
           credentials: ${{ secrets.GCLOUD_GH_ACTIONS }}
 
+      - name: Decrypt secrets
+        run: git-crypt unlock ${{ secrets.GIT_CRYPT_KEY}}
+
       - name: Deploy the hub
         run: python deploy.py --no-setup --deploy staginghub
