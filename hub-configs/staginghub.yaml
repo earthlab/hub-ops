@@ -3,8 +3,8 @@ hub:
 
 singleuser:
   image:
-    name: earthlabhubops/ea-k8s-user-ea-hub
-    tag: c82bb9f
+    name: earthlabhubops/ea-k8s-user-staginghub
+    tag: set-on-deployment
   lifecycleHooks:
     postStart:
       exec:
@@ -33,7 +33,7 @@ auth:
   github:
     callbackUrl: "https://hub.earthdatascience.org/staginghub/hub/oauth_callback"
 
-# Settings past this point are unlikely to need updating 
+# Settings past this point are unlikely to need updating
 
 proxy:
   service:
