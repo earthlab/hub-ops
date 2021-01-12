@@ -14,7 +14,7 @@ on:
     branches: [ staging ]
     paths-ignore:
     - 'docs/**'
-  
+
 env:
   PYTHON_VERSION: 3.8
   DOCKERHUB_USERNAME: earthlabcu
@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build the Docker image
-        run: python deploy.py --no-setup --build --push staginghub
+        run: python deploy.py --build --push staginghub
 
   deploy:
     needs: build-push
@@ -74,4 +74,4 @@ jobs:
         run: git-crypt unlock ${{ secrets.GIT_CRYPT_KEY}}
 
       - name: Deploy the hub
-        run: python deploy.py --no-setup --deploy staginghub
+        run: python deploy.py --deploy staginghub

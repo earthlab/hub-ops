@@ -23,3 +23,4 @@ Get started
    setup-helm
    git-crypt
    tooling
+   new-cluster

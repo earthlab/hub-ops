@@ -1,4 +1,4 @@
-FROM earthlab/earth-analytics-python-env:f880467
+FROM earthlab/earth-analytics-python-env:2fa64a7
 
 # Install nbgrader server extensions - we only want the students to see the
 # validate extension, but you can't just install one. You need to install
@@ -33,4 +33,4 @@ RUN apt-get update && apt-get -y install zip
 
 # Add the nbgitpuller wrapper script that runs as a postStart lifecycleHook
 # (see values.yaml in hub-charts for usage)
-COPY wrap_gitpuller.py /tmp/
+# COPY wrap_gitpuller.py /tmp/

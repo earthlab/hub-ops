@@ -1,0 +1,61 @@
+hub:
+  baseUrl: /staginghub/
+
+singleuser:
+  image:
+    name: earthlabhubops/ea-k8s-user-staginghub
+    tag: set-on-deployment
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: ["gitpuller", "https://github.com/earthlab-education/ea-spring-2021-course-notebooks", "main", "ea-spring-2021"]
+  storage:
+    capacity: 10Gi
+  cpu:
+    limit: 2
+    guarantee: 0.4
+  memory:
+    limit: 4G
+    guarantee: 2G
+
+auth:
+  admin:
+    access: true
+    users:
+      - kcranston
+      - lwasser
+  whitelist:
+    users:
+      - kcranston
+      - lwasser
+      - eastudent
+  type: github
+  github:
+    callbackUrl: "https://hub.earthdatascience.org/staginghub/hub/oauth_callback"
+
+# Settings past this point are unlikely to need updating
+
+proxy:
+  service:
+    type: ClusterIP
+
+ingress:
+  enabled: true
+  hosts:
+    - hub.earthdatascience.org
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls:
+    - secretName: cert-manager-tls
+      hosts:
+        - hub.earthdatascience.org
+
+# make the user nodes run on the node-pool rather than the core-pool
+# and schedule new users to most utilized nodes
+scheduling:
+  userPods:
+    nodeAffinity:
+      matchNodePurpose: require
+  userScheduler:
+    enabled: true
