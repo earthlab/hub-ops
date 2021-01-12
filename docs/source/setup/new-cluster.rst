@@ -2,7 +2,10 @@ Setting up a new cluster
 ========================
 
 These are notes from winter 2021 about setting up a new cluster from
-scratch. These are "this is what I did, including mistakes that needed to be fixed" rather than "follow these steps exactly as a tutorial".
+scratch.
+
+Short version
+-------------
 
 Resources
 ---------
@@ -16,9 +19,13 @@ Assumptions
 * have a gcloud project :code:`ea-jupyter` and the gcloud command line tools set up
 * have kubectl and helm 3 installed
 
+Long version
+------------
+
+What follows are "this is what I did, including mistakes that needed to be fixed" rather than "follow these steps exactly as a tutorial".
 
 Creating a new kubernetes cluster
----------------------------------
+#################################
 
 Create a new cluster called :code:`jhub2` in the ea-jupyter project::
 
@@ -76,7 +83,7 @@ Create the user user pool (using n1-standard-8 nodes with autoscaling maximum at
 Forgot to set the image type to :code:`cos_containerd` to match the core-pool, so I changed that using the web console UI.
 
 Install JupyterHub
-------------------
+##################
 
 Following https://zero-to-jupyterhub.readthedocs.io/en/latest/jupyterhub/installation.html::
 
@@ -90,7 +97,7 @@ Add the secret token from :code:`secrets/staginghub.yaml` to config.yaml as spec
   --version 0.10.6 --values config.yaml
 
 Set up docker image and gitpuller
----------------------------------
+#################################
 
 See https://zero-to-jupyterhub.readthedocs.io/en/latest/jupyterhub/customizing/user-environment.html, added the following to config.yaml::
 
@@ -108,7 +115,7 @@ Remove the token from config.yaml and provide it on the command line when we upg
   helm upgrade --cleanup-on-fail staginghub jupyterhub/jupyterhub --namespace staginghub --version 0.10.6 --timeout 600s --debug -f config.yaml -f ../../secrets/staginghub.yaml
 
 Ingress and https
------------------
+#################
 
 Ingress
 ~~~~~~~
@@ -226,3 +233,8 @@ I had to delete the proxy-public service that got created before switching over 
   kubectl delete service proxy-public -n staginghub
 
 and upgrade helm.
+
+Automatic updating
+##################
+ 
+In the GCloud console UI, find the jhub2 GKE cluster, and the release channel option. Change the setting from :code:`Static version` to :code:`Release channel` and choose the Stable channel.
