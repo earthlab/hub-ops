@@ -24,10 +24,12 @@ auth:
     users:
       - kcranston
       - lwasser
+      - nkorinek
   whitelist:
     users:
       - kcranston
       - lwasser
+      - nkorinek
       - eastudent
   type: github
   github:
