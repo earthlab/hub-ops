@@ -270,7 +270,13 @@ def deploy(hubname):
     #     extra_args.extend(['--set-string',
     #                        'jupyterhub.hub.image.tag={}'.format(tag)])
 
-    # The helm command is
+
+    # add the jupyterhub helm chart repo
+    jupyter_url = "https://jupyterhub.github.io/helm-chart/"
+    helm_args = [ "repo", "add", "jupyterhub", jupyter_url]
+    helm(*helm_args)
+
+    # Update helm. The helm command is
     # helm upgrade --install <CHARTNAME> jupyterhub/jupyterhub \
     # --namespace <CHARTNAME> --version <VERSION> \
     # --timeout 600s -f hub-charts/<CHARTNAME>/config.yaml \
@@ -279,7 +285,9 @@ def deploy(hubname):
     helm_release = hubname
     helm_chart = "jupyterhub/jupyterhub"
     jupyter_version = "0.10.6"
-    # assume settings for
+
+    # Assume hub-specific settings are in the file hub-configs/hubname.yaml
+    # and secrets in secrets/hubname.yaml
     yamlfile = "{}.yaml".format(hubname)
     config_file = os.path.join("hub-configs",yamlfile)
     secrets_file = os.path.join("secrets", yamlfile)
