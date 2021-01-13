@@ -279,8 +279,8 @@ def deploy(hubname):
     # Update helm. The helm command is
     # helm upgrade --install <CHARTNAME> jupyterhub/jupyterhub \
     # --namespace <CHARTNAME> --version <VERSION> \
-    # --timeout 600s -f hub-charts/<CHARTNAME>/config.yaml \
-    # -f secrets/<CHARTNAME>.yaml --cleanup-on-fail
+    # --timeout 600s -f hub-configs/<CHARTNAME>.yaml \
+    # -f secrets/<CHARTNAME>.yaml --cleanup-on-fail --force --debug
 
     helm_release = hubname
     helm_chart = "jupyterhub/jupyterhub"
