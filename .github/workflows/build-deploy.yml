@@ -20,7 +20,7 @@ env:
   DOCKERHUB_USERNAME: earthlabcu
   GKE_PROJECT: ea-jupyter
   GKE_ZONE: us-central1-b
-  GKE_CLUSTER: jhub
+  GKE_CLUSTER: jhub2
 
 jobs:
 
