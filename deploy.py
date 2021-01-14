@@ -273,7 +273,7 @@ def main():
         action="store_true",
     )
     argparser.add_argument(
-        "hubname", help="Select which hub to deploy", choices=["ea-hub","nbgrader-hub"]
+        "hubname", help="Select which hub to deploy", choices=["ea-hub"]
     )
 
     args = argparser.parse_args()
