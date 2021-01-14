@@ -19,14 +19,15 @@ env:
   GKE_ZONE: us-central1-b
   GKE_CLUSTER: jhub2
 
-strategy:
-  matrix:
-    hubname: [ea-hub, nbgrader-hub]
 
 jobs:
 
   build-push:
     runs-on: ubuntu-latest
+
+  strategy:
+    matrix:
+      hubname: [ea-hub, nbgrader-hub]
 
     steps:
       - name: Checkout
