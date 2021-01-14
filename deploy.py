@@ -240,7 +240,7 @@ def deploy(hubname):
 
 
     logging.info("Checking that all deployments are up and running")
-    kubectl_output = capture_kubectl("--namespace", "staginghub", "get", "deployments", "-o", "name")
+    kubectl_output = capture_kubectl("--namespace", hubname, "get", "deployments", "-o", "name")
     deployments = kubectl_output.decode().strip().split("\n")
     for d in deployments:
         name = d.split('/')[1]
