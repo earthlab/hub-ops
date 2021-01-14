@@ -1,0 +1,47 @@
+# Builds any changed docker images and pushes to Dockerhub
+# Only runs for PRs; does not re-deploy
+#
+# The bulk of this workflow happens in the deploy.py script
+
+name: Build, push Docker image
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+
+env:
+  PYTHON_VERSION: 3.8
+  DOCKERHUB_USERNAME: earthlabcu
+  GKE_PROJECT: ea-jupyter
+  GKE_ZONE: us-central1-b
+  GKE_CLUSTER: jhub2
+
+strategy:
+  matrix:
+    hubname: [ea-hub, nbgrader-hub]
+
+jobs:
+
+  build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build the Docker image
+        run: python deploy.py --build --push ${{matrix.hubname}}
