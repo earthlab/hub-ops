@@ -79,6 +79,12 @@ Create the user user pool (using n1-standard-8 nodes with autoscaling maximum at
 
 Forgot to set the image type to :code:`cos_containerd` to match the core-pool, so I changed that using the web console UI.
 
+Note that creating a cluster changes the default context for kubectl.
+
+When you create a cluster using gcloud container clusters create, an entry is automatically added to the kubeconfig in your environment, and the current context changes to that cluster (from https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl).
+
+Other users will need to change their context using :code:`gcloud container clusters get-credentials cluster-name`. 
+
 Install JupyterHub
 ##################
 

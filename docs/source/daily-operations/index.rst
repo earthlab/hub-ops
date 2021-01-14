@@ -20,4 +20,4 @@ When you modify the hubs (including both :ref:`new-hub` and :ref:`modify-remove-
    deployment-workflow
    manage-storage
    troubleshooting
-   tempdeploy
+   temporary-deployment

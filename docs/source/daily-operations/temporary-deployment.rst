@@ -1,5 +1,6 @@
 .. _tempdeploy:
 
+=============================
 Deployment on the new cluster
 =============================
 
@@ -37,7 +38,7 @@ Docker configuration
 --------------------
 
 This has not changed. There is a subdirectory for each hub under
-:code:`user-images`. Edit the dockerfile as needed and commit your changes. 
+:code:`user-images`. Edit the dockerfile as needed and commit your changes.
 
 Deployment
 ----------

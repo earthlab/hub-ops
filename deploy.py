@@ -162,14 +162,9 @@ def build_user_image(hubname, push=False):
 
 
 def deploy(hubname):
-    # monitoring chart isn't in the hub-charts directory
-    if hubname != "monitoring":
-        chart_dir = os.path.join("hub-charts", hubname)
-    else:
-        chart_dir = hubname
-    extra_args = []
 
     # Check for a custom singleuser image
+    extra_args = []
     image_dir = "user-images/" + hubname
     image_spec = get_next_image_spec(hubname, image_dir)
     # tag is the part after the ':'
@@ -203,7 +198,8 @@ def deploy(hubname):
     # helm upgrade --install <CHARTNAME> jupyterhub/jupyterhub \
     # --namespace <CHARTNAME> --version <VERSION> \
     # --timeout 600s -f hub-configs/<CHARTNAME>.yaml \
-    # -f secrets/<CHARTNAME>.yaml --cleanup-on-fail --force --debug
+    # -f secrets/<CHARTNAME>.yaml --cleanup-on-fail --create-namespace
+    # --force --debug
 
     helm_release = hubname
     helm_chart = "jupyterhub/jupyterhub"
@@ -230,6 +226,7 @@ def deploy(hubname):
         config_file,
         "-f",
         secrets_file,
+        "--create-namespace",
         "--cleanup-on-fail",
         "--force",
         "--debug",
@@ -273,7 +270,7 @@ def main():
         action="store_true",
     )
     argparser.add_argument(
-        "hubname", help="Select which hub to deploy", choices=["ea-hub"]
+        "hubname", help="Select which hub to deploy", choices=["ea-hub", "nbgrader-hub"]
     )
 
     args = argparser.parse_args()
