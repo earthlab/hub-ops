@@ -25,9 +25,9 @@ jobs:
   build-push:
     runs-on: ubuntu-latest
 
-  strategy:
-    matrix:
-      hubname: [ea-hub, nbgrader-hub]
+    strategy:
+      matrix:
+        hubname: [ea-hub, nbgrader-hub]
 
     steps:
       - name: Checkout
