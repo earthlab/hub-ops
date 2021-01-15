@@ -199,7 +199,7 @@ def deploy(hubname):
     # --namespace <CHARTNAME> --version <VERSION> \
     # --timeout 600s -f hub-configs/<CHARTNAME>.yaml \
     # -f secrets/<CHARTNAME>.yaml --cleanup-on-fail --create-namespace
-    # --force --debug
+    # --debug
 
     helm_release = hubname
     helm_chart = "jupyterhub/jupyterhub"
@@ -228,7 +228,7 @@ def deploy(hubname):
         secrets_file,
         "--create-namespace",
         "--cleanup-on-fail",
-        "--force",
+        #"--force",
         "--debug",
     ]
 
