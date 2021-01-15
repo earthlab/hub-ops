@@ -24,3 +24,4 @@ Get started
    git-crypt
    tooling
    grafana
+   new-cluster

@@ -47,13 +47,13 @@ that describes the changes that you are making::
 
 Now you can make your changes locally.
 
-There are two protected branches in this repo - `master` and `staging`. Travis
-runs on both branches, and both branches are deployed to the same Google Cloud
-cluster.
+There are two protected branches in this repo - `main` and `staging`. GitHub
+Actions run on both branches, and both branches are deployed to the same
+Google Cloud cluster.
 
-If you are proposing changes that affect deployment (e.g. changing `.travis.yml`
+If you are proposing changes that affect deployment (e.g. changing Actions
 or `deploy.py`) make and test those changes on the `staging` branch before
-creating a feature branch from `master`. See the `operations guide <https://earthlab-hub-ops.readthedocs.io/en/latest/daily-operations/index.html>`_ for details.
+creating a feature branch from `main`. See the `operations guide <https://earthlab-hub-ops.readthedocs.io/en/latest/daily-operations/index.html>`_ for details.
 
 5. Build the Docs Locally
 -------------------------
@@ -85,12 +85,7 @@ and push to GitHub::
 When submitting a pull request:
 
 - All existing tests should pass. Please make sure that the test
-  suite passes, both locally and on
-  `Travis CI <https://travis-ci.org/earthlab/hub-ops>`_
-  Status on
-  Travis will be visible on a pull request. If you want to enable
-  Travis CI on your own fork, please read the
-  `getting started docs <https://docs.travis-ci.com/user/getting-started/>`_.
+  suite passes, both locally and on GitHub Actions
 
 - New functionality should include tests. Please write reasonable
   tests for your code and make sure that they pass on your pull request.
@@ -103,7 +98,7 @@ When submitting a pull request:
   should conform to NumpPy styling. For examples, see the `Napoleon docs
   <https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html>`_.
 
-- Please note that tests are also run via Travis-CI on our documentation.
+- Please note that tests are also run via GitHub Actions on our documentation.
   So be sure that any ``.rst`` file submissions are properly formatted and
   tests are passing.
 
