@@ -30,7 +30,23 @@ auth:
       - kcranston
       - lwasser
       - nkorinek
-      - eastudent
+      - adamancer
+      - amap989
+      - B-Pinke
+      - camrynsorg
+      - haselwimmer
+      - fergusca
+      - esgeo
+      - gnarledbranches
+      - krantz23
+      - streamfireflies
+      - lrwives
+      - MECMccormick
+      - mike-petrut
+      - Mitch88
+      - nquarder
+      - nlamkey
+      - c-andry
   type: github
   github:
     callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
