@@ -80,41 +80,23 @@ jupyterhub:
         - lwasser
         - lisestdenis
         - nkorinek
-        - streamfireflies
-        - MECMccormick
-        - c-andry
-        - gpogoncheff
         - adamancer
-        - nlamkey
-        - bri33
-        - haselwimmer
-        - ColoradoJake1
-        - tayjh445
-        - camrynsorg
-        - fergusca
-        - tbogdano
-        - mike-petrut
-        - esgeo
-        - frma6457
-        - Mitch88
-        - krantz23
-        - kz-yamaguchi
         - amap989
-        - lrwives
-        - gracehood
-        - mred1208
-        - alicia-2
-        - Ewolfe2
-        - shelbyross
         - B-Pinke
-        - tjhallum
-        - epkennedy120
-        - kernsjenl
-        - bridgetfloyd
-        - sutherm
-        - sachin9390
+        - camrynsorg
+        - haselwimmer
+        - fergusca
+        - esgeo
         - gnarledbranches
+        - krantz23
+        - streamfireflies
+        - lrwives
+        - MECMccormick
+        - mike-petrut
+        - Mitch88
         - nquarder
+        - nlamkey
+        - c-andry
     type: github
     github:
       callbackUrl: "https://hub.earthdatascience.org/ea-hub/hub/oauth_callback"
