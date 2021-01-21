@@ -1,3 +1,5 @@
+.. _git-crypt:
+
 Git Crypt
 =========
 
@@ -42,4 +44,4 @@ Working With Encrypted Files
 Once you have setup git-crypt and unlocked the files locally, you will be able
 to see all of the secret keys and edit things as need be. When you commit and
 push, `git-crypt` will re-encrypt the files so that nothing secret is pushed
-in plain text to GitHub. 
+in plain text to GitHub.
