@@ -95,16 +95,16 @@ There is a public and a private part to the configuration. First, the private pa
 .. code-block:: yaml
 
     auth:
-      type: github
+      type:
+        github
       github:
         clientId: "5636ad98ccccbbbbaaaa"
         clientSecret: "3683566baaaabbbbccccxxxxff1ba7198a3022be"
 
-
 .. note::
 
   To modify the secrets files you need to first unlock those files
-  using git-crypt. Then, git-crypt will ensure they are re-encypted before being pushed to GitHub. See :ref:`git-crypt` for details.
+  using git-crypt. Then, git-crypt will ensure they are re-encypted before being pushed to GitHub. See :ref:`gitcrypt` for details.
 
 The public part of the configuration is done in :code:`hub-configs/<hubname>.yaml`:
 
