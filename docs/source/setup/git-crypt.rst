@@ -1,4 +1,4 @@
-.. _git-crypt:
+.. _gitcrypt:
 
 Git Crypt
 =========
