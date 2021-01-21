@@ -15,18 +15,11 @@ To make changes to an existing hub:
 
 * fork https://github.com/earthlab/hub-ops
 * in your fork create a new branch
-* edit the hub's configuration in :code:`hub-charts/<nameofthehub>/values.yaml`
+* edit the hub's configuration in :code:`hub-configs/<hubname>.yaml`
 * commit the change and make a PR
-* fix any errors travis finds
-* once you merge the PR travis will start deploying your changes
-* check the status of your deployment and see what travis is doing by visiting:
-  `<https://travis-ci.org/earthlab/hub-ops/branches>`_ Check the status of the latest
-  build for the `master` branch
-* once travis has deployed your changes, check by hand if everything is working
-  as expected by visiting :code:`https://hub.earthdatascience.org/<nameofthehub>/`.
-  If something is broken, create a new PR that reverts your first PR. Then try
-  again with a new PR.
-
+* fix any GitHub Action errors, https://github.com/earthlab/hub-ops/actions
+* after merge, Actions will will start deploying your changes. Check the status of your deployment
+* once the Actions workflows have completed, check that the hub is working as expected at https://hub.earthdatascience.org/hubname/`.
 
 Hub Maintanence
 ----------------
@@ -53,7 +46,8 @@ kubernetes is running behind the scenes and will thus control users and hub
 deployment. To remove users you will thus need to
 
 1. Edit the hub's yaml file which contains a list of users with permission to access the hub
-2. Manually delete storage <TODO: add more details about the best way to handle storage removal>
+2. (If GitHub authentication) Remove access tokens for the users
+3. Manually delete storage <TODO: add more details about the best way to handle storage removal>
 
 
 Shut Down a Hub (And Remove Associated Storage)
@@ -77,34 +71,11 @@ Step one: Turn off your hub autobuild / update
 
 The first step in removing a hub is to turn it off. To do this
 
-1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
-2. Remove the commands listed below
+1. Make a PR that edits the Actions workflows in :code:`.github/workflows` and removes the hub from the hubname array (there is one instance in :code:`build-only` and two in :code:`build-deploy`).
 
-For example, to remove a hub called `bootcamp-hub`, in the :code:`scripts`
-section remove:
+Merge that PR. Wait for Actions to finish before moving on.
 
-.. code-block:: yaml
-
-    - |
-      # Build bootcamp-hub
-      python ./deploy.py --no-setup --build bootcamp-hub
-
-In the :code:`before_deploy` section remove:
-
-.. code-block:: yaml
-
-      - |
-        # Stage 3, Step 2: Deploy the earthhub
-        python ./deploy.py --build --push --deploy bootcamp-hub
-
-These two sections deploy your hub. There should be two commands for your
-hub that look similar. Once you have removed these sections, create a pull request
-in github. Merge that PR. Wait for travis
-to deploy your changes before moving on.
-
-If you check your hub should still be running at this point. This is because all
-we have done so far is tell travis to not deploy new changes for this hub.
-
+If you check your hub should still be running at this point. This is because all we have done is stop Actions from trying to build the docker image and deploy the hub when there are changes.
 
 Step two: Uninstall the helm release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,39 +87,34 @@ on your local machine to perform this step.
 To check for the installation
 
 One way to check this is to
-run :code:`kubectl get pods --namespace=<hubname>`. This should show that there are
-two pods running::
+run :code:`kubectl get pods --namespace=<hubname>`. You should see a few pods running::
 
-    NAME                     READY     STATUS    RESTARTS   AGE
-    hub-7f575d6dc9-6x96c     1/1       Running   0          3d
-    proxy-84b647bfc6-hgjx8   1/1       Running   0          10d
+  NAME                             READY   STATUS    RESTARTS   AGE
+  hub-6b8ccf7699-kjd99             1/1     Running   0          26h
+  proxy-8cdc457df-8jmcw            1/1     Running   0          26h
+  user-scheduler-c44ccf684-2mh5f   1/1     Running   0          6d17h
+  user-scheduler-c44ccf684-qqz6m   1/1     Running   0          6d17h
 
-If there are more pods running or these two are not running you might be looking
-at the wrong cluster or hub name. If you only see two pods with names starting
-with :code:`hub-` and :code:`proxy-` you are probably good to go.
+But you should not see any pods named :code:`jupyter-uesrname` (because this would indicate that users are still connected to your hub, and they might be surprised to be kicked off).
 
-To check that your :code:`helm` command is properly configured run :code:`helm list`.
-This will list all helm releases that are currently installed. It should look
-similar to this::
+To check the helm releases currently installed, run :code:`helm list --all-namespaces`. It should look similar to this::
 
-  NAME        	REVISION	UPDATED                 	STATUS  	CHART               	APP VERSION	NAMESPACE
-  cert-manager	2       	Wed Jun 17 10:36:47 2020	DEPLOYED	cert-manager-v0.15.1	v0.15.1    	cert-manager
-  ea-hub      	19      	Fri Sep 18 14:01:53 2020	DEPLOYED	earthhub-0.1.0      	           	ea-hub
-  edsc-hub    	2       	Wed Aug 26 21:26:46 2020	DEPLOYED	edsc-hub-0.1.0      	           	edsc-hub
-  ingress     	3       	Tue Jul 31 06:23:04 2018	DEPLOYED	nginx-ingress-0.23.0	0.15.0     	router
-  lego        	3       	Sun Oct 14 12:16:18 2018	DEPLOYED	kube-lego-0.4.2     	v0.1.6     	router
-  monitoring  	162     	Fri Sep 18 14:02:34 2020	DEPLOYED	monitoring-0.1.0    	           	monitoring
-  nbgrader-hub	7       	Fri Sep 18 14:00:24 2020	DEPLOYED	nbgrader-hub-0.1.0  	           	nbgrader-hub
-  staginghub  	63      	Tue Sep 29 13:38:40 2020	DEPLOYED	staginghub-0.1.0    	           	staginghub
 
-Depending on how many hubs are running there will be at least three releases
-deployed: :code:`ingress`, :code:`cert-manager`, and :code:`monitoring`. These support
+  NAME         	NAMESPACE    	REVISION	UPDATED                                	STATUS  	CHART               	APP VERSION
+  cert-manager 	cert-manager 	1       	2021-01-11 10:19:55.227696 -0500 EST   	deployed	cert-manager-v1.1.0 	v1.1.0
+  ea-hub       	ea-hub       	5       	2021-01-20 17:32:25.310168188 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
+  ingress-nginx	ingress-nginx	1       	2021-01-11 10:53:04.954353 -0500 EST   	deployed	ingress-nginx-3.19.0	0.43.0
+  nbgrader-hub 	nbgrader-hub 	7       	2021-01-20 17:32:14.305911604 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
+  staginghub   	staginghub   	1       	2021-01-13 16:41:55.836701127 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
+
+Depending on how many hubs are running there will be at least two releases
+deployed: :code:`ingress-nginx` and :code:`cert-manager`. These support
 all hubs and should never be removed. In the case shown above there are four
-hubs running: :code:`ea-hub`, :code:`edsc-hub`, :code:`nbgrader-hub` and :code:`staginghub`.
+hubs running: :code:`ea-hub`, :code:`nbgrader-hub` and :code:`staginghub`.
 
-To delete the :code:`<hubname>` run::
+To uninstall the hub :code:`<hubname>` from the namespace <hubname> run::
 
-    helm delete <hubname> --purge
+    helm uninstall <hubname> -n <hubname>
 
 If you now
 visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.
