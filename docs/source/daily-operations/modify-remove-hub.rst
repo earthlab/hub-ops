@@ -65,8 +65,7 @@ does use some resources (like disk space) that will only be reclaimed once the
 hub has been turned off.
 
 Currently this is a manual process and requires you to have :code:`kubectl`
-and :code:`helm` installed on your computer (see :ref:`google-cloud` and
-:ref:`helm`). The reasoning is
+and :code:`helm` installed on your computer (see :ref:`google-cloud-setup`). The reasoning is
 that removing a hub involves deleting user data, which might be catastrophic!
 So think about what you are doing and wait
 for a quiet moment. A few extra days of paying for storage is going to be a lot

@@ -1,3 +1,5 @@
+.. _google-cloud-setup:
+
 Google Cloud & Kubernetes Tools
 ===============================
 
@@ -47,9 +49,29 @@ Here, we are using the default version of kubernetes rather than specifying a ve
 
 We also use the containerd image type rather than the default cos type because the latter is being deprecated, see https://cloud.google.com/kubernetes-engine/docs/concepts/using-containerd.
 
+.. note::
+
+    When you create a cluster using :code:`gcloud container clusters create`, an entry is automatically added to the kubeconfig in your environment, and the default context changes to that cluster and any subsequent gcloud and kubectl commands apply to that cluster (from https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl).
+
 Give your account super-user permissions needed to set up JupyterHub::
 
     kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="<your google account email>"
+
+Then create an autoscaling user pool (using n1-standard-8 nodes with autoscaling maximum at 5 nodes)::
+
+      gcloud beta container node-pools create user-pool \
+      --machine-type n1-standard-8 \
+      --image-type=cos_containerd \
+      --num-nodes 0 \
+      --enable-autoscaling \
+      --min-nodes 0 \
+      --max-nodes 5 \
+      --node-labels hub.jupyter.org/node-purpose=user \
+      --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
+      --zone us-central1-b \
+      --cluster jhub2
+
+The :code:`node-labels` and :code:`node-taints` are the parts that ensure that user pods only run on the node-pool. This ensures that issues with user resources can't take down the whole cluster (which runs on the core-pool).
 
 Install Helm
 ------------
@@ -57,38 +79,18 @@ Install Helm
 Follow the `z2jh instructions for setting up Helm <https://zero-to-jupyterhub.readthedocs.io/en/latest/kubernetes/setup-helm.html>_` noting that we are using Helm3, which no longer requires Tiller.
 
 
-Create a Static IP
-------------------
-
-For a test deployment you can make do with a temporary IP. If you are setting
-up a new long term public cluster, get a static IP.
-
-To get one run::
-
-    gcloud compute addresses create jhub-ip --region us-central1
-
-and to see what value was assigned to it::
-
-    gcloud compute addresses describe jhub-ip --region us-central1
-
-and if you want to see what IP addresses were reserved for this project::
-
-    gcloud compute addresses list
-
-
 Install the JupyterHubs
 -----------------------
 
 `Full guide <https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub.html#setup-jupyterhub>`_.
 
-We deviate from the guide in that we run multiple JupyterHubs on one cluster, each hub in its own namespace. The config file for each hub is in the :code:`hub-configs` directory. So, when the z2jh guide asks you to edit
+One way we deviate from the guide is that we run multiple JupyterHubs on one cluster, each hub in its own namespace. The config file for each hub is in the :code:`hub-configs` directory. So, when the z2jh guide asks you to edit
 ``config.yaml`` you should instead edit ``hub-configs/<hubname>.yaml``.
 
 .. note::
 
-    You will need to obtain the key to decrypt :code:`secrets/` somehow.
+    You will need to obtain the key to decrypt :code:`secrets/`.
     See :ref:`gitcrypt` for details.
 
-After this follow the instructions in ``outer-edge/README.md`` to setup the
-HTTP server that will route traffic to your hub. Without this your hub will not
-be reachable from the internet.
+After this follow the instructions in :ref:ingress-and-https to setup the
+ingress and certificates that will route traffic securely to your hub. Without this your hub will not be reachable from the internet.

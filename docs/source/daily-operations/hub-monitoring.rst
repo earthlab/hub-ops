@@ -27,7 +27,7 @@ This section contains commands and snippets that let you inspect the state of
 the cluster and perform tasks that are useful when things are broken.
 
 To perform these commands you need to have ``kubectl`` installed and setup
-on your local laptop (see :ref:`google-cloud` for details).
+on your local laptop (see :ref:`google-cloud-setup` for details).
 
 
 Inspecting what is going on in the cluster

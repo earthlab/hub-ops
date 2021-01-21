@@ -20,6 +20,7 @@ Get started
    :caption: Daily Operations
 
    google-cloud-setup
+   ingress-and-https
    git-crypt
    grafana
    new-cluster
