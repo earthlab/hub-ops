@@ -4,65 +4,53 @@
 Deploying New Hubs
 ==================
 
-Creating a new hub
-------------------
-
-Each hub is configured by a "helm chart". A chart is a set of configuration files
-written using YAML that describe the state we want the hub to be in. After you
-create a new chart describing a hub configuration and merge it, travis will
-take care of making the real world correspond to your wishes.
+Each hub is configured by a "helm config file" that lives in :code:`hub-configs`. These files append or replace values on top of the JupyterHub helm chart.
 
 All the hub deployments are based on the `Zero to JupyterHub guide
 <http://zero-to-jupyterhub.readthedocs.io/>`_
 (`GitHub repository <https://github.com/jupyterhub/zero-to-jupyterhub-k8s>`_).
 The guide provides excellent advice on configuring your hub as well as a helm
-chart that we use. Each of the hubs here can use a different version of the
-Z2JH helm chart. This raises two questions: which version should I use and how
-do I find out what versions are available?
+chart that we use.
 
-All versions of the JupyterHub helm charts are available from `<https://jupyterhub.github.io/helm-chart/>`_.
-We are generally use the latest stable release. The JupyterHub [heml chart changelog](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/CHANGELOG.md) has all of the details about changes between versions.
+Step one: Pick a name for your hub
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To change the version of the hub that you are using edit :code:`hub-charts/<hubname>/requirements.yaml`.
-The below snippet shows how to use :code:`v0.7-578b3a2`:
+For deployment to work correctly, all steps here must use consistent hub naming with the same spelling, punctuation, etc. Once deployed, the hub will be publicly available at https://hub.earthdatascience.org/<hubname>. Pick a name wisely!
+
+Step one: Create a new hub config file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On a new git branch, create a new config file in :code:`hub-configs/`. The simplest way is to copy one of the existing files::
+
+  $ cp hub-configs/ea-hub.yaml hub-configs/<hubname>.yaml
+
+The name of the new file must be <hubname>.yaml.
+
+The parts that you must update are::
 
 .. code-block:: yaml
 
-    dependencies:
-    - name: jupyterhub
-      version: "v0.7-578b3a2"
-      repository: "https://jupyterhub.github.io/helm-chart"
+  hub:
+    baseUrl: /<hubname>/
 
-You can check `requirements.yml` file for other production hubs to see what version we are using elsewhere.
+  singleuser:
+    image:
+      name: earthlabhubops/ea-k8s-user-<hubname>
+      tag: set-on-deployment
 
-Unless there are security related fixes or bugs that hinder your use of
-a specific version of a chart, we recommend not modifying the chart
-version during a workshop. Over the course of a semester it might be worth
-upgrading to the latest version, but should mostly be avoided.
+If you want the contents of a github repository to be available in the user's home directory on startup (for example, a course materials repo), edit this part, otherwise remove it::
 
-Step one: Create a new hub directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: yaml
 
-To begin your hub creation, first create a new directory in ``hub-charts/``
-with the name that you'd like your hub to have. The hub name should end with
-the word :code:`hub`. Then, it is simplest to copy over the
-:code:`Chart.yaml`, :code:`requirements.yaml`, and :code:`values.yaml` from
-another hub and edit them as you need. Check the
+    lifecycleHooks:
+      postStart:
+        exec:
+          command: ["gitpuller", "<repo-url>", "<branch>", "<dir-to-clone-into>"]
+
+Check the
 `Zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
 for ideas on what you might want to configure.
 
-You need to edit
-:code:`jupyterhub.hub.baseUrl` in your :code:`values.yaml` and set it to the same name
-as the directory (we will use :code:`yourhubname-hub`). The hub name will become a
-part of the hub URL, so pick a name wisely!
-
-Example:
-
-.. code-block:: yaml
-
-    jupyterhub:
-      hub:
-        baseUrl: /yourhubname-hub/
 
 Step two: Setup authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,31 +58,27 @@ Next decide how you'd like to authenticate your hub. You can use Github,
 Google or a "hash" based authenticator.
 Read more about :ref:`authentication`.
 
-Step three: Update the travis build so it recognizes the new hub
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Next, you need to update  Travis (CI) instructions to test and
-automatically deploy the new hub. In the root directory of the hub-ops repo, look
-for the file: :code:`.travis.yml` Add a new step to the :code:`script` section
-AFTER all of the other listed hubs, but before the documentation step:
+Step three: Set up a Docker image for the hub
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: yaml
 
-    - |
-      # Build <HUBNAME
-      python ./deploy.py --no-setup --build <HUBNAME>
+Step four: Update GitHub Actions to build the hub
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You also need to add your hub to the :code:`before_deploy` section of the same
-file:
+We use GitHub Actions to build the docker image and deploy the hub. To include your new hub, add it to the :code:`hubname` array in the `build-only <https://github.com/earthlab/hub-ops/blob/main/.github/workflows/build-only.yml>_` and `build-deploy <https://github.com/earthlab/hub-ops/blob/main/.github/workflows/build-deploy.yml>`_ workflows::
 
 .. code-block:: yaml
 
-    - |
-      # Stage 3, Step XXX: Deploy the <HUBNAME>
-      python ./deploy.py --build --push <HUBNAME>
-      python ./deploy.py --deploy <HUBNAME>
+    strategy:
+          matrix:
+            hubname: [ea-hub, nbgrader-hub]
 
-Step four: Update the deploy.py file with the hub name
+.. note::
+
+    The `hubname` array needs to be updated in the single job in `build-only` and in both jobs in `build-deploy`, i.e. in three places total.
+
+Step five: Update the deploy.py file with the hub name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Finally you need to list your :code:`<HUBNAME>` as a valid chartname that
@@ -106,53 +90,31 @@ argument:
     argparser.add_argument(
         'chartname',
         help="Select which chart to deploy",
-        choices=['earthhub', 'wshub', 'monitoring', '<HUBNAME>']
+        choices=['earthhub', 'nbgrader-hub', '<HUBNAME>']
     )
 
 Configuration values that need to remain secret can be stored in
 :code:`secrets/<hubname>.yaml`.
 
-Commit your changes to a new branch, make a PR, wait for the basic tests to run,
-check that travis looked at your new hub configuration, then merge the PR.
+Step six: Submit and merge a pull request
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Commit your changes (on a feature branch, not on :code:`main`!), make a PR, wait for the basic tests to run,
+check that Actions built at your new hub configuration, then merge the PR. The hub will not deploy until after the merge.
 
 Once your hub is up and running you will be able to reach it
 at :code:`https://hub.earthdatascience.org/<hubname>`.
 
+JupyterHub version
+------------------
 
-Step Five: If you use GItHub Authentication: Create new GitHub Oath App
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Each of the hubs on the :code:`main` branch use the same version of the
+Z2JH helm chart. This is specified in the :code:`helm upgrade` command in `deploy.py`. If you want to test out a new version without affecting existing hubs, try out your changes on the :code:`staging` branch. See :ref:`deployment-workflow` for details on the staging branch.
 
-If you are using GitHub authentication then you will need to add a new
-hubname.yaml file in the secrets/ directory. This directory can be unlocked
-using git crypt (see setup instructions in these docs for more.)
+All versions of the JupyterHub helm charts are available from `<https://jupyterhub.github.io/helm-chart/>`_.
+We are generally use the latest stable release. The JupyterHub [heml chart changelog](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/CHANGELOG.md) has all of the details about changes between versions.
 
-To setup authentication:
-
-1. In Github.com go to settings --> Developer  and create a new github oauth application
-
-Homepage Url: https://hub.earthdatascience.org/hubname-hub/hub/login
-Authorization Callback Url: https://hub.earthdatascience.org/edsc-hub/hub/oauth_callback
-
-For earth lab we prefer to keep authentication in a single account (the earth
-lab account) rather than have this hosted on different individual user accounts.
-
-Click "Register Application"
-
-2. Once you register the application, you will have a new Client ID and Client secret that you can add to the secrets/hubmame.yaml file.
-
-Your secret file will look something like this:
-
-.. code-block:: yaml
-
-  jupyterhub:
-    proxy:
-      secretToken: "longstring-of-characters here"
-    auth:
-      type: github
-      github:
-        clientId: client-id-string-from-github-oath-app
-        clientSecret: secret-id-string-from-github-oath-app
-
-See the authentication section of these docs for more on setting up authentication
-The JupyterHub secret token comes from a secret place. Leah needs to figure out
-where that is generated in the near future. :)
+Unless there are security related fixes or bugs that hinder your use of
+a specific version of a chart, we recommend not modifying the chart
+version during a workshop. Over the course of a semester it might be worth
+upgrading to the latest version, but should mostly be avoided.
