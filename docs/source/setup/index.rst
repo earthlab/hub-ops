@@ -21,6 +21,5 @@ Get started
 
    google-cloud-setup
    git-crypt
-   tooling
    grafana
    new-cluster
