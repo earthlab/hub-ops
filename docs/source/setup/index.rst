@@ -20,7 +20,6 @@ Get started
    :caption: Daily Operations
 
    google-cloud-setup
-   setup-helm
    git-crypt
    tooling
    grafana
