@@ -19,7 +19,7 @@ To make changes to an existing hub:
 * commit the change and make a PR
 * fix any GitHub Action errors, https://github.com/earthlab/hub-ops/actions
 * after merge, Actions will will start deploying your changes. Check the status of your deployment
-* once the Actions workflows have completed, check that the hub is working as expected at https://hub.earthdatascience.org/hubname/`.
+* once the Actions workflows have completed, check that the hub is working as expected at https://hub.earthdatascience.org/hubname/.
 
 Hub Maintanence
 ----------------
@@ -134,3 +134,14 @@ THIS!**) run the following command::
     kubectl delete namespace <hubname>
 
 You have now deleted the hub and all of its storage.
+
+Removing users from a hub
+-------------------------
+
+Removing users from a hub involves removing them from the whitelist and /or admin lists and also revoking their authentication token (if using GitHub authentication). This is because the whitelist only gets checked for a user that has not authenticated before. If the user already has a token, the processes bypasses the whitelist.
+
+To remove users from the whitelist, edit :code:`hub-configs/hubname.yaml` and remove their usernames from the auth whitelist.
+
+To revoke _all_ user tokens, you can go to the `Settings for the Earthlab GitHub organization <https://github.com/organizations/EarthLab/settings/applications>`_ and click `Revoke all user tokens`. This means that all users will need to re-authenticate (and will be checked through the whitelist).
+
+To revoke a single user token, you can probably do this via the API directly but we have not tried this yet.
