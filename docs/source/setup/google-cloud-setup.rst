@@ -51,6 +51,11 @@ Give your account super-user permissions needed to set up JupyterHub::
 
     kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="<your google account email>"
 
+Install Helm
+------------
+
+Follow the `z2jh instructions for setting up Helm <https://zero-to-jupyterhub.readthedocs.io/en/latest/kubernetes/setup-helm.html>_` noting that we are using Helm3, which no longer requires Tiller.
+
 
 Create a Static IP
 ------------------
@@ -82,7 +87,7 @@ We deviate from the guide in that we run multiple JupyterHubs on one cluster, ea
 .. note::
 
     You will need to obtain the key to decrypt :code:`secrets/` somehow.
-    See :ref:`git-crypt` for details. 
+    See :ref:`gitcrypt` for details.
 
 After this follow the instructions in ``outer-edge/README.md`` to setup the
 HTTP server that will route traffic to your hub. Without this your hub will not
