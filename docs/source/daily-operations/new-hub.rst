@@ -51,19 +51,41 @@ Check the
 `Zero to JupyterHub guide <http://zero-to-jupyterhub.readthedocs.io/>`_
 for ideas on what you might want to configure.
 
+Step two: Create a secrets file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Step two: Setup authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Based on the `z2jh instructions <https://zero-to-jupyterhub.readthedocs.io/en/latest/jupyterhub/installation.html#prepare-configuration-file>`_, create a file called :code:`<hubname>.yaml` in the :code:`secrets` directory. Then create a random hex string as a security token for the hub (requires that the openssl package be installed on your local machine)::
+
+  openssl rand -hex 32
+
+Copy the output and paste into the :code:`secrets/<hubname>.yaml` file::
+
+.. code-block:: yaml
+
+  proxy:
+    secretToken: "<RANDOM_HEX>"
+
+Save the file. This will be automatically encrypted by git-crypt and stored securely on GitHub.
+
+Step three: Setup authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Next decide how you'd like to authenticate your hub. You can use Github,
 Google or a "hash" based authenticator.
 Read more about :ref:`authentication`.
 
 
-Step three: Set up a Docker image for the hub
+Step four: Set up a Docker image for the hub
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+To customize the Docker image used for your hub (for example, the python environment or specific operating system or python packages), create a Dockerfile for the hub::
 
-Step four: Update GitHub Actions to build the hub
+# Create a <hubname> directory in :code:`user-images`
+# Create a Dockerfile for the hub (probably easiest to copy one from another hub and modify as needed)
+
+The Docker image will be built and pushed to Dockerhub automatically by GitHub Actions once you create (and merge) the pull request. 
+
+Step five: Update GitHub Actions to build the hub
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We use GitHub Actions to build the docker image and deploy the hub. To include your new hub, add it to the :code:`hubname` array in the `build-only <https://github.com/earthlab/hub-ops/blob/main/.github/workflows/build-only.yml>_` and `build-deploy <https://github.com/earthlab/hub-ops/blob/main/.github/workflows/build-deploy.yml>`_ workflows::
@@ -78,8 +100,8 @@ We use GitHub Actions to build the docker image and deploy the hub. To include y
 
     The `hubname` array needs to be updated in the single job in `build-only` and in both jobs in `build-deploy`, i.e. in three places total.
 
-Step five: Update the deploy.py file with the hub name
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Step six: Update the deploy.py script with the hub name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Finally you need to list your :code:`<HUBNAME>` as a valid chartname that
 :code:`deploy.py` recognises by editing permitted values of the :code:`chartname`

@@ -31,100 +31,101 @@ User Whitelist and Admin Accounts
 
 You can control what users can login by creating a whitelist of usernames. This
 is independent of which authenticator you use. All authenticators eventually
-assign a user a username. This is then checked against the whitelist. You can
+assign a user a username, and that username is then checked against the whitelist. You can
 also create a list of admin users, these people get special privileges like
 being able to restart individual user's servers.
 
 To add the users :code:`swiss-roll` and :code:`bbq-pizza` to the whitelist use
-the following snippet in your hub's :code:`values.yaml`:
+the following snippet in the file :code:`hub-configs/<hubname>.yaml`:
 
 .. code-block:: yaml
 
-    jupyterhub:
-      auth:
-        whitelist:
-          users:
-            - swiss-roll
-            - bbq-pizza
+    auth:
+      whitelist:
+        users:
+          - swiss-roll
+          - bbq-pizza
 
 With this setup no one except these two users will be able to login.
 
-To make a user the above two users admins and let them access individual user's
-servers use the following snippet:
+To allow a user to log in with admin access:
 
 .. code-block:: yaml
 
-    jupyterhub:
-      auth:
-        admin:
-          access: true
-          users:
-            - swiss-roll
-            - bbq-pizza
+    auth:
+      admin:
+        access: true
+        users:
+          - swiss-roll
+          - bbq-pizza
 
 
-GitHub OAuth
-------------
+GitHub Authentication
+---------------------
 
-GitHub authentication is good if you want people who already have a GitHub
-account to login.
+GitHub authentication is good if all of your users have a GitHub
+account (this is probably true if you are using GitHub as part of your teaching).
 
 For a full description on using GitHub authentication with JupyterHub, check
 the `GitHub Authentication section <https://zero-to-jupyterhub.readthedocs.io/en/latest/authentication.html#github>`_
 of the zero2jupyterhub guide.
 
+To use GitHub Authentication, you need to create a GitHub OAuth app for the hub.
 
-Step 1: Create a OAuth Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creating a GitHub OAuth app
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To begin setup of GitHub based logins on your JupyterHub, create a OAuth
-application on GitHub.com by going to |location_link|,
+We want the authentication apps to be owned by the `earthlab <https://github.com/earthlab>`_ organization. You can either create the app there (if you have permission) or you can create the app in your own account and then transfer it to earthlab once you have everything configured.
 
-.. |location_link| raw:: html
+Follow the instructions for `Creating an OAuth app <https://docs.github.com/en/developers/apps/creating-an-oauth-app>`_ on the GitHub documentation. Note that these assume you are creating in your personal account. If you are instead using the organization account, choose the :code:`Settings` tab on the organiation homepage.
 
-   <a href="https://github.com/settings/developers" target="_blank">Github developer settings</a>
+Use the following settings::
 
-In "OAuth apps" create a new app. You will have to provide a name and description.
-The most important field is "Authorization callback URL" which has to be set to
-:code:`https://hub.earthdatascience.org/<NAMEOFYOURHUB>/hub/oauth_callback`.
-Once you create the app you will be provided with a Client ID and a Client secret.
-You will need to add both in :code:`secrets/<NAMEOFYOURHUB>.yaml`.
+  Application name: set this to hubname
+  Homepage Url: https://hub.earthdatascience.org/hubname
+  Authorization Callback Url: https://hub.earthdatascience.org/hubname/hub/oauth_callback
+
+Then click "Register Application". Once you register the application, you will get a ClientID (this is public) and a Client Secret (this is private).
+
+Adding GitHub configuration
+---------------------------
+
+There is a public and a private part to the configuration. First, the private part. Add the ID and Secret to the :code:`secrets/hubname/yaml` file. Here is an example::
+
+.. code-block:: yaml
+
+    auth:
+      type: github
+      github:
+        clientId: "5636ad98ccccbbbbaaaa"
+        clientSecret: "3683566baaaabbbbccccxxxxff1ba7198a3022be"
+
 
 .. note::
-  Note that to modify the secrets files you need to first unlock those files
-  using git-crypt. Once the files are unlocked, you can edit them locally and
-  then push them to GitHub. Git-crypt will manage re-encrypting the files prior
-  to committing & pushing.
 
-An example of what to add to your secrets file:
+  To modify the secrets files you need to first unlock those files
+  using git-crypt. Then, git-crypt will ensure they are re-encypted before being pushed to GitHub. See :ref:`git-crypt` for details.
 
-.. code-block:: yaml
-
-    jupyterhub:
-      auth:
-        type: github
-        github:
-          clientId: "5636ad98ccccbbbbaaaa"
-          clientSecret: "3683566baaaabbbbccccxxxxff1ba7198a3022be"
-
-The public part of the configuration has to be done in :code:`hub-charts/<NAMEOFYOURHUB>/values.yaml`:
+The public part of the configuration is done in :code:`hub-configs/<hubname>.yaml`:
 
 .. code-block:: yaml
 
-    jupyterhub:
-      auth:
-        type: github
-        github:
-          callbackUrl: "https://hub.earthdatascience.org/<NAMEOFYOURHUB>/hub/oauth_callback"
-          org_whitelist:
-            - "earthlab"
-        scopes:
-          - "read:user"
+  auth:
+    admin:
+      access: true
+      users:
+        - usernameA
+        - usernameB
+    whitelist:
+      users:
+        - usernameA
+        - usernameC
+        - usernameD
+    type: github
+    github:
+      callbackUrl: "https://hub.earthdatascience.org/hubname/hub/oauth_callback"
 
-In this example configuration only users who are members of the :code:`earthlab`
-organization on GitHub will be allowed to login. To allow anyone to login remove
-that part of the configuration.
-
+In this example configuration only the users listed under admin or whitelist will be allowed to login.
 
 Google OAuth
 ------------
