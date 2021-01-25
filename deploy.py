@@ -308,7 +308,6 @@ def deploy(hubname):
         "-f",
         secrets_file,
         "--cleanup-on-fail",
-        "--force",
         "--debug",
     ]
     #### START old helm stuff
