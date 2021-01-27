@@ -15,8 +15,8 @@ singleuser:
     limit: 2
     guarantee: 0.4
   memory:
-    limit: 4G
-    guarantee: 2G
+    limit: 8G
+    guarantee: 4G
 
 auth:
   admin:
