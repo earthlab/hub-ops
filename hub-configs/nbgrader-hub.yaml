@@ -22,12 +22,14 @@ auth:
       - lwasser
       - nkorinek
       - earth-lab
+      - nquarder
   whitelist:
     users:
       - kcranston
       - lwasser
       - nkorinek
       - earth-lab
+      - nquarder
   type: github
   github:
     callbackUrl: "https://hub.earthdatascience.org/nbgrader-hub/hub/oauth_callback"
