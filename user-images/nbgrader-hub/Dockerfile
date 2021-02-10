@@ -1,5 +1,5 @@
 # Install nbgrader and extensions on top of earthlab python env
-FROM earthlab/earth-analytics-python-env:main
+FROM earthlab/earth-analytics-python-env:1.1
 
 # Setup nbgitpuller to sync files from course repo to hub
 RUN conda install -c conda-forge nbgitpuller \
