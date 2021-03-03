@@ -18,7 +18,7 @@ singleuser:
     limit: 8G
     guarantee: 4G
   startTimeout: 3600
-  
+
 auth:
   admin:
     access: true
@@ -85,3 +85,5 @@ scheduling:
       matchNodePurpose: require
   userScheduler:
     enabled: true
+  userPlaceholder:
+    replicas: 2
