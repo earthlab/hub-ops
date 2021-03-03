@@ -17,6 +17,7 @@ singleuser:
   memory:
     limit: 8G
     guarantee: 4G
+  startTimeout: 3600
 
 auth:
   admin:
@@ -84,3 +85,5 @@ scheduling:
       matchNodePurpose: require
   userScheduler:
     enabled: true
+  userPlaceholder:
+    replicas: 2
