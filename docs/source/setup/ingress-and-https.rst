@@ -11,10 +11,10 @@ In our setup, we have multiple hubs running at one URL, e.g.::
   https://hub.earthdatascience.org/ea-hub
   https://hub.earthdatascience.org/nbgrader-hub
 
-To do this, we need to set up an ingress controller and also manage https certificates for the site.
+To do this, we need to set up an ingress controller and also cert-manager for https certificates.
 
-Ingress
--------
+Install ingress controller
+--------------------------
 
 As recommended by the z2jh team, we use kubernetes/ingress-nginx. Following the ingress-nginx `Helm installation instructions <https://kubernetes.github.io/ingress-nginx/deploy/#using-helm>`_::
 
@@ -24,8 +24,9 @@ As recommended by the z2jh team, we use kubernetes/ingress-nginx. Following the 
     kubectl create namespace ingress-nginx
     helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx
 
-Certificates with cert-manager
-------------------------------
+
+Install cert-manager
+--------------------
 
 Now we need a TLS certificate manager for https. Here, we again deviate from the z2jh documentation and use cert-manager rather than the (deprecated) kube-lego. Following the `cert-manager installation guide <https://cert-manager.io/docs/installation/kubernetes/>`_, specifically the parts about installing with heml::
 
@@ -58,6 +59,8 @@ And create (and check) the clusterissuer::
       kubectl create -f cluster-issuer.yaml
       kubectl describe clusterissuer letsencrypt-prod
 
+Put the :code:`cluster-issuer.yaml` file in the :code:`cluster-config` directory (for future reference).
+
 Updating config.yaml
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -76,6 +79,7 @@ Add the following setup to you <hubname>.yaml file::
       - hub.earthdatascience.org
     annotations:
       kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-body-size: 64m
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
     tls:
       - secretName: cert-manager-tls
