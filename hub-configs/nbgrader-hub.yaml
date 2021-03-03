@@ -13,7 +13,8 @@ singleuser:
   memory:
     guarantee: 4G
     limit: 8G
-
+  startTimeout: 3600
+  
 auth:
   admin:
     access: true
