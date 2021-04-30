@@ -13,10 +13,10 @@ singleuser:
     capacity: 10Gi
   cpu:
     limit: 2
-    guarantee: 0.4
+    guarantee: 1
   memory:
-    limit: 8G
-    guarantee: 4G
+    limit: 16G
+    guarantee: 8G
   startTimeout: 3600
 
 auth:
