@@ -17,21 +17,21 @@ To make changes to an existing hub:
 * in your fork create a new branch
 * edit the hub's configuration in :code:`hub-charts/<nameofthehub>/values.yaml`
 * commit the change and make a PR
-* fix any errors travis finds
-* once you merge the PR travis will start deploying your changes
-* check the status of your deployment and see what travis is doing by visiting:
-  `<https://travis-ci.org/earthlab/hub-ops/branches>`_ Check the status of the latest
-  build for the `master` branch
-* once travis has deployed your changes, check by hand if everything is working
-  as expected by visiting :code:`https://hub.earthdatascience.org/<nameofthehub>/`.
+* fix any errors that CI finds
+* once you merge the PR `GitHub actions` will start deploying your changes
+* check the status of your deployment and see what CI is doing by visiting:
+  `<https://github.com/earthlab/hub-ops/actions>`_ Check the status of the latest
+  build for the `main` branch
+* once CI has deployed your changes, check by hand if everything is working
+  as expected by visiting :code:`https://github.com/earthlab/hub-ops/actions`.
   If something is broken, create a new PR that reverts your first PR. Then try
   again with a new PR.
 
 
-Hub Maintanence
-----------------
+Maintaining Your Hub
+---------------------
 
-The JupyterHub interface has a built in administration panel that allows you to:
+The **JupyterHub** interface has a built in administration panel that allows you to:
 
 1. View users with access to the hub
 2. View and manage active servers
@@ -39,7 +39,7 @@ The JupyterHub interface has a built in administration panel that allows you to:
 It is important to note that this admin interface works well for a hub working
 on a local server or virtual machine. However when running through Kubernetes
 using Google Cloud (which is our current setup), most of the admin tasks will
-need to be performed directly through kubernetes and google cloud rather than
+need to be performed directly through Kubernetes and google cloud rather than
 in the admin interface.
 
 Some features of the build in hub admin panel that will not work include the
@@ -49,10 +49,10 @@ ability to:
 2. shutdown the hub.
 
 The above two steps should not be utilized in a Google Cloud deployment as
-kubernetes is running behind the scenes and will thus control users and hub
+Kubernetes is running behind the scenes and will thus control users and hub
 deployment. To remove users you will thus need to
 
-1. Edit the hub's yaml file which contains a list of users with permission to access the hub
+1. Edit the hub's :code:`yaml` file which contains a list of users with permission to access the hub
 2. Manually delete storage <TODO: add more details about the best way to handle storage removal>
 
 
@@ -78,33 +78,33 @@ Step one: Turn off your hub autobuild / update
 
 The first step in removing a hub is to turn it off. To do this
 
-1. Open the  :code:`travis.yml` file in the root of the hub-ops repo.
+1. Open the  :code:`.github/workflows/build-deploy.yml` file in the root of the hub-ops repo.
 2. Remove the commands listed below
 
-For example, to remove a hub called `bootcamp-hub`, in the :code:`scripts`
-section remove:
+For example, to remove a hub called :code:`bootcamp-hub`, in the GitHub actions
+:code:`hubname` section remove:
 
 .. code-block:: yaml
 
-    - |
-      # Build bootcamp-hub
-      python ./deploy.py --no-setup --build bootcamp-hub
+    strategy:
+      matrix:
+        hubname: [ea-hub, bootcamp-hub]
 
-In the :code:`before_deploy` section remove:
+In the :code:`build-only.yml` file remove:
 
 .. code-block:: yaml
 
-      - |
-        # Stage 3, Step 2: Deploy the earthhub
-        python ./deploy.py --build --push --deploy bootcamp-hub
+    strategy:
+      matrix:
+        hubname: [ea-hub, bootcamp-hub]
 
-These two sections deploy your hub. There should be two commands for your
-hub that look similar. Once you have removed these sections, create a pull request
-in github. Merge that PR. Wait for travis
-to deploy your changes before moving on.
+These two actions test deployment and then deploy your hub. Once you have removed
+the hub from each action, create a pull request
+in GitHub. Merge that PR. Wait for GitHub Actions to deploy your changes
+before moving on.
 
 If you check your hub should still be running at this point. This is because all
-we have done so far is tell travis to not deploy new changes for this hub.
+you have done so far is tell CI to not deploy new changes for this hub.
 
 
 Step two: Uninstall the helm release
