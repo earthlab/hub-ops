@@ -72,29 +72,23 @@ jupyterhub:
       users:
         - kcranston
         - lwasser
-        - lisestdenis
         - nkorinek
     whitelist:
       users:
         - kcranston
         - lwasser
-        - lisestdenis
         - nkorinek
         - adamancer
-        - amap989
         - B-Pinke
-        - camrynsorg
         - haselwimmer
         - fergusca
         - esgeo
         - gnarledbranches
         - krantz23
         - streamfireflies
-        - lrwives
         - MECMccormick
         - mike-petrut
         - Mitch88
-        - nquarder
         - nlamkey
         - c-andry
     type: github
