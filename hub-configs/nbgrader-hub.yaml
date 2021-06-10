@@ -11,8 +11,9 @@ singleuser:
     guarantee: 0.8
     limit: 2
   memory:
-    guarantee: 3G
-    limit: 5G
+    guarantee: 4G
+    limit: 8G
+  startTimeout: 3600
 
 auth:
   admin:
@@ -22,12 +23,14 @@ auth:
       - lwasser
       - nkorinek
       - earth-lab
+      - nquarder
   whitelist:
     users:
       - kcranston
       - lwasser
       - nkorinek
       - earth-lab
+      - nquarder
   type: github
   github:
     callbackUrl: "https://hub.earthdatascience.org/nbgrader-hub/hub/oauth_callback"
@@ -47,6 +50,7 @@ ingress:
     - hub.earthdatascience.org
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 3000m
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   tls:
     - secretName: cert-manager-tls
@@ -61,3 +65,5 @@ scheduling:
       matchNodePurpose: require
   userScheduler:
     enabled: true
+  userPlaceholder:
+    replicas: 2

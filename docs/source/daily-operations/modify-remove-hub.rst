@@ -21,10 +21,11 @@ To make changes to an existing hub:
 * after merge, Actions will will start deploying your changes. Check the status of your deployment
 * once the Actions workflows have completed, check that the hub is working as expected at https://hub.earthdatascience.org/hubname/.
 
-Hub Maintanence
-----------------
 
-The JupyterHub interface has a built in administration panel that allows you to:
+Maintaining Your Hub
+---------------------
+
+The **JupyterHub** interface has a built in administration panel that allows you to:
 
 1. View users with access to the hub
 2. View and manage active servers
@@ -32,7 +33,7 @@ The JupyterHub interface has a built in administration panel that allows you to:
 It is important to note that this admin interface works well for a hub working
 on a local server or virtual machine. However when running through Kubernetes
 using Google Cloud (which is our current setup), most of the admin tasks will
-need to be performed directly through kubernetes and google cloud rather than
+need to be performed directly through Kubernetes and google cloud rather than
 in the admin interface.
 
 Some features of the build in hub admin panel that will not work include the
@@ -42,7 +43,7 @@ ability to:
 2. shutdown the hub.
 
 The above two steps should not be utilized in a Google Cloud deployment as
-kubernetes is running behind the scenes and will thus control users and hub
+Kubernetes is running behind the scenes and will thus control users and hub
 deployment. To remove users you will thus need to
 
 1. Edit the hub's yaml file which contains a list of users with permission to access the hub
@@ -71,9 +72,33 @@ Step one: Turn off your hub autobuild / update
 
 The first step in removing a hub is to turn it off. To do this
 
-1. Make a PR that edits the Actions workflows in :code:`.github/workflows` and removes the hub from the hubname array (there is one instance in :code:`build-only` and two in :code:`build-deploy`).
+1. Open the  :code:`.github/workflows/build-deploy.yml` file in the root of the hub-ops repo.
+2. Remove the commands listed below
 
-Merge that PR. Wait for Actions to finish before moving on.
+For example, to remove a hub called :code:`bootcamp-hub`, in the GitHub actions
+:code:`hubname` section remove:
+
+.. code-block:: yaml
+
+    strategy:
+      matrix:
+        hubname: [ea-hub, bootcamp-hub]
+
+In the :code:`build-only.yml` file remove:
+
+.. code-block:: yaml
+
+    strategy:
+      matrix:
+        hubname: [ea-hub, bootcamp-hub]
+
+These two actions test deployment and then deploy your hub. Once you have removed
+the hub from each action, create a pull request
+in GitHub. Merge that PR. Wait for GitHub Actions to deploy your changes
+before moving on.
+
+If you check your hub should still be running at this point. This is because all
+you have done so far is tell CI to not deploy new changes for this hub.
 
 If you check your hub should still be running at this point. This is because all we have done is stop Actions from trying to build the docker image and deploy the hub when there are changes.
 
