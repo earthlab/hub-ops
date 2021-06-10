@@ -89,27 +89,32 @@ To check for the installation
 One way to check this is to
 run :code:`kubectl get pods --namespace=<hubname>`. You should see a few pods running::
 
-  NAME                             READY   STATUS    RESTARTS   AGE
-  hub-6b8ccf7699-kjd99             1/1     Running   0          26h
-  proxy-8cdc457df-8jmcw            1/1     Running   0          26h
-  user-scheduler-c44ccf684-2mh5f   1/1     Running   0          6d17h
-  user-scheduler-c44ccf684-qqz6m   1/1     Running   0          6d17h
+  NAME                              READY   STATUS                  RESTARTS   AGE
+  continuous-image-puller-hgrjp     1/1     Running                 0          4d9h
+  hook-image-awaiter-zc8tv          1/1     Running                 0          4d11h
+  hook-image-puller-tlmmz           0/1     Init:ImagePullBackOff   0          4d9h
+  hub-c5c44d76b-k9lsb               1/1     Running                 0          4d10h
+  proxy-5797f8d787-dm9fh            1/1     Running                 0          4d10h
+  user-placeholder-0                1/1     Running                 0          4d9h
+  user-placeholder-1                1/1     Running                 0          4d9h
+  user-scheduler-779876497d-mcwgn   1/1     Running                 0          4d11h
+  user-scheduler-779876497d-zvqbv   1/1     Running                 0          4d10h
 
-But you should not see any pods named :code:`jupyter-uesrname` (because this would indicate that users are still connected to your hub, and they might be surprised to be kicked off).
+But you should not see any pods named :code:`jupyter-username` (because this would indicate that users are still connected to your hub, and they might be surprised to be kicked off).
 
 To check the helm releases currently installed, run :code:`helm list --all-namespaces`. It should look similar to this::
 
 
   NAME         	NAMESPACE    	REVISION	UPDATED                                	STATUS  	CHART               	APP VERSION
   cert-manager 	cert-manager 	1       	2021-01-11 10:19:55.227696 -0500 EST   	deployed	cert-manager-v1.1.0 	v1.1.0
-  ea-hub       	ea-hub       	5       	2021-01-20 17:32:25.310168188 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
+  ea-hub       	ea-hub       	20      	2021-06-04 22:39:47.769249637 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
   ingress-nginx	ingress-nginx	1       	2021-01-11 10:53:04.954353 -0500 EST   	deployed	ingress-nginx-3.19.0	0.43.0
-  nbgrader-hub 	nbgrader-hub 	7       	2021-01-20 17:32:14.305911604 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
-  staginghub   	staginghub   	1       	2021-01-13 16:41:55.836701127 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
+  nbgrader-hub 	nbgrader-hub 	22      	2021-06-04 22:39:55.101091107 +0000 UTC	failed  	jupyterhub-0.10.6   	1.2.2
+  staginghub   	staginghub   	5       	2021-01-25 20:54:55.67648376 +0000 UTC 	deployed	jupyterhub-0.10.6   	1.2.2
 
 Depending on how many hubs are running there will be at least two releases
 deployed: :code:`ingress-nginx` and :code:`cert-manager`. These support
-all hubs and should never be removed. In the case shown above there are four
+all hubs and should never be removed. In the case shown above there are three
 hubs running: :code:`ea-hub`, :code:`nbgrader-hub` and :code:`staginghub`.
 
 To uninstall the hub :code:`<hubname>` from the namespace <hubname> run::
@@ -138,10 +143,10 @@ You have now deleted the hub and all of its storage.
 Removing users from a hub
 -------------------------
 
-Removing users from a hub involves removing them from the whitelist and /or admin lists and also revoking their authentication token (if using GitHub authentication). This is because the whitelist only gets checked for a user that has not authenticated before. If the user already has a token, the processes bypasses the whitelist.
+Removing users from a hub involves removing them from the whitelist and /or admin lists and also revoking their authentication token (if using GitHub authentication). This is because checking the whitelist is the last step in authentication, so if the user already has a token, the whitelist has no effect.
 
 To remove users from the whitelist, edit :code:`hub-configs/hubname.yaml` and remove their usernames from the auth whitelist.
 
 To revoke _all_ user tokens, you can go to the `Settings for the Earthlab GitHub organization <https://github.com/organizations/EarthLab/settings/applications>`_ and click `Revoke all user tokens`. This means that all users will need to re-authenticate (and will be checked through the whitelist).
 
-To revoke a single user token, you can probably do this via the API directly but we have not tried this yet.
+To revoke a single user token, you can probably do this via the GitHub API directly but we have not tried this yet.
