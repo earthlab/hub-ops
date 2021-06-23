@@ -5,10 +5,10 @@ singleuser:
   image:
     name: earthlabhubops/ea-k8s-user-ea-hub
     tag: set-on-deployment
-  lifecycleHooks:
-    postStart:
-      exec:
-        command: ["gitpuller", "https://github.com/earthlab-education/ea-spring-2021-course-notebooks", "main", "ea-spring-2021"]
+  # lifecycleHooks:
+  #   postStart:
+  #     exec:
+  #       command: ["gitpuller", "https://github.com/earthlab-education/ea-spring-2021-course-notebooks", "main", "ea-spring-2021"]
   storage:
     capacity: 10Gi
   cpu:
