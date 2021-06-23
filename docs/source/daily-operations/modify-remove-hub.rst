@@ -15,17 +15,11 @@ To make changes to an existing hub:
 
 * fork https://github.com/earthlab/hub-ops
 * in your fork create a new branch
-* edit the hub's configuration in :code:`hub-charts/<nameofthehub>/values.yaml`
+* edit the hub's configuration in :code:`hub-configs/<hubname>.yaml`
 * commit the change and make a PR
-* fix any errors that CI finds
-* once you merge the PR `GitHub actions` will start deploying your changes
-* check the status of your deployment and see what CI is doing by visiting:
-  `<https://github.com/earthlab/hub-ops/actions>`_ Check the status of the latest
-  build for the `main` branch
-* once CI has deployed your changes, check by hand if everything is working
-  as expected by visiting :code:`https://github.com/earthlab/hub-ops/actions`.
-  If something is broken, create a new PR that reverts your first PR. Then try
-  again with a new PR.
+* fix any GitHub Action errors, https://github.com/earthlab/hub-ops/actions
+* after merge, Actions will will start deploying your changes. Check the status of your deployment
+* once the Actions workflows have completed, check that the hub is working as expected at https://hub.earthdatascience.org/hubname/.
 
 
 Maintaining Your Hub
@@ -52,8 +46,9 @@ The above two steps should not be utilized in a Google Cloud deployment as
 Kubernetes is running behind the scenes and will thus control users and hub
 deployment. To remove users you will thus need to
 
-1. Edit the hub's :code:`yaml` file which contains a list of users with permission to access the hub
-2. Manually delete storage <TODO: add more details about the best way to handle storage removal>
+1. Edit the hub's yaml file which contains a list of users with permission to access the hub
+2. (If GitHub authentication) Remove access tokens for the users
+3. Manually delete storage <TODO: add more details about the best way to handle storage removal>
 
 
 Shut Down a Hub (And Remove Associated Storage)
@@ -65,8 +60,7 @@ does use some resources (like disk space) that will only be reclaimed once the
 hub has been turned off.
 
 Currently this is a manual process and requires you to have :code:`kubectl`
-and :code:`helm` installed on your computer (see :ref:`google-cloud` and
-:ref:`helm`). The reasoning is
+and :code:`helm` installed on your computer (see :ref:`google-cloud-setup`). The reasoning is
 that removing a hub involves deleting user data, which might be catastrophic!
 So think about what you are doing and wait
 for a quiet moment. A few extra days of paying for storage is going to be a lot
@@ -106,6 +100,7 @@ before moving on.
 If you check your hub should still be running at this point. This is because all
 you have done so far is tell CI to not deploy new changes for this hub.
 
+If you check your hub should still be running at this point. This is because all we have done is stop Actions from trying to build the docker image and deploy the hub when there are changes.
 
 Step two: Uninstall the helm release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -117,39 +112,39 @@ on your local machine to perform this step.
 To check for the installation
 
 One way to check this is to
-run :code:`kubectl get pods --namespace=<hubname>`. This should show that there are
-two pods running::
+run :code:`kubectl get pods --namespace=<hubname>`. You should see a few pods running::
 
-    NAME                     READY     STATUS    RESTARTS   AGE
-    hub-7f575d6dc9-6x96c     1/1       Running   0          3d
-    proxy-84b647bfc6-hgjx8   1/1       Running   0          10d
+  NAME                              READY   STATUS                  RESTARTS   AGE
+  continuous-image-puller-hgrjp     1/1     Running                 0          4d9h
+  hook-image-awaiter-zc8tv          1/1     Running                 0          4d11h
+  hook-image-puller-tlmmz           0/1     Init:ImagePullBackOff   0          4d9h
+  hub-c5c44d76b-k9lsb               1/1     Running                 0          4d10h
+  proxy-5797f8d787-dm9fh            1/1     Running                 0          4d10h
+  user-placeholder-0                1/1     Running                 0          4d9h
+  user-placeholder-1                1/1     Running                 0          4d9h
+  user-scheduler-779876497d-mcwgn   1/1     Running                 0          4d11h
+  user-scheduler-779876497d-zvqbv   1/1     Running                 0          4d10h
 
-If there are more pods running or these two are not running you might be looking
-at the wrong cluster or hub name. If you only see two pods with names starting
-with :code:`hub-` and :code:`proxy-` you are probably good to go.
+But you should not see any pods named :code:`jupyter-username` (because this would indicate that users are still connected to your hub, and they might be surprised to be kicked off).
 
-To check that your :code:`helm` command is properly configured run :code:`helm list`.
-This will list all helm releases that are currently installed. It should look
-similar to this::
+To check the helm releases currently installed, run :code:`helm list --all-namespaces`. It should look similar to this::
 
-  NAME        	REVISION	UPDATED                 	STATUS  	CHART               	APP VERSION	NAMESPACE
-  cert-manager	2       	Wed Jun 17 10:36:47 2020	DEPLOYED	cert-manager-v0.15.1	v0.15.1    	cert-manager
-  ea-hub      	19      	Fri Sep 18 14:01:53 2020	DEPLOYED	earthhub-0.1.0      	           	ea-hub
-  edsc-hub    	2       	Wed Aug 26 21:26:46 2020	DEPLOYED	edsc-hub-0.1.0      	           	edsc-hub
-  ingress     	3       	Tue Jul 31 06:23:04 2018	DEPLOYED	nginx-ingress-0.23.0	0.15.0     	router
-  lego        	3       	Sun Oct 14 12:16:18 2018	DEPLOYED	kube-lego-0.4.2     	v0.1.6     	router
-  monitoring  	162     	Fri Sep 18 14:02:34 2020	DEPLOYED	monitoring-0.1.0    	           	monitoring
-  nbgrader-hub	7       	Fri Sep 18 14:00:24 2020	DEPLOYED	nbgrader-hub-0.1.0  	           	nbgrader-hub
-  staginghub  	63      	Tue Sep 29 13:38:40 2020	DEPLOYED	staginghub-0.1.0    	           	staginghub
 
-Depending on how many hubs are running there will be at least three releases
-deployed: :code:`ingress`, :code:`cert-manager`, and :code:`monitoring`. These support
-all hubs and should never be removed. In the case shown above there are four
-hubs running: :code:`ea-hub`, :code:`edsc-hub`, :code:`nbgrader-hub` and :code:`staginghub`.
+  NAME         	NAMESPACE    	REVISION	UPDATED                                	STATUS  	CHART               	APP VERSION
+  cert-manager 	cert-manager 	1       	2021-01-11 10:19:55.227696 -0500 EST   	deployed	cert-manager-v1.1.0 	v1.1.0
+  ea-hub       	ea-hub       	20      	2021-06-04 22:39:47.769249637 +0000 UTC	deployed	jupyterhub-0.10.6   	1.2.2
+  ingress-nginx	ingress-nginx	1       	2021-01-11 10:53:04.954353 -0500 EST   	deployed	ingress-nginx-3.19.0	0.43.0
+  nbgrader-hub 	nbgrader-hub 	22      	2021-06-04 22:39:55.101091107 +0000 UTC	failed  	jupyterhub-0.10.6   	1.2.2
+  staginghub   	staginghub   	5       	2021-01-25 20:54:55.67648376 +0000 UTC 	deployed	jupyterhub-0.10.6   	1.2.2
 
-To delete the :code:`<hubname>` run::
+Depending on how many hubs are running there will be at least two releases
+deployed: :code:`ingress-nginx` and :code:`cert-manager`. These support
+all hubs and should never be removed. In the case shown above there are three
+hubs running: :code:`ea-hub`, :code:`nbgrader-hub` and :code:`staginghub`.
 
-    helm delete <hubname> --purge
+To uninstall the hub :code:`<hubname>` from the namespace <hubname> run::
+
+    helm uninstall <hubname> -n <hubname>
 
 If you now
 visit :code:`https://hub.earthdatascience.org/<hubname>/` you should get a 404 error.
@@ -169,3 +164,14 @@ THIS!**) run the following command::
     kubectl delete namespace <hubname>
 
 You have now deleted the hub and all of its storage.
+
+Removing users from a hub
+-------------------------
+
+Removing users from a hub involves removing them from the whitelist and /or admin lists and also revoking their authentication token (if using GitHub authentication). This is because checking the whitelist is the last step in authentication, so if the user already has a token, the whitelist has no effect.
+
+To remove users from the whitelist, edit :code:`hub-configs/hubname.yaml` and remove their usernames from the auth whitelist.
+
+To revoke _all_ user tokens, you can go to the `Settings for the Earthlab GitHub organization <https://github.com/organizations/EarthLab/settings/applications>`_ and click `Revoke all user tokens`. This means that all users will need to re-authenticate (and will be checked through the whitelist).
+
+To revoke a single user token, you can probably do this via the GitHub API directly but we have not tried this yet.

@@ -20,8 +20,7 @@ Get started
    :caption: Daily Operations
 
    google-cloud-setup
-   setup-helm
+   ingress-and-https
    git-crypt
-   tooling
    grafana
    new-cluster
