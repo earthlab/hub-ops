@@ -54,7 +54,7 @@ jobs:
 
     strategy:
       matrix:
-        hubname: [ea-hub, nbgrader-hub]
+        hubname: [ea-hub]
 
     steps:
       - name: Checkout
