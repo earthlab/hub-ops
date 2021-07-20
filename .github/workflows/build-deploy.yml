@@ -28,7 +28,7 @@ jobs:
 
     strategy:
       matrix:
-        hubname: [ea-hub]
+        hubname: []
 
     steps:
       - name: Checkout
@@ -54,7 +54,7 @@ jobs:
 
     strategy:
       matrix:
-        hubname: [ea-hub]
+        hubname: []
 
     steps:
       - name: Checkout
