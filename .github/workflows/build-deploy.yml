@@ -28,7 +28,7 @@ jobs:
 
     strategy:
       matrix:
-        hubname: []
+        hubname: [ea-hub]
 
     steps:
       - name: Checkout
@@ -45,8 +45,8 @@ jobs:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build the Docker image
-        run: python deploy.py --build --push ${{matrix.hubname}}
+      # - name: Build the Docker image
+      #   run: python deploy.py --build --push ${{matrix.hubname}}
 
   deploy:
     needs: build-push
@@ -54,7 +54,7 @@ jobs:
 
     strategy:
       matrix:
-        hubname: []
+        hubname: [ea-hub]
 
     steps:
       - name: Checkout
@@ -82,5 +82,5 @@ jobs:
         env:
           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
-      - name: Deploy the hub
-        run: python deploy.py --deploy ${{matrix.hubname}}
+      # - name: Deploy the hub
+      #   run: python deploy.py --deploy ${{matrix.hubname}}
