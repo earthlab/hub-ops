@@ -37,5 +37,5 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Build the Docker image
-        run: python deploy.py --build ${{matrix.hubname}}
+      # - name: Build the Docker image
+      #   run: python deploy.py --build ${{matrix.hubname}}
